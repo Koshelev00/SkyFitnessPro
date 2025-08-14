@@ -1,0 +1,44 @@
+
+.main__header{
+    width: 1160px;
+display: flex;
+flex-direction: row;
+    justify-content: space-between;
+}
+.header__logo{
+    width: 220px;
+    height: 35px;
+
+}
+.logo__title{
+width: 327px;
+height: 20px;
+opacity: 0.5;
+color: rgba(0, 0, 0, 1);
+font-family: Roboto;
+font-size: 18px;
+font-weight: 400;
+line-height: 21px;
+letter-spacing: 0px;
+text-align: left;
+}
+.header__batton{
+    width: 103px;
+height: 52px;
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+gap: 8;
+padding: 16px 26px 16px 26px;
+border-radius: 46px;
+background: rgba(188, 236, 48, 1);
+color: rgba(0, 0, 0, 1);
+font-family: Roboto;
+font-size: 18px;
+font-weight: 400;
+line-height: 21px;
+letter-spacing: 0px;
+text-align: center;
+border: none;
+}
