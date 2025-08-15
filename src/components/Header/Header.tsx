@@ -1,25 +1,26 @@
-import styles from './header.module.css';
-import Link from 'next/link';
-import Image from 'next/image';
-import classNames from 'classnames';
+import Link from "next/link";
+import Image from "next/image";
 export default function Header() {
-    return(
-    <div className={styles.main__header}>
-        <div className={styles.header__logo}>
+  return (
+    <div className="w-full flex gap-210 justify-center align-baseline  ">
+      <div className="">
         <Link href="#">
           <Image
             width={220}
             height={35}
-            className={'logo__image'}
-            src="/logo.png"
-            alt={'logo'}
+            className={"logo__image"}
+            src="/logo.svg"
+            alt={"logo"}
           />
+          <div className="text-gray-500 opacity-[0.5] text-lg font-normal leading-[21px]">
+            Онлайн-тренировки для занятий дома
+          </div>
         </Link>
 
-        <h2 className={styles.logo__title}>Онлайн-тренировки для занятий дома</h2>
+       
       </div>
-     
-<button className={styles.header__batton}>Войти</button>
+          
+<button className="w-26 h-13 bg-[#BCEC30] justify-center gap-2 py-4 px-6.5 rounded-[46px]">Войти</button> 
     </div>
-    )
+  );
 }

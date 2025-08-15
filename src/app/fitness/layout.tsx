@@ -1,6 +1,5 @@
 'use client';
 import { ReactNode } from 'react';
-import styles from './layout.module.css';
 import Header from '@/components/Header/Header';
 
 interface MusicLayoutProps {
@@ -11,11 +10,11 @@ export default function MusicLayout({ children }: MusicLayoutProps) {
 
   return (
     <>
-      <div className={styles.wrapper}>
-        <div className={styles.container}>
-          <main className={styles.main}>
+      <div className="">
+        <div className="">
+          <main className="">
            <Header/>
-            <div className={styles.centerblock}>
+            <div className="">
              
               {children}
             </div>

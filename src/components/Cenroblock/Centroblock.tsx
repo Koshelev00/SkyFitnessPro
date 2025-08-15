@@ -1,7 +1,7 @@
 'use client';
-import { useCallback, useEffect, useState } from 'react';
-import styles from './centroblock.module.css';
-import classNames from 'classnames';
+
+import Card from "@/components/Card/Card";
+
 
 // import { TrackType } from '@/sharedTypes/sharedTypes';
 
@@ -9,7 +9,7 @@ import classNames from 'classnames';
 export default function Centerblock(){
   return (
     <>
-    <h2 className={styles.centerblock__h2}></h2>
+    <Card/>
 
      
    
