@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 export default function Header() {
   return (
-    <div className="w-full flex gap-210 justify-center align-baseline  ">
+    <div className="w-full flex gap-210 justify-center align-baseline mt-12.5 ">
       <div className="">
         <Link href="#">
           <Image
@@ -20,7 +20,7 @@ export default function Header() {
        
       </div>
           
-<button className="w-26 h-13 bg-[#BCEC30] justify-center gap-2 py-4 px-6.5 rounded-[46px]">Войти</button> 
+<button className="w-26 h-13 bg-[#BCEC30] justify-center gap-2 py-4 px-6.5 rounded-[46px] cursor-pointer text-[18px] font-normal leading-5">Войти</button> 
     </div>
   );
 }
