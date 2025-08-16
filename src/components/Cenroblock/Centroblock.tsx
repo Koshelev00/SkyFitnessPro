@@ -33,12 +33,12 @@ export default function Centerblock(){
     <Card/>
     <Card/>
     </div>
-
-    <div className="flex justify-center mt-8.5 mb-20">
+<div className="justify-center mt-8.5 mb-20 flex ">
+    <div className="justify-center  w-32 h-13 ">
      <Button text={"Наверх ↑"}
-     className="w-32 h-13"
-     />
-     
+     className=""
+     />     
+    </div>
     </div>
     
     <Autch/>
