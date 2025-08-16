@@ -2,11 +2,11 @@
 import { ReactNode } from 'react';
 import Header from '@/components/Header/Header';
 
-interface MusicLayoutProps {
+interface FitnessLayoutProps {
   children: ReactNode;
 }
 
-export default function MusicLayout({ children }: MusicLayoutProps) {
+export default function FitnesLayout({ children }: FitnessLayoutProps) {
 
   return (
     <>
