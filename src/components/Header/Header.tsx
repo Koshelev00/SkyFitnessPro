@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Button from "../Button/Button";
 export default function Header() {
   return (
     <div className="w-full flex gap-210 justify-center align-baseline mt-12.5 ">
@@ -12,7 +13,7 @@ export default function Header() {
             src="/logo.svg"
             alt={"logo"}
           />
-          <div className="text-gray-500 opacity-[0.5] text-lg font-normal leading-[21px]">
+          <div className="text-gray-500 opacity-[0.5] text-lg font-normal leading-[21px] w-[327px]">
             Онлайн-тренировки для занятий дома
           </div>
         </Link>
@@ -20,7 +21,8 @@ export default function Header() {
        
       </div>
           
-<button className="w-26 h-13 bg-[#BCEC30] justify-center gap-2 py-4 px-6.5 rounded-[46px] cursor-pointer text-[18px] font-normal leading-5">Войти</button> 
+<Button text={"Войти"}
+className="w-26 h-13"/>
     </div>
   );
 }
