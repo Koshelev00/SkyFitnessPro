@@ -1,13 +1,10 @@
-'use client';
-import Centerblock from '@/components/Cenroblock/Centroblock';
+"use client";
+import Centerblock from "@/components/Cenroblock/Centroblock";
 
 export default function Home() {
-  
   return (
     <>
-      <Centerblock
-       
-      />
+      <Centerblock />
     </>
   );
 }

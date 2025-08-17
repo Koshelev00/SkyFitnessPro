@@ -7,10 +7,10 @@
 } */
 
 body {
-  font-family: var(--font-montserrat, 'Roboto');
+  font-family: var(--font-montserrat, "Roboto");
   padding-left: calc(50% - 580px);
   padding-right: calc(50% - 580px);
-  background-color: #FAFAFA;
+  background-color: #fafafa;
 }
 
 h1,
@@ -25,7 +25,7 @@ p {
 a,
 input,
 button {
-  font-family: var(--font-montserrat, 'Roboto');
+  font-family: var(--font-montserrat, "Roboto");
 }
 
 a {

@@ -17,13 +17,10 @@ export default function Header() {
             Онлайн-тренировки для занятий дома
           </div>
         </Link>
-
-       
       </div>
-       <div className="w-26 h-13"> 
-<Button text={"Войти"}
-className=""/>
-</div>  
+      <div className="w-26 h-13">
+        <Button text={"Войти"} className="" />
+      </div>
     </div>
   );
 }

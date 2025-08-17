@@ -1,11 +1,10 @@
-'use client';
+"use client";
 
-import Profile from '@/components/Profile/Profile';
+import Profile from "@/components/Profile/Profile";
 export default function Home() {
-  
   return (
     <>
-      <Profile/>
+      <Profile />
     </>
   );
 }

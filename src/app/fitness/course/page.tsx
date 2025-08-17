@@ -1,12 +1,11 @@
-'use client';
+"use client";
 
-import Course from '@/components/Course/Course';
+import Course from "@/components/Course/Course";
 
 export default function Home() {
-  
   return (
     <>
-      <Course/>
+      <Course />
     </>
   );
 }
