@@ -8,8 +8,8 @@
 
 body {
   font-family: var(--font-montserrat, 'Roboto');
-  padding-left: calc(50% - 600px);
-  padding-right: calc(50% - 600px);
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
   background-color: #FAFAFA;
 }
 

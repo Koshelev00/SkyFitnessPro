@@ -3,7 +3,7 @@ import Image from "next/image";
 import Button from "../Button/Button";
 export default function Header() {
   return (
-    <div className="w-full flex gap-210 justify-center align-baseline mt-12.5 ">
+    <div className=" flex  justify-between align-baseline mt-12.5 ">
       <div className="">
         <Link href="#">
           <Image
@@ -20,9 +20,10 @@ export default function Header() {
 
        
       </div>
-          
+       <div className="w-26 h-13"> 
 <Button text={"Войти"}
-className="w-26 h-13"/>
+className=""/>
+</div>  
     </div>
   );
 }
