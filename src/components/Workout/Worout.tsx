@@ -3,7 +3,7 @@ import Button from "../Button/Button";
 
 export default function Workout() {
     return(
-<div>
+<div >
 <div className="mt-15">
     <h2 className="text-6xl font-medium leading-17.5 ">Йога</h2>
 </div>

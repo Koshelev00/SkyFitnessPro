@@ -1,9 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import Button from "../Button/Button";
 
 export default function Card() {
 return(
-    <div className="relative w-[360px] h-[501px] bg-[#FFFFFF] rounded-[30px] shadow-2xl">
+    <div className="relative w-[360px]  bg-[#FFFFFF] rounded-[30px] shadow-2xl">
         <Link href="#">
           <Image
             width={32}
@@ -61,10 +62,25 @@ src="/signal-fill.svg"
 alt={"signal"}
 />
 <span className="text-[#202020] text-[16px] font-normal leading-[19px] ">Сложность</span>
-</div>
+
 </div>
 
-  </div>
+</div>
+<div className="text-4.5 mt-5 mb-10">
+            <p className="">Наклоны вперед 0%</p>
+              <Image
+                        width={320}
+                        height={6}
+                        className={"mt-2.5"}
+                        src="/progress.svg"
+                        alt={"progress"}
+                      />
+        </div>
+        <div className="mb-[15px]">
+          <Button text={"Начать тренировки"}/>
+        </div>
+
+</div>
     </div>
 )
 }
