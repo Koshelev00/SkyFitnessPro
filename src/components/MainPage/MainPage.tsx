@@ -3,9 +3,9 @@
 import Card from "@/components/Card/Card";
 import Image from "next/image";
 import Button from "../Button/Button";
-import SignUp from "../Autch/SignUp";
 
-export default function Centerblock() {
+
+export default function MainPage() {
   return (
     <>
       <div className="flex justify-between mt-15 mb-12.5 relative">
@@ -14,7 +14,7 @@ export default function Centerblock() {
             Начните заниматься спортом <br /> и улучшите качество жизни
           </h2>
         </div>
-        <div className="">
+        <div className="w-">
           <Image
             width={288}
             height={120}
@@ -37,7 +37,7 @@ export default function Centerblock() {
         </div>
       </div>
 
-      <SignUp />
+      {/* <SignUp /> */}
     </>
   );
 }

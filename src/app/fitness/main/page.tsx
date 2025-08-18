@@ -1,10 +1,10 @@
 "use client";
-import Centerblock from "@/components/Cenroblock/Centroblock";
+import MainPage from "@/components/MainPage/MainPage";
 
 export default function Home() {
   return (
     <>
-      <Centerblock />
+      <MainPage />
     </>
   );
 }

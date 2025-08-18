@@ -9,7 +9,7 @@ export default function Workout() {
       </div>
       <div className="mt-10">
         <iframe
-          src="https://vkvideo.ru/video-223467206_456239092"
+          src="https://www.youtube.com/embed/Ewm-Bfg5ncg"
           className="w-[1160px] h-[639px] rounded-[36px]"
         ></iframe>
       </div>
