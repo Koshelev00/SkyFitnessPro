@@ -5,7 +5,7 @@ import Button from "../Button/Button";
 
 export default function Course() {
   return (
-    <div className="mb-12.5 overflow-hidden">
+    <div className="mb-12.5 overflow-hidden bg-[#FAFAFA]">
       <div className="mt-15">
         <Image
           width={1160}
@@ -43,7 +43,7 @@ export default function Course() {
           />
         </div>
       </div>
-      <div className="mt-15">
+      <div className="mt-15 mb-[102px]">
         <h3 className="text-[40px] font-semibold text-[#00001]">Направления</h3>
         <Image
           width={1160}
@@ -53,7 +53,7 @@ export default function Course() {
           alt={"FDirections"}
         />
       </div>
-      <div className="mt-[102px] flex   ">
+      <div className="flex shadow-2xl bg-[#FFFFFF] p-10 rounded-[30px]">
         <div className="w-[437px] pb-10  ">
           <h2 className="text-6xl font-medium leading-17.5 text-[#001]">
             Начните путь к новому телу
