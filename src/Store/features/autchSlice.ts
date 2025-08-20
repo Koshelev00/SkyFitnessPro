@@ -3,18 +3,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
   user: UserType | null;
-  access: string | '';
-  refresh: string | '';
-  username: string | '';
+
   isAuth: boolean;
+  isOpen: boolean;
 }
 
 const initialState: AuthState = {
   user: null,
-  access: '',
-  refresh: '',
-  username: '',
+ 
   isAuth: false,
+  isOpen: false,
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -28,28 +26,21 @@ const authSlice = createSlice({
       state.isAuth = action.payload;
       
     },
-    setUserName(state, action: PayloadAction<string>) {
-      state.username = action.payload;
-      localStorage.setItem('username', action.payload);
-    },
-    setAccessToken(state, action: PayloadAction<string>) {
-      state.access = action.payload;
-      localStorage.setItem('access', action.payload);
-    },
-    setRefreshToken(state, action: PayloadAction<string>) {
-      state.refresh = action.payload;
-      localStorage.setItem('refresh', action.payload);
-    },
+  
     clearUser(state) {
       state.user = null;
-      state.access = '';
-      state.refresh = '';
-      state.username = '';
       state.isAuth = false;
       localStorage.removeItem('username');
       localStorage.removeItem('access');
       localStorage.removeItem('refresh');
       
+    },
+    openModal: (state) => {
+      state.isOpen = true;
+     
+    },
+     closeModal: (state) => {
+      state.isOpen = false;
     },
   },
 });
@@ -57,9 +48,8 @@ const authSlice = createSlice({
 export const {
   setUser,
   clearUser,
-  setAccessToken,
-  setRefreshToken,
-  setUserName,
   setIsAuth,
+  openModal, 
+  closeModal,
 } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

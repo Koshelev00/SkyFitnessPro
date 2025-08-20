@@ -3,8 +3,8 @@
 import Card from "@/components/Card/Card";
 import Image from "next/image";
 import Button from "../Button/ButtonGreen";
-import SignUp from "../Autch/SignUp";
-import SignIn from "../Autch/SignIn";
+
+import Autch from "../Autch/Autch";
 
 export default function MainPage() {
   const token=  localStorage.getItem('authToken');
@@ -40,7 +40,7 @@ export default function MainPage() {
         </div>
       </div>
 
-      <SignIn />
+      <Autch/>
     </>
   );
 }

@@ -1,7 +1,18 @@
+'use client';
+
 import Link from "next/link";
 import Image from "next/image";
 import Button from "../Button/ButtonGreen";
+import { openModal } from "@/Store/features/autchSlice";
+import { useDispatch } from 'react-redux';
+import ButtonGreen from "../Button/ButtonGreen";
 export default function Header() {
+  const dispatch = useDispatch();
+
+  const handleOpenModal = () => {
+    dispatch(openModal()); // isOpen станет true
+  };
+
   return (
     <div className=" flex  justify-between align-baseline mt-12.5 ">
       <div className="">
@@ -19,7 +30,7 @@ export default function Header() {
         </Link>
       </div>
       <div className="w-26 h-13">
-        <Button text={"Войти"} className="" />
+        <ButtonGreen text={"Войти"} onClick={handleOpenModal}/>
       </div>
     </div>
   );

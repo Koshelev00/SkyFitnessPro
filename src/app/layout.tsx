@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { Provider } from "react-redux";
-import ReduxProvider from "@/Store/features/ReduxProvider";
+import ReduxProvider from "@/Store/ReduxProvider";
 
 const roboto = Roboto({
   variable: '--font-roboto',
