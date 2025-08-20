@@ -2,10 +2,13 @@
 
 import Card from "@/components/Card/Card";
 import Image from "next/image";
-import Button from "../Button/Button";
-
+import Button from "../Button/ButtonGreen";
+import SignUp from "../Autch/SignUp";
+import SignIn from "../Autch/SignIn";
 
 export default function MainPage() {
+  const token=  localStorage.getItem('authToken');
+  console.log(token)
   return (
     <>
       <div className="flex justify-between mt-15 mb-12.5 relative">
@@ -37,7 +40,7 @@ export default function MainPage() {
         </div>
       </div>
 
-      {/* <SignUp /> */}
+      <SignIn />
     </>
   );
 }

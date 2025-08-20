@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import Button from "../Button/Button";
+import Button from "../Button/ButtonGreen";
 
 export default function Card() {
   return (

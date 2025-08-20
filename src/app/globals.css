@@ -8,7 +8,7 @@
 } */
 
 body {
-  font-family: var(--latin, "Roboto");
+  font-family: var(--font-montserrat, "Roboto");
   padding-left: calc(50% - 580px);
   padding-right: calc(50% - 580px);
   background-color: #fafafa;
@@ -24,8 +24,7 @@ p {
   margin: 0;
 }
 a,
-input,
-button {
+input {
   font-family: var(--font-montserrat, "Roboto");
 }
 

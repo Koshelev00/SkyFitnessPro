@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Button from "../Button/Button";
+import Button from "../Button/ButtonGreen";
 
 export default function Course() {
   return (
@@ -53,7 +53,7 @@ export default function Course() {
           alt={"FDirections"}
         />
       </div>
-      <div className="flex shadow-2xl bg-[#FFFFFF] p-10 rounded-[30px]">
+      <div className="flex shadow-2xl bg-[#FFFFFF] p-10 rounded-[30px] ">
         <div className="w-[437px] pb-10  ">
           <h2 className="text-6xl font-medium leading-17.5 text-[#001]">
             Начните путь к новому телу
