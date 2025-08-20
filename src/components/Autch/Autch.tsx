@@ -50,7 +50,7 @@ export default function AuthModal() {
 
         if (user) {
           handleCloseModal();
-          router.push('/dashboard');
+          router.push('/fitness/main');
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка входа');

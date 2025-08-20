@@ -5,10 +5,18 @@ import Image from "next/image";
 import Button from "../Button/ButtonGreen";
 
 import Autch from "../Autch/Autch";
+import { useEffect, useState } from "react";
 
 export default function MainPage() {
-  const token=  localStorage.getItem('authToken');
-  console.log(token)
+
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const authToken = localStorage.getItem('authToken');
+    setToken(authToken);
+    console.log(authToken);
+  }, []);
+
   return (
     <>
       <div className="flex justify-between mt-15 mb-12.5 relative">
