@@ -6,6 +6,7 @@ interface AuthState {
 
   isAuth: boolean;
   isOpen: boolean;
+  token: null;
 }
 
 const initialState: AuthState = {
@@ -13,6 +14,7 @@ const initialState: AuthState = {
  
   isAuth: false,
   isOpen: false,
+  token: null
 };
 const authSlice = createSlice({
   name: 'auth',
@@ -42,6 +44,9 @@ const authSlice = createSlice({
      closeModal: (state) => {
       state.isOpen = false;
     },
+      setToken: (state, action) => {
+      state.token = action.payload;
+    },
   },
 });
 
@@ -51,5 +56,6 @@ export const {
   setIsAuth,
   openModal, 
   closeModal,
+  setToken,
 } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

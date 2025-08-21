@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { BASE_URL, RoutesApp } from '../constants';
+import { setToken } from '@/Store/features/autchSlice';
 
 type ApiError = {
   error?: string;
@@ -27,6 +28,7 @@ export async function signIn(userData: authUserProp): Promise<authUserReturn> {
      const { token } = data.data;
     if (token) {
       localStorage.setItem('authToken', token);
+     
     }
     return data.data;
   } catch (error) {
@@ -66,4 +68,6 @@ export async function signUp(userData: {
   }
   throw new Error();
 }
+
+
 

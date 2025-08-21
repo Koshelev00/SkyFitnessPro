@@ -9,13 +9,7 @@ import { useEffect, useState } from "react";
 
 export default function MainPage() {
 
-  const [token, setToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
-    setToken(authToken);
-    console.log(authToken);
-  }, []);
 
   return (
     <>
