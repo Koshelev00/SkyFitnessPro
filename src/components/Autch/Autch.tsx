@@ -66,7 +66,7 @@ export default function AuthModal() {
         setIsLoading(false);
       }
     },
-    [formData, router, handleCloseModal, dispatch],
+    [formData.email, formData.password, router, handleCloseModal, dispatch],
   );
 
   const handleSignUp = useCallback(
@@ -101,7 +101,7 @@ export default function AuthModal() {
         setIsLoading(false);
       }
     },
-    [formData],
+    [formData.email, formData.password, formData.confirmPassword],
   );
 
   const switchToSignUp = useCallback(() => {
