@@ -2,28 +2,44 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { openModal } from "@/Store/features/autchSlice";
-import { useDispatch } from 'react-redux';
+import { openModal, openModalUser,  closeModalUser } from "@/Store/features/autchSlice";
+import { useDispatch, useSelector } from 'react-redux';
 import ButtonGreen from "../Button/ButtonGreen";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { RootState } from "@/Store/store";
+import UserModal from "../UserModal/UserModal";
+
 export default function Header() {
   const dispatch = useDispatch();
-
-  const handleOpenModal = () => {
-    dispatch(openModal()); 
-  };
   const [token, setToken] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const { isAuth,isOpened } = useSelector((state: RootState) => state.auth);
+ 
 
   useEffect(() => {
     const authToken = localStorage.getItem('authToken');
-    if (authToken) {
-      dispatch(setToken(authToken));
+    const email = localStorage.getItem('user.email');
+    setToken(authToken);
+    setUserEmail(email);
+  }, [isAuth]); 
+
+  const handleOpenModal = () => {
+    dispatch(openModal()); 
+  }
+
+  const handleOpenModalUser = () => {
+    if (!isOpened){
+    dispatch(openModalUser()); 
     }
-  }, [dispatch]);
+    else{
+      dispatch(closeModalUser()); 
+    }
+  }
+
   return (
-    <div className=" flex  justify-between align-baseline mt-12.5 ">
-      <div className="">
-        <Link href="#">
+    <div className="flex justify-between align-baseline mt-12.5">
+      <div>
+        <Link href="/fitness/main">
           <Image
             width={220}
             height={35}
@@ -36,32 +52,35 @@ export default function Header() {
           </div>
         </Link>
       </div>
-       {!token ? (
-      <div className="w-26 h-13">
-        <ButtonGreen text={"Войти"} onClick={handleOpenModal}/>
-      </div>
-       ):(
-      <div className="flex gap-5">
+      {isAuth ? (
+        <div >
+          <div className="flex gap-5 items-center cursor-pointer relative" onClick={handleOpenModalUser}>
           <Image
             width={42}
             height={42}
             src="/noAva2.svg"
             alt={"avatar"}
           />
-
+          {userEmail}
           <div className="flex gap-3">
-            {/* {email} */}
-             <Image
-            width={8}
-            height={8}
-            src="/galka.svg"
-            alt={"open"}
-          />
+            <Image
+              width={8}
+              height={8}
+              src="/galka.svg"
+              alt={"open"}
+            />
           </div>
-
-      </div>
-       )}
+          
+          <UserModal/>
+        </div>
+        </div>
+      ) : (
+        <div className="w-26 h-13">
+          <ButtonGreen text={"Войти"} onClick={handleOpenModal}/>
+        </div>
+      )}
       
-    </div>
+      
+ </div>
   );
 }

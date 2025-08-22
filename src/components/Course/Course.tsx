@@ -11,7 +11,7 @@ export default function Course() {
           width={1160}
           height={310}
           className=""
-          src="/image/skillCard/skill card fitness.jpg"
+          src="/image/skillCard/skillCardYoga.jpg"
           alt={"SkillCard "}
         />
       </div>

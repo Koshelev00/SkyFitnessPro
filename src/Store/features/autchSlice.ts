@@ -3,50 +3,76 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
   user: UserType | null;
-
   isAuth: boolean;
   isOpen: boolean;
-  token: null;
+  token: string | null;
+  isOpened: boolean;
 }
 
-const initialState: AuthState = {
-  user: null,
- 
-  isAuth: false,
-  isOpen: false,
-  token: null
+const getInitialAuthState = (): AuthState => {
+
+  if (typeof window !== 'undefined') {
+    return {
+      user: null,
+      isAuth: !!localStorage.getItem('authToken'),
+      isOpen: false,
+      token: localStorage.getItem('authToken'),
+      isOpened: false,
+    };
+  }
+  
+  return {
+    user: null,
+    isAuth: false,
+    isOpen: false,
+    isOpened: false,
+    token: null
+  };
 };
+
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: getInitialAuthState(),
   reducers: {
     setUser(state, action: PayloadAction<UserType>) {
       state.user = action.payload;
-      localStorage.setItem('user', action.payload.username);
     },
     setIsAuth: (state, action: PayloadAction<boolean>) => {
       state.isAuth = action.payload;
-      
     },
-  
     clearUser(state) {
       state.user = null;
       state.isAuth = false;
-      localStorage.removeItem('username');
-      localStorage.removeItem('access');
-      localStorage.removeItem('refresh');
-      
+      state.token = null;
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('user.email');
+      }
     },
     openModal: (state) => {
       state.isOpen = true;
-     
+      console.log(state.isOpen)
     },
-     closeModal: (state) => {
+    openModalUser: (state) => {
+        state.isOpened = true;
+        console.log( state.isOpened)
+    },
+     closeModalUser: (state) => {
+        state.isOpened = false;
+        console.log( state.isOpened)
+    },
+
+    closeModal: (state) => {
       state.isOpen = false;
     },
-      setToken: (state, action) => {
+    setToken: (state, action: PayloadAction<string>) => {
       state.token = action.payload;
+      state.isAuth = true;
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('authToken', action.payload);
+      }
     },
+    
   },
 });
 
@@ -57,5 +83,8 @@ export const {
   openModal, 
   closeModal,
   setToken,
+  openModalUser,
+  closeModalUser,
+
 } = authSlice.actions;
 export const authSliceReducer = authSlice.reducer;

@@ -8,7 +8,7 @@ import { signIn, signUp } from '@/services/auth';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Store/store";
-import { closeModal } from '@/Store/features/autchSlice';
+import { closeModal, setIsAuth } from '@/Store/features/autchSlice';
 
 type AuthMode = 'signin' | 'signup';
 
@@ -24,7 +24,7 @@ export default function AuthModal() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.auth);
-
+  
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }, []);
@@ -41,16 +41,24 @@ export default function AuthModal() {
       e.preventDefault();
       setError('');
       setIsLoading(true);
-      
+
       try {
-        const user = await signIn({
+        const response = await signIn({
           email: formData.email,
           password: formData.password
         });
 
-        if (user) {
+        if (response && response.token) {
+          // Сохраняем данные в localStorage
+          localStorage.setItem('authToken', response.token);
+          localStorage.setItem('user.email', formData.email);
+          
+          // Устанавливаем статус авторизации в Redux
+          dispatch(setIsAuth(true));
           handleCloseModal();
           router.push('/fitness/main');
+        } else {
+          setError('Неверные учетные данные');
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка входа');
@@ -58,7 +66,7 @@ export default function AuthModal() {
         setIsLoading(false);
       }
     },
-    [formData, router, handleCloseModal]
+    [formData, router, handleCloseModal, dispatch]
   );
 
   const handleSignUp = useCallback(
@@ -73,12 +81,12 @@ export default function AuthModal() {
       
       setIsLoading(true);
       try {
-        const user = await signUp({
+        const response = await signUp({
           email: formData.email,
           password: formData.password
         });
 
-        if (user) {
+        if (response) {
           setAuthMode('signin');
           setError('Регистрация успешна! Теперь войдите в систему.');
           setFormData(prev => ({ ...prev, password: '', confirmPassword: '' }));
@@ -104,10 +112,11 @@ export default function AuthModal() {
     setFormData(prev => ({ ...prev, confirmPassword: '' }));
   }, []);
 
+
   if (!isOpen) return null;
+  
 
   return (
-    
     <div 
       className="fixed inset-0 flex items-center justify-center z-50 bg-black/40"
       onClick={handleCloseModal}
@@ -116,7 +125,6 @@ export default function AuthModal() {
         className="bg-white rounded-[30px] p-10 w-[360px] relative"
         onClick={(e) => e.stopPropagation()}
       >
-       
         <div className="h-[35px] mb-8 flex justify-center gap-2.5">
           <Image
             src="/logo.svg"

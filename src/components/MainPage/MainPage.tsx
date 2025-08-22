@@ -3,9 +3,9 @@
 import Card from "@/components/Card/Card";
 import Image from "next/image";
 import Button from "../Button/ButtonGreen";
-
+import Link from "next/link";
 import Autch from "../Autch/Autch";
-import { useEffect, useState } from "react";
+
 
 export default function MainPage() {
 
@@ -13,13 +13,13 @@ export default function MainPage() {
 
   return (
     <>
-      <div className="flex justify-between mt-15 mb-12.5 relative">
+      <div className="flex justify-between mt-15 mb-12.5 relative" id="section1">
         <div className="">
           <h2 className="text-[#000001] text-6xl font-medium leading-[70px]">
             Начните заниматься спортом <br /> и улучшите качество жизни
           </h2>
         </div>
-        <div className="w-">
+        <div className="">
           <Image
             width={288}
             height={120}
@@ -38,9 +38,13 @@ export default function MainPage() {
       </div>
       <div className="justify-center mt-8.5 mb-20 flex ">
         <div className="justify-center  w-32 h-13 ">
-          <Button text={"Наверх ↑"} className="" />
+          <Link href={"#section1"}>
+          <Button text={"Наверх ↑"}/>
+          </Link>
+          
         </div>
       </div>
+      
 
       <Autch/>
     </>
