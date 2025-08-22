@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import Image from "next/image";
-import { openModal, openModalUser,  closeModalUser } from "@/Store/features/autchSlice";
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  openModal,
+  openModalUser,
+  closeModalUser,
+} from "@/Store/features/autchSlice";
+import { useDispatch, useSelector } from "react-redux";
 import ButtonGreen from "../Button/ButtonGreen";
 import { useState, useEffect } from "react";
 import { RootState } from "@/Store/store";
@@ -13,28 +17,26 @@ export default function Header() {
   const dispatch = useDispatch();
   const [token, setToken] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const { isAuth,isOpened } = useSelector((state: RootState) => state.auth);
- 
+  const { isAuth, isOpened } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    const authToken = localStorage.getItem('authToken');
-    const email = localStorage.getItem('user.email');
+    const authToken = localStorage.getItem("authToken");
+    const email = localStorage.getItem("user.email");
     setToken(authToken);
     setUserEmail(email);
-  }, [isAuth]); 
+  }, [isAuth]);
 
   const handleOpenModal = () => {
-    dispatch(openModal()); 
-  }
+    dispatch(openModal());
+  };
 
   const handleOpenModalUser = () => {
-    if (!isOpened){
-    dispatch(openModalUser()); 
+    if (!isOpened) {
+      dispatch(openModalUser());
+    } else {
+      dispatch(closeModalUser());
     }
-    else{
-      dispatch(closeModalUser()); 
-    }
-  }
+  };
 
   return (
     <div className="flex justify-between align-baseline mt-12.5">
@@ -53,34 +55,25 @@ export default function Header() {
         </Link>
       </div>
       {isAuth ? (
-        <div >
-          <div className="flex gap-5 items-center cursor-pointer relative" onClick={handleOpenModalUser}>
-          <Image
-            width={42}
-            height={42}
-            src="/noAva2.svg"
-            alt={"avatar"}
-          />
-          {userEmail}
-          <div className="flex gap-3">
-            <Image
-              width={8}
-              height={8}
-              src="/galka.svg"
-              alt={"open"}
-            />
+        <div>
+          <div
+            className="flex gap-5 items-center cursor-pointer relative"
+            onClick={handleOpenModalUser}
+          >
+            <Image width={42} height={42} src="/noAva2.svg" alt={"avatar"} />
+            {userEmail}
+            <div className="flex gap-3">
+              <Image width={8} height={8} src="/galka.svg" alt={"open"} />
+            </div>
+
+            <UserModal />
           </div>
-          
-          <UserModal/>
-        </div>
         </div>
       ) : (
         <div className="w-26 h-13">
-          <ButtonGreen text={"Войти"} onClick={handleOpenModal}/>
+          <ButtonGreen text={"Войти"} onClick={handleOpenModal} />
         </div>
       )}
-      
-      
- </div>
+    </div>
   );
 }

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CourseType } from '@/Types/courseType';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CourseType } from "@/Types/courseType";
 
 export type initialStateType = {
   currentCourse: CourseType | null;
@@ -18,7 +18,7 @@ const initialState: initialStateType = {
 };
 
 const courseSlice = createSlice({
-  name: 'courses',
+  name: "courses",
   initialState,
   reducers: {
     setAllCourses: (state, action: PayloadAction<CourseType[]>) => {

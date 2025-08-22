@@ -1,7 +1,5 @@
-import axios from 'axios';
-import { BASE_URL, RoutesApp } from '../constants';
-
-
+import axios from "axios";
+import { BASE_URL, RoutesApp } from "../constants";
 
 type ApiError = {
   error?: string;
@@ -9,7 +7,7 @@ type ApiError = {
 };
 
 type authUserReturn = {
-    token: string;
+  token: string;
 };
 
 type authUserProp = {
@@ -17,20 +15,16 @@ type authUserProp = {
   password: string;
 };
 
-
-
-
 export async function signIn(userData: authUserProp): Promise<authUserReturn> {
   try {
     const data = await axios.post(`${BASE_URL}${RoutesApp.login}`, userData, {
       headers: {
-        'Content-Type': 'application/javascript',
+        "Content-Type": "application/javascript",
       },
     });
-     const { token } = data.data;
+    const { token } = data.data;
     if (token) {
-      localStorage.setItem('authToken', token);
-     
+      localStorage.setItem("authToken", token);
     }
     return data.data;
   } catch (error) {
@@ -38,7 +32,7 @@ export async function signIn(userData: authUserProp): Promise<authUserReturn> {
       if (axios.isAxiosError(error) && error.response) {
         const apiErr = error.response.data as ApiError;
 
-        throw new Error(apiErr.error ?? apiErr.message ?? 'Ошибка входа');
+        throw new Error(apiErr.error ?? apiErr.message ?? "Ошибка входа");
       }
       throw new Error(error.message);
     }
@@ -53,7 +47,7 @@ export async function signUp(userData: {
   try {
     const data = await axios.post(`${BASE_URL}${RoutesApp.sighup}`, userData, {
       headers: {
-        'Content-Type': 'application/javascript',
+        "Content-Type": "application/javascript",
       },
     });
 
@@ -63,13 +57,10 @@ export async function signUp(userData: {
       if (axios.isAxiosError(error) && error.response) {
         const apiErr = error.response.data as ApiError;
 
-        throw new Error(apiErr.error ?? apiErr.message ?? 'Ошибка регистрации');
+        throw new Error(apiErr.error ?? apiErr.message ?? "Ошибка регистрации");
       }
       throw new Error(error.message);
     }
   }
   throw new Error();
 }
-
-
-

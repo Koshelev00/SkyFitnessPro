@@ -10,7 +10,7 @@ interface ButtonProps {
 
 export default function ButtonGreen({
   text,
-  type = 'button',
+  type = "button",
   onClick,
 }: ButtonProps) {
   return (
@@ -23,5 +23,3 @@ export default function ButtonGreen({
     </button>
   );
 }
-
-

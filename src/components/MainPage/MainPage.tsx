@@ -5,15 +5,13 @@ import Image from "next/image";
 import Button from "../Button/ButtonGreen";
 import Link from "next/link";
 import Autch from "../Autch/Autch";
-
-
 export default function MainPage() {
-
-
-
   return (
     <>
-      <div className="flex justify-between mt-15 mb-12.5 relative" id="section1">
+      <div
+        className="flex justify-between mt-15 mb-12.5 relative"
+        id="section1"
+      >
         <div className="">
           <h2 className="text-[#000001] text-6xl font-medium leading-[70px]">
             Начните заниматься спортом <br /> и улучшите качество жизни
@@ -39,14 +37,12 @@ export default function MainPage() {
       <div className="justify-center mt-8.5 mb-20 flex ">
         <div className="justify-center  w-32 h-13 ">
           <Link href={"#section1"}>
-          <Button text={"Наверх ↑"}/>
+            <Button text={"Наверх ↑"} />
           </Link>
-          
         </div>
       </div>
-      
 
-      <Autch/>
+      <Autch />
     </>
   );
 }

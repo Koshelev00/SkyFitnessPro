@@ -3,125 +3,127 @@
 import ButtonGreen from "@/components/Button/ButtonGreen";
 import ButtonWhite from "@/components/Button/ButtonWhite";
 import Image from "next/image";
-import { useCallback, useState } from 'react';
-import { signIn, signUp } from '@/services/auth';
-import { useRouter } from 'next/navigation';
+import { useCallback, useState } from "react";
+import { signIn, signUp } from "@/services/auth";
+import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/Store/store";
-import { closeModal, setIsAuth } from '@/Store/features/autchSlice';
+import { closeModal, setIsAuth } from "@/Store/features/autchSlice";
 
-type AuthMode = 'signin' | 'signup';
+type AuthMode = "signin" | "signup";
 
 export default function AuthModal() {
-  const [authMode, setAuthMode] = useState<AuthMode>('signin');
+  const [authMode, setAuthMode] = useState<AuthMode>("signin");
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const dispatch = useDispatch();
   const { isOpen } = useSelector((state: RootState) => state.auth);
-  
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }, []);
 
   const handleCloseModal = useCallback(() => {
     dispatch(closeModal());
-    setError('');
-    setFormData({ email: '', password: '', confirmPassword: '' });
-    setAuthMode('signin');
+    setError("");
+    setFormData({ email: "", password: "", confirmPassword: "" });
+    setAuthMode("signin");
   }, [dispatch]);
 
   const handleSignIn = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      setError('');
+      setError("");
       setIsLoading(true);
 
       try {
         const response = await signIn({
           email: formData.email,
-          password: formData.password
+          password: formData.password,
         });
 
         if (response && response.token) {
           // Сохраняем данные в localStorage
-          localStorage.setItem('authToken', response.token);
-          localStorage.setItem('user.email', formData.email);
-          
+          localStorage.setItem("authToken", response.token);
+          localStorage.setItem("user.email", formData.email);
+
           // Устанавливаем статус авторизации в Redux
           dispatch(setIsAuth(true));
           handleCloseModal();
-          router.push('/fitness/main');
+          router.push("/fitness/main");
         } else {
-          setError('Неверные учетные данные');
+          setError("Неверные учетные данные");
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Ошибка входа');
+        setError(err instanceof Error ? err.message : "Ошибка входа");
       } finally {
         setIsLoading(false);
       }
     },
-    [formData, router, handleCloseModal, dispatch]
+    [formData, router, handleCloseModal, dispatch],
   );
 
   const handleSignUp = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      setError('');
-      
+      setError("");
+
       if (formData.password !== formData.confirmPassword) {
-        setError('Пароли не совпадают');
+        setError("Пароли не совпадают");
         return;
       }
-      
+
       setIsLoading(true);
       try {
         const response = await signUp({
           email: formData.email,
-          password: formData.password
+          password: formData.password,
         });
 
         if (response) {
-          setAuthMode('signin');
-          setError('Регистрация успешна! Теперь войдите в систему.');
-          setFormData(prev => ({ ...prev, password: '', confirmPassword: '' }));
+          setAuthMode("signin");
+          setError("Регистрация успешна! Теперь войдите в систему.");
+          setFormData((prev) => ({
+            ...prev,
+            password: "",
+            confirmPassword: "",
+          }));
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Ошибка регистрации');
+        setError(err instanceof Error ? err.message : "Ошибка регистрации");
       } finally {
         setIsLoading(false);
       }
     },
-    [formData]
+    [formData],
   );
 
   const switchToSignUp = useCallback(() => {
-    setAuthMode('signup');
-    setError('');
-    setFormData(prev => ({ ...prev, confirmPassword: '' }));
+    setAuthMode("signup");
+    setError("");
+    setFormData((prev) => ({ ...prev, confirmPassword: "" }));
   }, []);
 
   const switchToSignIn = useCallback(() => {
-    setAuthMode('signin');
-    setError('');
-    setFormData(prev => ({ ...prev, confirmPassword: '' }));
+    setAuthMode("signin");
+    setError("");
+    setFormData((prev) => ({ ...prev, confirmPassword: "" }));
   }, []);
 
-
   if (!isOpen) return null;
-  
 
   return (
-    <div 
+    <div
       className="fixed inset-0 flex items-center justify-center z-50 bg-black/40"
       onClick={handleCloseModal}
     >
-      <div 
+      <div
         className="bg-white rounded-[30px] p-10 w-[360px] relative"
         onClick={(e) => e.stopPropagation()}
       >
@@ -135,7 +137,7 @@ export default function AuthModal() {
           />
         </div>
 
-        {authMode === 'signin' ? (
+        {authMode === "signin" ? (
           <form onSubmit={handleSignIn}>
             <div className="flex flex-col gap-2.5 pb-8">
               <input
@@ -166,11 +168,7 @@ export default function AuthModal() {
               )}
             </div>
             <div className="flex flex-col gap-2.5">
-              <ButtonGreen
-                text="Войти" 
-                disabled={isLoading}
-                type="submit"
-              />
+              <ButtonGreen text="Войти" disabled={isLoading} type="submit" />
               <ButtonWhite
                 text="Зарегистрироваться"
                 onClick={switchToSignUp}
@@ -219,13 +217,13 @@ export default function AuthModal() {
               )}
             </div>
             <div className="flex flex-col gap-2.5">
-              <ButtonGreen 
-                type="submit" 
-                text="Зарегистрироваться" 
+              <ButtonGreen
+                type="submit"
+                text="Зарегистрироваться"
                 disabled={isLoading}
               />
-              <ButtonWhite 
-                text="Войти" 
+              <ButtonWhite
+                text="Войти"
                 onClick={switchToSignIn}
                 type="button"
               />

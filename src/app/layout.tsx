@@ -5,9 +5,9 @@ import { Provider } from "react-redux";
 import ReduxProvider from "@/Store/ReduxProvider";
 
 const roboto = Roboto({
-  variable: '--font-roboto',
-  subsets: ['latin'],
-}); 
+  variable: "--font-roboto",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "SkyProFitness",
@@ -20,11 +20,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-   
     <html lang="ru" className={roboto.className}>
       <ReduxProvider>
-     <body className={`${roboto.variable}`}>{children}</body>
-     </ReduxProvider>
+        <body className={`${roboto.variable}`}>{children}</body>
+      </ReduxProvider>
     </html>
   );
 }
