@@ -4,11 +4,17 @@ import ButtonGreen from "@/components/Button/ButtonGreen";
 import ButtonWhite from "@/components/Button/ButtonWhite";
 import Image from "next/image";
 import { useCallback, useState } from "react";
-import { signIn, signUp } from "@/services/auth";
+import { SignIn, SignUp } from "@/services/auth";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/Store/store";
-import { closeModal, setIsAuth } from "@/Store/features/autchSlice";
+import { RootState, AppDispatch } from "@/Store/store";
+import {
+  closeModal,
+  setIsAuth,
+  setEmail,
+ 
+} from "@/Store/features/Autch/autchSlice"; 
+import {getUserProfileThunk}  from "@/Store/features/Autch/thunk";
 
 type AuthMode = "signin" | "signup";
 
@@ -22,7 +28,7 @@ export default function AuthModal() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const { isOpen } = useSelector((state: RootState) => state.auth);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,17 +49,19 @@ export default function AuthModal() {
       setIsLoading(true);
 
       try {
-        const response = await signIn({
+        const response = await SignIn({
           email: formData.email,
           password: formData.password,
         });
 
         if (response && response.token) {
-          // Сохраняем данные в localStorage
           localStorage.setItem("authToken", response.token);
           localStorage.setItem("user.email", formData.email);
 
-          // Устанавливаем статус авторизации в Redux
+          
+          await dispatch(getUserProfileThunk(response.token));
+
+          dispatch(setEmail(formData.email));
           dispatch(setIsAuth(true));
           handleCloseModal();
           router.push("/fitness/main");
@@ -66,7 +74,7 @@ export default function AuthModal() {
         setIsLoading(false);
       }
     },
-    [formData.email, formData.password, router, handleCloseModal, dispatch],
+    [formData.email, formData.password, router, handleCloseModal, dispatch]
   );
 
   const handleSignUp = useCallback(
@@ -81,27 +89,26 @@ export default function AuthModal() {
 
       setIsLoading(true);
       try {
-        const response = await signUp({
+      
+        await SignUp({
           email: formData.email,
           password: formData.password,
         });
 
-        if (response) {
-          setAuthMode("signin");
-          setError("Регистрация успешна! Теперь войдите в систему.");
-          setFormData((prev) => ({
-            ...prev,
-            password: "",
-            confirmPassword: "",
-          }));
-        }
+        setAuthMode("signin");
+        setError("Регистрация успешна! Теперь войдите в систему.");
+        setFormData((prev) => ({
+          ...prev,
+          password: "",
+          confirmPassword: "",
+        }));
       } catch (err) {
         setError(err instanceof Error ? err.message : "Ошибка регистрации");
       } finally {
         setIsLoading(false);
       }
     },
-    [formData.email, formData.password, formData.confirmPassword],
+    [formData.email, formData.password, formData.confirmPassword]
   );
 
   const switchToSignUp = useCallback(() => {

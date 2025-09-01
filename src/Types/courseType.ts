@@ -1,3 +1,16 @@
+// Тип тренировки (workout)
+export interface WorkoutType {
+  _id: string;
+  name: string;
+  video: string;
+  exercises: {
+    _id: string;
+    name: string;
+    quantity: number;
+  }[];
+}
+
+// Тип курса (course)
 export interface CourseType {
   _id: string;
   nameRU: string;
@@ -5,12 +18,11 @@ export interface CourseType {
   description: string;
   directions: string[];
   fitting: string[];
-  difficulty: string;
-  order: number;
-  durationInDays: number;
-  dailyDurationInMinutes: {
+  difficulty?: string;
+  durationInDays?: number;
+  dailyDurationInMinutes?: {
     from: number;
     to: number;
   };
-  workouts: string[];
+  workouts: string[] | WorkoutType[]; // иногда только id, иногда список
 }

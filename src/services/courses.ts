@@ -1,66 +1,51 @@
 import axios from "axios";
-import { BASE_URL, RoutesApp } from "../constants";
+import { BASE_URL, RoutesApp } from "@/constants";
 
-type ApiError = {
-  error?: string;
-  message?: string;
-};
-
-type authUserReturn = {
-  token: string;
-};
-
-type authUserProp = {
-  email: string;
-  password: string;
-};
-
-export async function signIn(userData: authUserProp): Promise<authUserReturn> {
-  try {
-    const data = await axios.post(`${BASE_URL}${RoutesApp.login}`, userData, {
-      headers: {
-        "Content-Type": "application/javascript",
-      },
-    });
-    const { token } = data.data;
-    if (token) {
-      localStorage.setItem("authToken", token);
-    }
-    return data.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      if (axios.isAxiosError(error) && error.response) {
-        const apiErr = error.response.data as ApiError;
-
-        throw new Error(apiErr.error ?? apiErr.message ?? "Ошибка входа");
-      }
-      throw new Error(error.message);
-    }
-  }
-  throw new Error();
+// 🔹 Получить список всех курсов
+export async function getCourses() {
+  const { data } = await axios.get(`${BASE_URL}${RoutesApp.getCourses}`);
+  return data;
 }
 
-export async function signUp(userData: {
-  email: string;
-  password: string;
-}): Promise<authUserReturn> {
-  try {
-    const data = await axios.post(`${BASE_URL}${RoutesApp.sighup}`, userData, {
+// 🔹 Получить курс по ID
+export async function getCourseById(courseId: string) {
+  const { data } = await axios.get(`${BASE_URL}${RoutesApp.getCourseById(courseId)}`);
+  return data;
+}
+
+// 🔹 Получить тренировки курса
+export async function getCourseWorkouts(courseId: string) {
+  const { data } = await axios.get(`${BASE_URL}${RoutesApp.getCourseWorkouts(courseId)}`);
+  return data;
+}
+
+// 🔹 Добавить курс пользователю
+export async function addUserCourse(courseId: string) {
+    const token = localStorage.getItem("authToken"); 
+  const { data } = await axios.post(
+    `${BASE_URL}${RoutesApp.addUserCourse}`,
+    { courseId }, // тело запроса обязательно объектом
+    {
       headers: {
         "Content-Type": "application/javascript",
+        Authorization: `Bearer ${token}`, 
       },
-    });
-
-    return data.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      if (axios.isAxiosError(error) && error.response) {
-        const apiErr = error.response.data as ApiError;
-
-        throw new Error(apiErr.error ?? apiErr.message ?? "Ошибка регистрации");
-      }
-      throw new Error(error.message);
     }
-  }
-  throw new Error();
+  );
+  return data;
+}
+
+// 🔹 Удалить курс пользователя
+export async function deleteUserCourse(courseId: string) {
+   const token = localStorage.getItem("authToken"); 
+  const { data } = await axios.delete(
+    `${BASE_URL}${RoutesApp.deleteUserCourse(courseId)}`,
+    {
+      headers: {
+        "Content-Type": "application/javascript",
+        Authorization: `Bearer ${token}`, 
+      },
+    }
+  );
+  return data;
 }

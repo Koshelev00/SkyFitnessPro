@@ -6,7 +6,8 @@ import {
   openModal,
   openModalUser,
   closeModalUser,
-} from "@/Store/features/autchSlice";
+  setIsAuth,
+} from "@/Store/features/Autch/autchSlice";
 import { useDispatch, useSelector } from "react-redux";
 import ButtonGreen from "../Button/ButtonGreen";
 import { useState, useEffect } from "react";
@@ -17,14 +18,18 @@ export default function Header() {
   const dispatch = useDispatch();
   const [token, setToken] = useState<string | null>(null);
   const [userEmail, setUserEmail] = useState<string | null>(null);
-  const { isAuth, isOpened } = useSelector((state: RootState) => state.auth);
+  const {isOpened } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     const email = localStorage.getItem("user.email");
     setToken(authToken);
     setUserEmail(email);
-  }, [isAuth]);
+      if(authToken) {
+       dispatch( setIsAuth(true)) ;
+      }
+  }, []);
+  
 
   const handleOpenModal = () => {
     dispatch(openModal());
@@ -37,6 +42,10 @@ export default function Header() {
       dispatch(closeModalUser());
     }
   };
+  const { isAuth } = useSelector((state: RootState) => state.auth);
+  
+      
+      
 
   return (
     <div className="flex justify-between align-baseline mt-12.5">
@@ -54,7 +63,7 @@ export default function Header() {
           </div>
         </Link>
       </div>
-      {isAuth ? (
+      {isAuth? (
         <div>
           <div
             className="flex gap-5 items-center cursor-pointer relative"
