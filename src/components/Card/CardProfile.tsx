@@ -1,10 +1,11 @@
-import Link from "next/link";
+
 import Image from "next/image";
 import Button from "../Button/ButtonGreen";
 import { CourseType } from "@/Types/courseType";
 import { useAppDispatch } from "@/Store/hooks";
 import { deleteUserCourseThunk } from "@/Store/features/Courses/thunk";
-import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
+
+import { openModalWorkout } from "@/Store/features/Worcout/workoutSlice";
 
 interface CardProfileProps {
   course: CourseType;
@@ -13,11 +14,15 @@ interface CardProfileProps {
 
 export default function Card({ course, progress }: CardProfileProps) {
   const dispatch = useAppDispatch();
-  const token = localStorage.getItem("authToken"); 
+  
   
   const handleDeleteCourse = () => {
     dispatch(deleteUserCourseThunk(course._id));
   };
+  const handleOpenModal = () => {
+    dispatch(openModalWorkout());
+  };
+
 
   // Функция для определения текста кнопки в зависимости от прогресса
   const getButtonText = () => {
@@ -43,15 +48,16 @@ export default function Card({ course, progress }: CardProfileProps) {
       />
       
       <div className="mb-8">
-        <Link href={`/fitness/course/${course._id}`}>
+     
           <Image
             width={360}
             height={35}
             className=""
             src={`/image/${course.nameEN}.png`}
             alt={course.nameRU}
+            onClick={handleOpenModal}
           />
-        </Link>
+        
       </div>
       
       <div className="mx-7.5">

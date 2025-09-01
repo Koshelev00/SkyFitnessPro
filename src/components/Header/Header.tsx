@@ -28,7 +28,7 @@ export default function Header() {
       if(authToken) {
        dispatch( setIsAuth(true)) ;
       }
-  }, []);
+  }, [dispatch]);
   
 
   const handleOpenModal = () => {

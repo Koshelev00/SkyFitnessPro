@@ -6,7 +6,7 @@ import { AppDispatch, RootState } from "@/Store/store";
 import { fetchCourseByIdThunk, addUserCourseThunk } from "@/Store/features/Courses/thunk";
 import Image from "next/image";
 import ButtonGreen from "../Button/ButtonGreen";
-import { useAppSelector } from "@/Store/hooks";
+
 
 type CourseProps = {
   courseId: string;
@@ -14,7 +14,7 @@ type CourseProps = {
 
 export default function Course({ courseId }: CourseProps) {
   const dispatch = useDispatch<AppDispatch>();
-  const { currentCourse, workouts, status } = useSelector(
+  const { currentCourse, status } = useSelector(
     (state: RootState) => state.courses
   );
   const { isAuth } = useSelector((state: RootState) => state.auth);

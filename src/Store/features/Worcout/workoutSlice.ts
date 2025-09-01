@@ -23,6 +23,8 @@ interface WorkoutsState {
   currentWorkout: Workout | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
+  isOpen: boolean; 
+  isClose: boolean;
 }
 
 const initialState: WorkoutsState = {
@@ -30,12 +32,21 @@ const initialState: WorkoutsState = {
   currentWorkout: null,
   status: "idle",
   error: null,
+  isOpen: false,
+  isClose: false,
 };
 
 const workoutSlice = createSlice({
   name: "workouts",
   initialState,
-  reducers: {},
+  reducers: {
+    openModalWorkout(state) {
+      state.isOpen = true;
+    },
+     closeModalWorkout(state) {
+      state.isOpen = false;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // 🔹 fetchWorkoutsThunk
@@ -105,7 +116,14 @@ const workoutSlice = createSlice({
           state.error = action.payload;
         }
       );
+      
   },
+      
 });
+
+export const {
+   openModalWorkout,
+  closeModalWorkout,
+} = workoutSlice.actions;
 
 export default workoutSlice.reducer;
