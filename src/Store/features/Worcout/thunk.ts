@@ -4,9 +4,9 @@ import { getWorkouts, getWorkoutById, addUserWorkout, deleteUserWorkout } from "
 // 🔹 Получить все тренировки
 export const fetchWorkoutsThunk = createAsyncThunk(
   "workouts/fetchAll",
-  async (_, { rejectWithValue }) => {
+  async ({courseId, token}:{courseId:string, token:string}, { rejectWithValue }) => {
     try {
-      return await getWorkouts();
+      return await getWorkouts(courseId, token);
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Ошибка загрузки тренировок");
     }

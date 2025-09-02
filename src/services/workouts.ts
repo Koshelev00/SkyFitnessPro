@@ -2,8 +2,11 @@ import axios from "axios";
 import { BASE_URL, RoutesApp } from "@/constants";
 
 // 🔹 Получить все тренировки
-export async function getWorkouts() {
-  const { data } = await axios.get(`${BASE_URL}${RoutesApp.getCourseWorkouts}`);
+export async function getWorkouts(courseId:string, token:string) {
+  const { data } = await axios.get(`${BASE_URL}${RoutesApp.getCourseWorkouts(courseId)}`,{
+    headers:  {Authorization : `Bearer ${token}`},
+  })
+
   return data;
 }
 

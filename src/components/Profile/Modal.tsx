@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutsThunk } from "@/Store/features/Worcout/thunk";
 import { RootState } from "@/Store/store";
 import { closeModalWorkout } from "@/Store/features/Worcout/workoutSlice";
-import { WorkoutType } from "@/Types/workoutType"; 
+
 
 type WorkoutProps = {
   courseId: string;
@@ -17,12 +17,12 @@ export default function ModalWorkout({ courseId, onClose }: WorkoutProps) {
   const dispatch = useAppDispatch();
   
   // Фильтруем тренировки по courseId
-  const currentWorkouts = workouts.filter(workout => workout.courseId === courseId);
-  console.log(currentWorkouts)
+  // const currentWorkouts = workouts.filter(workout => workout.courseId === courseId);
+  
   const handleCloseModal = useCallback(() => {
     dispatch(closeModalWorkout());
-    onClose();
-  }, [dispatch, onClose]);
+    
+  }, [dispatch]);
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
@@ -31,15 +31,19 @@ export default function ModalWorkout({ courseId, onClose }: WorkoutProps) {
   }, [handleCloseModal]);
 
   useEffect(() => {
-    dispatch(fetchWorkoutsThunk(courseId));
-
+    const token = localStorage.getItem("authToken");
+    if (token) {
+    dispatch(fetchWorkoutsThunk({courseId, token}));
+    }
+    }, [dispatch, courseId]);
+useEffect(() => {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }
-  }, [isOpen, handleClickOutside, dispatch, courseId]);
+  }, [isOpen, handleClickOutside]);
 
   // Обработка клавиши Escape
   useEffect(() => {
@@ -75,7 +79,7 @@ export default function ModalWorkout({ courseId, onClose }: WorkoutProps) {
           </div>
           <div className="w-[380px] h-[380px] mb-[34px]">
             <div className="w-[354px] border-b-2 border-solid border-[#C4C4C4] mr-5">
-              {/* Здесь будет контент тренировки */}
+               {workouts.map((w) => <div key={w._id}> {w.name} </div>)}
             </div>
           </div>
           <div>

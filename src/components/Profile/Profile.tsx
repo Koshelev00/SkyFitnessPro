@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { RootState, AppDispatch } from "@/Store/store";
 import ButtonWihte from "../Button/ButtonWhite";
-import { useEffect, useState } from "react";
+import { useEffect, useState} from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 import { fetchCourseProgressThunk } from "@/Store/features/Progress/thunk";
 import { fetchCoursesThunk } from "@/Store/features/Courses/thunk"; // Добавьте этот импорт
 import ModalWorkout from "./Modal";
+
 
 export default function Profile() {
   const { isAuth, user } = useSelector((state: RootState) => state.auth);
@@ -109,14 +110,14 @@ export default function Profile() {
             const percent = progressForCourse ? progressForCourse.percent : 0;
 
             return (
-              <>
-              <ModalWorkout course={course}/>
+              <div key={course._id}>
+              <ModalWorkout courseId={course._id} onClose={()=>{}} />
               <CardProfile
-                key={course._id}
+                
                 course={course}
                 progress={percent}
               />
-              </>
+              </div>
               
             );
              
