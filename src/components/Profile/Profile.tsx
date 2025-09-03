@@ -5,35 +5,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useRouter } from "next/navigation";
 import { RootState, AppDispatch } from "@/Store/store";
 import ButtonWihte from "../Button/ButtonWhite";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 import { fetchCourseProgressThunk } from "@/Store/features/Progress/thunk";
 import { fetchCoursesThunk } from "@/Store/features/Courses/thunk"; // Добавьте этот импорт
-import ModalWorkout from "./Modal";
-
+import ModalWorkout from "./WorkoutModal/workoutModal";
 
 export default function Profile() {
   const { isAuth, user } = useSelector((state: RootState) => state.auth);
-  const { courses, status: coursesStatus } = useSelector((state: RootState) => state.courses); // Добавьте статус курсов
-  const { courseProgress, status: progressStatus } = useSelector((state: RootState) => state.progress);
-  const { workouts, status: workotStatus } = useSelector((state: RootState) => state.workouts);
+  const { courses, status: coursesStatus } = useSelector(
+    (state: RootState) => state.courses
+  ); // Добавьте статус курсов
+  const { courseProgress, status: progressStatus } = useSelector(
+    (state: RootState) => state.progress
+  );
+  const { workouts, status: workotStatus } = useSelector(
+    (state: RootState) => state.workouts
+  );
 
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
- const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
 
   // Находим курсы пользователя
   const userCourses = courses.filter((course) =>
     user?.selectedCourses?.includes(course._id)
   );
-  console.log(userCourses)
+  console.log(userCourses);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
       // Загружаем курсы
       dispatch(fetchCoursesThunk());
-      
+
       // Загружаем профиль пользователя
       dispatch(getUserProfileThunk(token))
         .unwrap()
@@ -56,7 +61,6 @@ export default function Profile() {
       router.push("/fitness/main");
     }
   };
-
 
   return (
     <div className="bg-[#fafafa] pt-15 pb-70">
@@ -103,24 +107,22 @@ export default function Profile() {
         {userCourses.length > 0 ? (
           userCourses.map((course) => {
             // Находим прогресс для данного курса
-            const progressForCourse = Array.isArray(courseProgress) 
-              ? courseProgress.find((progress: any) => progress.courseId === course._id)
-              : courseProgress?.courseId === course._id ? courseProgress : null;
+            const progressForCourse = Array.isArray(courseProgress)
+              ? courseProgress.find(
+                  (progress: any) => progress.courseId === course._id
+                )
+              : courseProgress?.courseId === course._id
+                ? courseProgress
+                : null;
 
             const percent = progressForCourse ? progressForCourse.percent : 0;
 
             return (
               <div key={course._id}>
-              <ModalWorkout courseId={course._id} onClose={()=>{}} />
-              <CardProfile
-                
-                course={course}
-                progress={percent}
-              />
+                {/* <ModalWorkout courseId={course._id} onClose={() => {}} /> */}
+                <CardProfile course={course} progress={percent} />
               </div>
-              
             );
-             
           })
         ) : (
           <div className="col-span-3 text-center py-10">
@@ -128,9 +130,7 @@ export default function Profile() {
               У вас пока нет выбранных курсов
             </p>
           </div>
-          
         )}
-        
       </div>
     </div>
   );

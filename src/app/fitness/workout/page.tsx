@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import Workout from "@/components/Workout/Workout";
+import Workout from "@/components/Workouts/Workouts";
 
 export default function WorkoutPage() {
   const params = useParams<{ workoutId: string; courseId: string }>();

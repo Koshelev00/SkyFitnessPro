@@ -3,11 +3,10 @@ import Image from "next/image";
 import {CourseType} from "@/Types/courseType";
 import { useAppDispatch } from "@/Store/hooks"; 
 import { addUserCourseThunk } from "@/Store/features/Courses/thunk"; 
-import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 
 export default function Card({ course }: { course: CourseType }) {
    const dispatch = useAppDispatch();
-   const token = localStorage.getItem("authToken"); 
+ 
   const handleAddCourse = () => {
     
     dispatch(addUserCourseThunk(course._id));

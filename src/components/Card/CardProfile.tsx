@@ -5,7 +5,8 @@ import { CourseType } from "@/Types/courseType";
 import { useAppDispatch } from "@/Store/hooks";
 import { deleteUserCourseThunk } from "@/Store/features/Courses/thunk";
 
-import { openModalWorkout } from "@/Store/features/Worcout/workoutSlice";
+// import { openModalWorkout } from "@/Store/features/Worcout/workoutSlice";
+import Link from "next/link";
 
 interface CardProfileProps {
   course: CourseType;
@@ -19,9 +20,9 @@ export default function Card({ course, progress }: CardProfileProps) {
   const handleDeleteCourse = () => {
     dispatch(deleteUserCourseThunk(course._id));
   };
-  const handleOpenModal = () => {
-    dispatch(openModalWorkout());
-  };
+  // const handleOpenModal = () => {
+  //   dispatch(openModalWorkout());
+  // };
 
 
   // Функция для определения текста кнопки в зависимости от прогресса
@@ -55,12 +56,12 @@ export default function Card({ course, progress }: CardProfileProps) {
             className=""
             src={`/image/${course.nameEN}.png`}
             alt={course.nameRU}
-            onClick={handleOpenModal}
+            // onClick={handleOpenModal}
           />
         
       </div>
       
-      <div className="mx-7.5">
+      <div className="mx-7.5 pb-[15px]">
         <h2 className="text-[#001] text-[32px] font-medium leading-9.5">
           {course.nameRU}
         </h2>
@@ -100,8 +101,10 @@ export default function Card({ course, progress }: CardProfileProps) {
           </div>
         </div>
         
-        <div className="mb-[15px]">
+        <div className="">
+          <Link href={"/fitness/WorkoutModal"}>
           <Button text={getButtonText()} />
+          </Link>
         </div>
       </div>
     </div>
