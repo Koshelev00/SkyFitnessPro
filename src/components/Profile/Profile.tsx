@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 import { fetchCourseProgressThunk } from "@/Store/features/Progress/thunk";
 import { fetchCoursesThunk } from "@/Store/features/Courses/thunk"; // Добавьте этот импорт
-import ModalWorkout from "./WorkoutModal/workoutModal";
+import ModalWorkout from "../CourseWorkout/CourseWorkout";
 
 export default function Profile() {
   const { isAuth, user } = useSelector((state: RootState) => state.auth);
@@ -31,7 +31,7 @@ export default function Profile() {
   const userCourses = courses.filter((course) =>
     user?.selectedCourses?.includes(course._id)
   );
-  console.log(userCourses);
+
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -58,7 +58,7 @@ export default function Profile() {
     if (isAuth) {
       dispatch(clearUser());
       dispatch(setIsAuth(false));
-      router.push("/fitness/main");
+      router.push("/");
     }
   };
 
@@ -112,14 +112,14 @@ export default function Profile() {
                   (progress: any) => progress.courseId === course._id
                 )
               : courseProgress?.courseId === course._id
-                ? courseProgress
-                : null;
+              ? courseProgress
+              : null;
 
             const percent = progressForCourse ? progressForCourse.percent : 0;
 
             return (
               <div key={course._id}>
-                {/* <ModalWorkout courseId={course._id} onClose={() => {}} /> */}
+                
                 <CardProfile course={course} progress={percent} />
               </div>
             );

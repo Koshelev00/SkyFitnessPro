@@ -4,9 +4,7 @@ import Button from "../Button/ButtonGreen";
 import { CourseType } from "@/Types/courseType";
 import { useAppDispatch } from "@/Store/hooks";
 import { deleteUserCourseThunk } from "@/Store/features/Courses/thunk";
-
-// import { openModalWorkout } from "@/Store/features/Worcout/workoutSlice";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface CardProfileProps {
   course: CourseType;
@@ -14,15 +12,21 @@ interface CardProfileProps {
 }
 
 export default function Card({ course, progress }: CardProfileProps) {
+
   const dispatch = useAppDispatch();
+  
   
   
   const handleDeleteCourse = () => {
     dispatch(deleteUserCourseThunk(course._id));
   };
-  // const handleOpenModal = () => {
-  //   dispatch(openModalWorkout());
-  // };
+  const router= useRouter();
+
+  const workoutButton=()=> {
+    router.push(`/CourseWorkout/${course._id}`);
+  }
+  
+ 
 
 
   // Функция для определения текста кнопки в зависимости от прогресса
@@ -36,7 +40,7 @@ export default function Card({ course, progress }: CardProfileProps) {
     }
     return "Начать тренировки"; // fallback
   };
-
+  
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] shadow-2xl">
       <Image
@@ -102,9 +106,9 @@ export default function Card({ course, progress }: CardProfileProps) {
         </div>
         
         <div className="">
-          <Link href={"/fitness/WorkoutModal"}>
-          <Button text={getButtonText()} />
-          </Link>
+        
+          <Button text={getButtonText()} onClick={workoutButton}/>
+          
         </div>
       </div>
     </div>

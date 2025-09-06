@@ -64,7 +64,7 @@ export default function AuthModal() {
           dispatch(setEmail(formData.email));
           dispatch(setIsAuth(true));
           handleCloseModal();
-          router.push("/fitness/main");
+          router.push("/");
         } else {
           setError("Неверные учетные данные");
         }

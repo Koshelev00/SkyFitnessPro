@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import ButtonGreen from "../../Button/ButtonGreen";
+import ButtonGreen from "../Button/ButtonGreen";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutsThunk } from "@/Store/features/Worcout/thunk";
 import { RootState } from "@/Store/store";
@@ -8,7 +8,7 @@ type WorkoutProps = {
   courseId: string;
 };
 
-export default function ModalWorkout({ courseId }: WorkoutProps) {
+export default function CourseWorkout({ courseId }: WorkoutProps) {
   const { workouts } = useAppSelector((state: RootState) => state.workouts);
   const dispatch = useAppDispatch();
 
@@ -16,12 +16,12 @@ export default function ModalWorkout({ courseId }: WorkoutProps) {
     const token = localStorage.getItem("authToken");
     if (token) {
       dispatch(fetchWorkoutsThunk({ courseId, token }));
-      console.log(courseId);
+      
     }
   }, [dispatch, courseId]);
-  const filteredWorkouts = workouts.filter(
-    (workout) => workout.courseId === courseId || workout.course === courseId
-  );
+  // const filteredWorkouts = workouts.filter(
+  //   (workout) => workout.courseId === courseId || workout.course === courseId
+  // );
 
   return (
     <>

@@ -19,12 +19,12 @@ export default function UserModal() {
     
       dispatch(clearUser());
       dispatch(setIsAuth(false));
-      router.push("/fitness/main");
+      router.push("/");
     
       
   };
   const handleProfileClick = () => {
-    router.push("/fitness/profile");
+    router.push("/profile");
     
   };
 

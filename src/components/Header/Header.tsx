@@ -48,9 +48,10 @@ export default function Header() {
       
 
   return (
+    
     <div className="flex justify-between align-baseline mt-12.5">
       <div>
-        <Link href="/fitness/main">
+        <Link href="/">
           <Image
             width={220}
             height={35}

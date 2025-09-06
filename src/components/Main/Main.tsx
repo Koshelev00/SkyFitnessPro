@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchCoursesThunk} from "@/Store/features/Courses/thunk";
 import Card from "@/components/Card/Card";
@@ -8,20 +8,28 @@ import Image from "next/image";
 import Button from "../Button/ButtonGreen";
 import Link from "next/link";
 import Autch from "../Autch/Autch";
+import { useSelector } from "react-redux";
+import { RootState } from "@/Store/store";
 
-export default function MainPage() {
+export default function Main() {
+  const {user } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const {
     courses = [],
     status,
     error,
   } = useAppSelector((state) => state.courses);
+  const [token, setToken] = useState<string | null>(null);
+
+ 
 
   useEffect(() => {
+      setToken(localStorage.getItem("authToken"));
    
       dispatch(fetchCoursesThunk());
     
   }, []);
+
 
   return (
     <>
@@ -45,7 +53,7 @@ export default function MainPage() {
         {status === "loading" && <p>Загрузка...</p>}
         {status === "failed" && <p className="text-red-500">Ошибка: {error}</p>}
         {status === "succeeded" && courses.length > 0 ? (
-          courses.map((c) => <Card key={c._id} course={c} />)
+          courses.map((c) => <Card key={c._id} course={c} token={token} />)
         ) : status === "succeeded" ? (
           <p>Нет доступных курсов</p>
         ) : null}

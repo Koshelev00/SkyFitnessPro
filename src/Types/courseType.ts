@@ -18,11 +18,13 @@ export interface CourseType {
   description: string;
   directions: string[];
   fitting: string[];
+  token: string;
   difficulty?: string;
   durationInDays?: number;
   dailyDurationInMinutes?: {
     from: number;
     to: number;
   };
-  workouts: string[] | WorkoutType[]; // иногда только id, иногда список
+  workouts: string[] | WorkoutType[]; 
+  
 }
