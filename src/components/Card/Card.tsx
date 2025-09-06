@@ -33,7 +33,7 @@ export default function Card({ course }: { course: CourseType }) {
             height={35}
             className=""
             src={`/image/${course.nameEN}.png`}
-            alt={"course.nameRU"}
+            alt={course.nameRU}
           />
         </Link>
       </div>
