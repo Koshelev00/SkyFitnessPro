@@ -11,8 +11,11 @@ export async function getWorkouts(courseId:string, token:string) {
 }
 
 // 🔹 Получить тренировку по ID
-export async function getWorkoutById(workoutId: string) {
-  const { data } = await axios.get(`${BASE_URL}${RoutesApp.getWorkoutById(workoutId)}`);
+export async function getWorkoutById(workoutId: string, token:string) {
+  const { data } = await axios.get(`${BASE_URL}${RoutesApp.getWorkoutById(workoutId)}`,{
+    headers:  {Authorization : `Bearer ${token}`},
+  })
+
   return data;
 }
 

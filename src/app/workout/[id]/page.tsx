@@ -8,7 +8,7 @@ export default function WorkoutPage() {
   const workoutId = params?.workoutId;
   const courseId = params?.courseId;
 
-  if (!workoutId || !courseId) return <p>Тренировка не найдена</p>;
+ 
 
   return <Workout  />;
 }

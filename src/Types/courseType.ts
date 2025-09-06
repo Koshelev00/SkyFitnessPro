@@ -1,5 +1,5 @@
 // Тип тренировки (workout)
-export interface WorkoutType {
+export interface CourseWorkoutsType {
   _id: string;
   name: string;
   video: string;
@@ -25,6 +25,6 @@ export interface CourseType {
     from: number;
     to: number;
   };
-  workouts: string[] | WorkoutType[]; 
+  workouts: string[] | CourseWorkoutsType[]; 
   
 }

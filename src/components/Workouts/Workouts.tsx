@@ -8,14 +8,18 @@ export default function Workout() {
   const dispatch = useAppDispatch();
   const params = useParams<{ workoutId: string; courseId: string }>();
   const workoutId = params?.workoutId;
+  console.log(workoutId)
   const courseId = params?.courseId;
 
   const { currentWorkout, status, error } = useAppSelector((state) => state.workouts);
 
   useEffect(() => {
-    if (workoutId) {
-      dispatch(fetchWorkoutByIdThunk(workoutId));
+    const token=localStorage.getItem("autchtoken")
+    // const workoutId= "e9ghsb";
+    if(token){
+      dispatch(fetchWorkoutByIdThunk({workoutId, token}));
     }
+    
   }, [dispatch, workoutId]);
 
   if (status === "loading") {
@@ -40,7 +44,7 @@ export default function Workout() {
 
       <div className="mt-10">
         <iframe
-          src={currentWorkout.videoUrl || "https://www.youtube.com/embed/Ewm-Bfg5ncg"}
+          src={currentWorkout.video}
           className="w-[1160px] h-[639px] rounded-[36px]"
         ></iframe>
       </div>
@@ -53,14 +57,14 @@ export default function Workout() {
         {/* Сетка упражнений */}
         <div className="grid grid-cols-3 mt-5 gap-15">
           {currentWorkout.exercises?.map((exercise) => (
-            <div key={exercise.id} className="text-4.5 mb-6">
+            <div key={exercise._id} className="text-4.5 mb-6">
               <p>
-                {exercise.name} {exercise.progress}%
+                {exercise.name} %
               </p>
               <div className="w-[320px] h-[6px] bg-gray-200 rounded mt-2.5">
                 <div
                   className="h-[6px] bg-green-500 rounded"
-                  style={{ width: `${exercise.progress}%` }}
+                  style={{ width: `%` }}
                 ></div>
               </div>
             </div>

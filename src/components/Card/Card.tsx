@@ -18,7 +18,7 @@ interface CardProps {
 
 export default function Card({ course, token }: CardProps) {
   const dispatch = useAppDispatch();
-  const { isAuth, user } = useSelector((state: RootState) => state.auth);
+  const {user } = useSelector((state: RootState) => state.auth);
   const [isAdding, setIsAdding] = useState(false);
 
   // Загружаем профиль пользователя при монтировании компонента

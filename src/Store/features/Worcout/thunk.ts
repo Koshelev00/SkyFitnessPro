@@ -16,9 +16,9 @@ export const fetchWorkoutsThunk = createAsyncThunk(
 // 🔹 Получить тренировку по ID
 export const fetchWorkoutByIdThunk = createAsyncThunk(
   "workouts/fetchById",
-  async (workoutId: string, { rejectWithValue }) => {
+  async ({workoutId, token}: {workoutId: string, token: string}, { rejectWithValue }) => {
     try {
-      return await getWorkoutById(workoutId);
+      return await getWorkoutById(workoutId, token);
     } catch (error: any) {
       return rejectWithValue(error.response?.data || "Ошибка загрузки тренировки");
     }

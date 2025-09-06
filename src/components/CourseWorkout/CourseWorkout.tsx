@@ -3,6 +3,7 @@ import ButtonGreen from "../Button/ButtonGreen";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutsThunk } from "@/Store/features/Worcout/thunk";
 import { RootState } from "@/Store/store";
+import WorkoutName from "./WorkoutName";
 
 type WorkoutProps = {
   courseId: string;
@@ -25,24 +26,24 @@ export default function CourseWorkout({ courseId }: WorkoutProps) {
 
   return (
     <>
-      <div className=" flex items-center justify-center  ">
+      <div className=" mt-[20%] ml-[30%]">
         <div
-          className="w-[460px] h-[609px] p-10 bg-[#FFFFFF] rounded-[30px] relative"
+          className="w-[460px] p-10 bg-[#FFFFFF] rounded-[30px] relative flex flex-col items-center justify-center "
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="mb-22 flex items-center text-center">
-            <h2 className="text-[#000000] text-[32px] font-normal">
+          <div className="mb-12 flex items-center ">
+            <h2 className="text-[#000000] text-[32px] font-normal text-center">
               Выберите тренировку
             </h2>
           </div>
-          <div className="w-[380px] h-[380px] mb-[34px]">
-            <div className="w-[354px] border-b-2 border-solid border-[#C4C4C4] mr-5">
+          <div className="w-[380px] h-max-[360px] mb-[34px]">
+            <div className="w-[354px]  mr-5 flex flex-col gap-[10px]" >
               {workouts.map((w) => (
-                <div key={w._id}> {w.name} </div>
+                <WorkoutName key= "" workouts= {w}/>
               ))}
             </div>
           </div>
-          <div>
+          <div className="w-[380px] h-[52px]">
             <ButtonGreen text="Начать" />
           </div>
         </div>
