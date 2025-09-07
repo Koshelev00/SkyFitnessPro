@@ -23,9 +23,9 @@ export const fetchCourseProgressThunk = createAsyncThunk(
 // 🔹 Получить прогресс тренировки
 export const fetchWorkoutProgressThunk = createAsyncThunk(
   "progress/fetchWorkoutProgress",
-  async ({ courseId, workoutId }: { courseId: string; workoutId: string }, { rejectWithValue }) => {
+  async ({ courseId, workoutId, token }: { courseId: string; workoutId: string; token: string; }, { rejectWithValue }) => {
     try {
-      return await getWorkoutProgress(courseId, workoutId);
+      return await getWorkoutProgress(courseId, workoutId, token);
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || "Ошибка получения прогресса тренировки");
     }

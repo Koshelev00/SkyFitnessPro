@@ -20,9 +20,14 @@ export async function getCourseProgress(courseId: string) {
 }
 
 // 🔹 Получить прогресс по тренировке
-export async function getWorkoutProgress(courseId: string, workoutId: string) {
+export async function getWorkoutProgress(courseId: string, workoutId: string, token: string) {
   const { data } = await api.get(RoutesApp.getWorkoutProgress(courseId, workoutId), {
-    headers: getAuthHeaders(),
+    
+      headers: {
+        "Content-Type": "application/javascript",
+        Authorization: `Bearer ${token}`, 
+      },
+    
   });
   return data;
 }
@@ -30,7 +35,8 @@ export async function getWorkoutProgress(courseId: string, workoutId: string) {
 // 🔹 Получить данные прогресса тренировки
 export async function getWorkoutProgressData(courseId: string, workoutId: string) {
   const { data } = await api.get(RoutesApp.getWorkoutProgressData(courseId, workoutId), {
-    headers: getAuthHeaders(),
+    
+    
   });
   return data;
 }

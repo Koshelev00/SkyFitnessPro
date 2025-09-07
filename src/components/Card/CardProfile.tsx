@@ -21,9 +21,9 @@ export default function Card({ course, progress }: CardProfileProps) {
     dispatch(deleteUserCourseThunk(course._id));
   };
   const router= useRouter();
-
+const courseId= course._id;
   const workoutButton=()=> {
-    router.push(`/CourseWorkout/${course._id}`);
+    router.push(`/courseWorkout/${courseId}`);
   }
   
  

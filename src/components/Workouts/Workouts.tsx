@@ -1,26 +1,43 @@
 import Button from "../Button/ButtonGreen";
 import { useEffect } from "react";
-import { useParams } from "next/navigation";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutByIdThunk } from "@/Store/features/Worcout/thunk";
+import { fetchWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
 
-export default function Workout() {
+type WorkoutProps = {
+  workoutId: string;
+  courseId: string;
+};
+export default function Workout( {workoutId, courseId}: WorkoutProps) {
   const dispatch = useAppDispatch();
-  const params = useParams<{ workoutId: string; courseId: string }>();
-  const workoutId = params?.workoutId;
-  console.log(workoutId)
-  const courseId = params?.courseId;
+  
+ 
 
   const { currentWorkout, status, error } = useAppSelector((state) => state.workouts);
 
   useEffect(() => {
-    const token=localStorage.getItem("autchtoken")
-    // const workoutId= "e9ghsb";
+    const token=localStorage.getItem("authToken")
+    console.log(token)
+    
     if(token){
       dispatch(fetchWorkoutByIdThunk({workoutId, token}));
     }
+
     
-  }, [dispatch, workoutId]);
+  }, [dispatch]);
+  
+  
+  useEffect(() => {
+    const token=localStorage.getItem("authToken")
+    console.log(token)
+    
+    if(token){
+      dispatch(fetchWorkoutProgressThunk ({courseId, workoutId, token}));
+    }
+    
+    
+  }, [dispatch]);
+
 
   if (status === "loading") {
     return <div className="mt-15">Загрузка тренировки...</div>;
@@ -49,21 +66,21 @@ export default function Workout() {
         ></iframe>
       </div>
 
-      <div className="mt-10 rounded-[30px] bg-[#FFFFFF] shadow-2xl p-10">
+      <div className="w-[1160px] mt-10 p-10 rounded-[30px] bg-[#FFFFFF] shadow-2xl flex flex-col gap-5 ">
         <h2 className="text-[#001] text-[32px] font-normal ">
           Упражнения тренировки
         </h2>
 
         {/* Сетка упражнений */}
-        <div className="grid grid-cols-3 mt-5 gap-15">
+        <div className="grid grid-cols-3  gap-5 ">
           {currentWorkout.exercises?.map((exercise) => (
-            <div key={exercise._id} className="text-4.5 mb-6">
+            <div key={exercise._id} className="text-4.5 w-[320px] h-[60px]">
               <p>
                 {exercise.name} %
               </p>
               <div className="w-[320px] h-[6px] bg-gray-200 rounded mt-2.5">
                 <div
-                  className="h-[6px] bg-green-500 rounded"
+                  className="h-[6px] w-[320px] bg-[#00C1FF] rounded-[50px]"
                   style={{ width: `%` }}
                 ></div>
               </div>
