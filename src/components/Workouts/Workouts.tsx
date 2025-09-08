@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutByIdThunk } from "@/Store/features/Worcout/thunk";
 import { fetchWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
+import AddProgressModal from "../AddProgressModal/AddProgressModal";
 
 type WorkoutProps = {
   workoutId: string;
@@ -34,6 +35,9 @@ export default function Workout( {workoutId, courseId}: WorkoutProps) {
     if(token){
       dispatch(fetchWorkoutProgressThunk ({courseId, workoutId, token}));
     }
+    
+
+    
     
     
   }, [dispatch]);
@@ -91,6 +95,7 @@ export default function Workout( {workoutId, courseId}: WorkoutProps) {
         <div className="w-[270px] h-[20px] mt-10 mb-10">
           <Button text={"Заполнить свой прогресс"} className="" />
         </div>
+        <AddProgressModal exercises={currentWorkout.exercises}  workoutId={workoutId} courseId={courseId} />
       </div>
     </div>
   );

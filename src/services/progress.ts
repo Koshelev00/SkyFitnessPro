@@ -46,7 +46,7 @@ export async function saveWorkoutProgress(courseId: string, workoutId: string, p
   const { data } = await api.patch(
     RoutesApp.saveWorkoutProgress(courseId, workoutId),
     { progressData },
-    { headers: { ...getAuthHeaders(), "Content-Type": "application/json" } }
+    { headers: { ...getAuthHeaders(), "Content-Type": "application/javascript" } }
   );
   return data;
 }

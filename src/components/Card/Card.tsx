@@ -42,7 +42,7 @@ export default function Card({ course, token }: CardProps) {
 
   // Проверяем, есть ли текущий курс в выбранных пользователем
   const isCourseSelected = user?.selectedCourses?.includes(course._id);
-  const showAddButton = !isCourseSelected && !isAdding;
+  // const showAddButton = !isCourseSelected && !isAdding;
   return (
     <div className="relative w-[360px] h-[501px] bg-[#FFFFFF] rounded-[30px] shadow-2xl">
       

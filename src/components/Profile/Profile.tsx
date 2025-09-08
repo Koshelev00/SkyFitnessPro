@@ -2,14 +2,14 @@ import Image from "next/image";
 import CardProfile from "../Card/CardProfile";
 import { clearUser, setIsAuth } from "@/Store/features/Autch/autchSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useRouter } from "next/navigation";
+import {useRouter } from "next/navigation";
 import { RootState, AppDispatch } from "@/Store/store";
 import ButtonWihte from "../Button/ButtonWhite";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 import { fetchCourseProgressThunk } from "@/Store/features/Progress/thunk";
 import { fetchCoursesThunk } from "@/Store/features/Courses/thunk"; // Добавьте этот импорт
-import ModalWorkout from "../CourseWorkout/CourseWorkout";
+
 
 export default function Profile() {
   const { isAuth, user } = useSelector((state: RootState) => state.auth);
@@ -19,13 +19,13 @@ export default function Profile() {
   const { courseProgress, status: progressStatus } = useSelector(
     (state: RootState) => state.progress
   );
-  const { workouts, status: workotStatus } = useSelector(
-    (state: RootState) => state.workouts
-  );
+  // const { workouts, status: workoutStatus } = useSelector(
+  //   (state: RootState) => state.workouts
+  // );
 
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
+  // const [selectedCourseId, setSelectedCourseId] = useState<string | null>(null);
 
   // Находим курсы пользователя
   const userCourses = courses.filter((course) =>
@@ -41,18 +41,20 @@ export default function Profile() {
 
       // Загружаем профиль пользователя
       dispatch(getUserProfileThunk(token))
-        .unwrap()
+       
         .then((userData) => {
+          console.log(userData.meta.requestId)
           // Для каждого курса пользователя загружаем прогресс
-          userData.selectedCourses?.forEach((courseId: string) => {
-            dispatch(fetchCourseProgressThunk(courseId));
-          });
+          // userData.selectedCourses?.forEach((courseId: string) => {
+          //   dispatch(fetchCourseProgressThunk(courseId));
+          // });
         })
         .catch((error) => {
           console.error("Failed to load user profile:", error);
-        });
+        })
+       
     }
-  }, [dispatch]); // Добавьте dispatch в зависимости
+  }, [dispatch]);
 
   const handleLogout = () => {
     if (isAuth) {
