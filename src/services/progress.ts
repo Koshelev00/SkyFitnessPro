@@ -56,7 +56,7 @@ export async function resetWorkoutProgress(courseId: string, workoutId: string) 
   const { data } = await api.patch(
     RoutesApp.resetWorkoutProgress(courseId, workoutId),
     {},
-    { headers: getAuthHeaders() }
+    { headers: { ...getAuthHeaders(), "Content-Type": "application/javascript" } }
   );
   return data;
 }
@@ -66,7 +66,7 @@ export async function resetCourseProgress(courseId: string) {
   const { data } = await api.patch(
     RoutesApp.resetCourseProgress(courseId),
     {},
-    { headers: getAuthHeaders() }
+   { headers: { ...getAuthHeaders(), "Content-Type": "application/javascript" } }
   );
   return data;
 }

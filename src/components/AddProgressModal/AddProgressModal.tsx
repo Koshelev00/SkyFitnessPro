@@ -3,7 +3,8 @@ import ButtonGreen from "../Button/ButtonGreen";
 import ProgressExercise from "./ProgressExercise";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
-import { saveWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
+import { fetchWorkoutProgressThunk, saveWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
+import { closeModalWorkout, openModalCompleted } from "@/Store/features/Worcout/workoutSlice";
 
 type AddProgressModalProps = {
   exercises: WorkoutExerciseType[];
@@ -23,30 +24,61 @@ export default function AddProgressModal({
     const [progressInputs, setProgressInputs] = useState<(number | undefined)[]>([]);
     const workout = useAppSelector((state) => state.workouts.currentWorkout);
     const [initialProgress, setInitialProgress] = useState<number[]>([]);
-    
+   
     const handleInputChange = (index: number, value: string) => {
     const updated = [...progressInputs];
     updated[index] = value === '' ? undefined : Math.max(0, Number(value));
     setProgressInputs(updated);
   };
+   const currentProgress = useAppSelector((state) => 
+    state.progress.workoutProgress?.progressData || []
+  );
 
-   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    setInitialProgress(currentProgress);
+  }, [currentProgress]);
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!courseId || !workoutId) return;
-    const progressData =workout?.exercises?.map((_, i) => {
-        const inputValue = progressInputs[i];
-        return inputValue !== undefined ? inputValue : (initialProgress[i] ?? 0);
-      });
-      try {
-        if(progressData){
-        await  dispatch(saveWorkoutProgressThunk ({courseId,  workoutId, progressData})).unwrap();
-        }
-      } catch(error){
-        console.log("Ошшибка сохранения прогресса:", error);
-      }
-  };
 
-    
+    // ✅ СУММИРУЕМ значения вместо замены
+    const progressData = workout?.exercises?.map((_, i) => {
+      const inputValue = progressInputs[i];
+      const currentValue = initialProgress[i] || 0;
+      
+      // Если пользователь ввел значение - прибавляем к текущему
+      // Если не ввел - оставляем текущее
+      return inputValue !== undefined 
+        ? currentValue + inputValue  // ✅ СУММИРУЕМ
+        : currentValue;
+    });
+
+    try {
+      if (progressData) {
+        await dispatch(saveWorkoutProgressThunk({ 
+          courseId, 
+          workoutId, 
+          progressData 
+        })).unwrap();
+
+        const token = localStorage.getItem("authToken"); // ✅ Исправил опечатку autchToken → authToken
+        
+        dispatch(closeModalWorkout());
+        dispatch(openModalCompleted());
+        
+        if (token) {
+          dispatch(fetchWorkoutProgressThunk({ 
+            courseId, 
+            workoutId, 
+            token 
+          }));
+        }
+      }
+    } catch (error) {
+      console.log("Ошибка сохранения прогресса:", error);
+    }
+  };
 
     return(
         <>
@@ -84,7 +116,12 @@ export default function AddProgressModal({
             ))}
           </div>
              <div className="w-[346px]">
-              <ButtonGreen type="submit"  text={"Сохранить"}/>
+            
+              
+              
+               <ButtonGreen type="submit"  text={progressInputs ? "Выполнить упражнение" : "Сохранить"}/>
+               
+             
              </div>
         </form>
                
@@ -97,3 +134,5 @@ export default function AddProgressModal({
         </>
     )
 }
+
+

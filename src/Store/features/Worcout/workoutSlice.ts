@@ -24,7 +24,7 @@ interface WorkoutsState {
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
   isOpen: boolean; 
-  isClose: boolean;
+  Open: boolean;
 }
 
 const initialState: WorkoutsState = {
@@ -33,7 +33,8 @@ const initialState: WorkoutsState = {
   status: "idle",
   error: null,
   isOpen: false,
-  isClose: false,
+  Open: false,
+
 };
 
 const workoutSlice = createSlice({
@@ -45,6 +46,12 @@ const workoutSlice = createSlice({
     },
      closeModalWorkout(state) {
       state.isOpen = false;
+    },
+    openModalCompleted(state) {
+      state.Open = true;
+    },
+    closeModalCompleted(state) {
+      state.Open = false;
     },
   },
   extraReducers: (builder) => {
@@ -124,6 +131,8 @@ const workoutSlice = createSlice({
 export const {
    openModalWorkout,
   closeModalWorkout,
+  openModalCompleted,
+  closeModalCompleted,
 } = workoutSlice.actions;
 
 export default workoutSlice.reducer;

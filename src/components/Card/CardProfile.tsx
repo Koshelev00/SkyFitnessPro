@@ -1,33 +1,102 @@
-
 import Image from "next/image";
 import Button from "../Button/ButtonGreen";
 import { CourseType } from "@/Types/courseType";
-import { useAppDispatch } from "@/Store/hooks";
+import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { deleteUserCourseThunk } from "@/Store/features/Courses/thunk";
+import { fetchCourseProgressThunk, resetCourseProgressThunk } from "@/Store/features/Progress/thunk";
 import { useRouter } from "next/navigation";
+import ProgressBar from "../ProgressBar/ProgressBar";
+import { useEffect, useState } from "react";
+import ButtonGreen from "../Button/ButtonGreen";
 
 interface CardProfileProps {
   course: CourseType;
-  progress: number;
 }
 
-export default function Card({ course, progress }: CardProfileProps) {
+interface WorkoutProgress {
+  workoutId: string;
+  workoutCompleted: boolean;
+  progressData: number[];
+}
 
+interface CourseProgressResponse {
+  courseId: string;
+  courseCompleted: boolean;
+  workoutsProgress: WorkoutProgress[];
+}
+
+export default function Card({ course }: CardProfileProps) {
   const dispatch = useAppDispatch();
+  const router = useRouter();
+  const courseId = course._id;
+  const [isLoading, setIsLoading] = useState(false);
+
+  // ✅ Получаем прогресс курса из Redux store
+  const courseProgress = useAppSelector((state) => 
+    state.progress.courseProgress?.[courseId] as CourseProgressResponse | undefined
+  );
+
+  // ✅ Получаем статус загрузки
+  const progressStatus = useAppSelector((state) => state.progress.status);
   
-  
-  
+  // ✅ Загружаем прогресс курса при монтировании компонента
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token && courseId) {
+      setIsLoading(true);
+      dispatch(fetchCourseProgressThunk(courseId))
+        .unwrap()
+        .finally(() => setIsLoading(false));
+    }
+  }, [dispatch, courseId]);
+
   const handleDeleteCourse = () => {
     dispatch(deleteUserCourseThunk(course._id));
+    dispatch(resetCourseProgressThunk(course._id))
   };
-  const router= useRouter();
-const courseId= course._id;
-  const workoutButton=()=> {
-    router.push(`/courseWorkout/${courseId}`);
-  }
-  
- 
 
+  const workoutButton = () => {
+    router.push(`/courseWorkout/${courseId}`);
+  };
+
+  // ✅ Функция для расчета общего прогресса курса
+  const calculateOverallProgress = () => {
+    console.log('Course progress data:', courseProgress); // Добавим лог для отладки
+    
+    if (!courseProgress || !courseProgress.workoutsProgress) {
+      console.log('No progress data available');
+      return 0;
+    }
+    
+    console.log('Workouts progress:', courseProgress.workoutsProgress);
+    
+    // Если есть готовое значение courseCompleted
+    if (courseProgress.courseCompleted) {
+      console.log('Course is completed: 100%');
+      return 100;
+    }
+    
+    // Считаем процент завершенных тренировок
+    const completedWorkouts = courseProgress.workoutsProgress.filter(
+      (workout: WorkoutProgress) => workout.workoutCompleted === true
+    ).length;
+    
+    const totalWorkouts = courseProgress.workoutsProgress.length;
+    
+    console.log(`Completed: ${completedWorkouts}, Total: ${totalWorkouts}`);
+    
+    if (totalWorkouts === 0) {
+      console.log('No workouts available: 0%');
+      return 0;
+    }
+    
+    const progress = Math.round((completedWorkouts / totalWorkouts) * 100);
+    console.log(`Calculated progress: ${progress}%`);
+    
+    return progress;
+  };
+
+  const progress = calculateOverallProgress();
 
   // Функция для определения текста кнопки в зависимости от прогресса
   const getButtonText = () => {
@@ -38,8 +107,21 @@ const courseId= course._id;
     } else if (progress === 100) {
       return "Начать заново";
     }
-    return "Начать тренировки"; // fallback
+    return "Начать тренировки";
   };
+
+  if (isLoading) {
+    return (
+      <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] shadow-2xl p-6">
+        <div className="animate-pulse">
+          <div className="bg-gray-300 h-40 rounded-[30px] mb-4"></div>
+          <div className="bg-gray-300 h-6 rounded mb-2"></div>
+          <div className="bg-gray-300 h-4 rounded mb-4"></div>
+          <div className="bg-gray-300 h-8 rounded"></div>
+        </div>
+      </div>
+    );
+  }
   
   return (
     <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] shadow-2xl">
@@ -53,16 +135,17 @@ const courseId= course._id;
       />
       
       <div className="mb-8">
-     
-          <Image
-            width={360}
-            height={35}
-            className=""
-            src={`/image/${course.nameEN}.png`}
-            alt={course.nameRU}
-            // onClick={handleOpenModal}
-          />
-        
+        <Image
+          width={360}
+          height={180}
+          className="object-cover rounded-t-[30px]"
+          src={`/image/${course.nameEN}.png`}
+          alt={course.nameRU}
+          onError={(e) => {
+            // Fallback если изображение не найдено
+            e.currentTarget.src = "/image/default-course.png";
+          }}
+        />
       </div>
       
       <div className="mx-7.5 pb-[15px]">
@@ -98,17 +181,18 @@ const courseId= course._id;
         <div className="text-4.5 mt-5 mb-10">
           <p className="text-4.5">Прогресс {progress}%</p>
           <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2.5">
-            <div 
-              className="bg-green-500 h-1.5 rounded-full" 
-              style={{ width: `${progress}%` }}
-            />
+            <ProgressBar progress={progress}/>
           </div>
+          {/* ✅ Дополнительная информация о прогрессе */}
+          {courseProgress?.workoutsProgress && (
+            <div className="text-sm text-gray-500 mt-2">
+              Завершено: {courseProgress.workoutsProgress.filter(w => w.workoutCompleted).length} / {courseProgress.workoutsProgress.length} тренировок
+            </div>
+          )}
         </div>
         
         <div className="">
-        
-          <Button text={getButtonText()} onClick={workoutButton}/>
-          
+          <ButtonGreen text={getButtonText()} onClick={workoutButton}/>
         </div>
       </div>
     </div>
