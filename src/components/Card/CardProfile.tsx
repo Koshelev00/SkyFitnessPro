@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Button from "../Button/ButtonGreen";
 import { CourseType } from "@/Types/courseType";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { deleteUserCourseThunk } from "@/Store/features/Courses/thunk";
