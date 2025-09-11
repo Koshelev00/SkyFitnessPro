@@ -5,25 +5,13 @@ import { fetchWorkoutsThunk } from "@/Store/features/Worcout/thunk";
 import { RootState } from "@/Store/store";
 import WorkoutName from "./WorkoutName";
 import Link from "next/link";
+import formatWorkoutName from "@/Utilite/formatWorkoutName";
 
 type CourseWorkoutProps = {
   courseId: string;
 };
 
-const formatWorkoutName = (name: string) => {
-  if (name.includes(' / ')) {
-    const parts = name.split(' / ');
-    const mainParts = parts.slice(0, -1);
-    return {
-      title: mainParts[0]?.trim(),
-      subtitle: mainParts.slice(1).join(' / ')
-    };
-  }
-  return {
-    title: name,
-    subtitle: ''
-  };
-};
+
 
 const getLessonNumber = (name: string): number | null => {
   const match = name.match(/(Урок\s*)?(\d+)/);
