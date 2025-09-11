@@ -22,6 +22,7 @@ interface CourseProgressResponse {
   courseId: string;
   courseCompleted: boolean;
   workoutsProgress: WorkoutProgress[];
+  
 }
 
 export default function Card({ course }: CardProfileProps) {

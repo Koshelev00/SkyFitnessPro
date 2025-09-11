@@ -124,7 +124,7 @@ export default function Profile() {
             return (
               <div key={course._id}>
                 
-                <CardProfile course={course} progress={percent} />
+                <CardProfile course={course}  />
               </div>
             );
           })
