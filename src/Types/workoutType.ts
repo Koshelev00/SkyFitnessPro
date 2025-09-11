@@ -17,3 +17,8 @@ export type WorkoutShort = {
   video: string;
   exercises: unknown[];
 };
+
+export type formattedNameType = {
+  title: string;
+  subtitle: string;
+}
