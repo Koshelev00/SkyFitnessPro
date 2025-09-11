@@ -111,7 +111,7 @@ export default function Card({ course }: CardProfileProps) {
 
   if (isLoading) {
     return (
-      <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] shadow-2xl p-6">
+      <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] shadow-2xl p-6" >
         <div className="animate-pulse">
           <div className="bg-gray-300 h-40 rounded-[30px] mb-4"></div>
           <div className="bg-gray-300 h-6 rounded mb-2"></div>
@@ -123,7 +123,7 @@ export default function Card({ course }: CardProfileProps) {
   }
   
   return (
-    <div className="relative w-[360px] bg-[#FFFFFF] rounded-[30px] shadow-2xl">
+    <div className="relative w-[343px] md:w-[360px] bg-[#FFFFFF] rounded-[30px] shadow-2xl">
       <Image
         width={32}
         height={32}
@@ -147,8 +147,8 @@ export default function Card({ course }: CardProfileProps) {
         />
       </div>
       
-      <div className="mx-7.5 pb-[15px]">
-        <h2 className="text-[#001] text-[32px] font-medium leading-9.5">
+      <div className="mx-7.5 pb-10 md:pb-[15px]">
+        <h2 className="text-[#001] text-[24px] md:text-[32px] font-medium leading-9.5">
           {course.nameRU}
         </h2>
         
@@ -177,8 +177,8 @@ export default function Card({ course }: CardProfileProps) {
           </div>
         </div>
         
-        <div className="text-4.5 mt-5 mb-10">
-          <p className="text-4.5">Прогресс {progress}%</p>
+        <div className="text-[18px] mt-5 mb-10">
+          <p className="text-[18px]">Прогресс {progress}%</p>
           <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2.5">
             <ProgressBar progress={progress}/>
           </div>

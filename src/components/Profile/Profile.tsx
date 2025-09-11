@@ -9,6 +9,7 @@ import { useEffect} from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 import { fetchCourseProgressThunk } from "@/Store/features/Progress/thunk";
 import { fetchCoursesThunk } from "@/Store/features/Courses/thunk"; // Добавьте этот импорт
+import Link from "next/link";
 
 
 export default function Profile() {
@@ -65,12 +66,13 @@ export default function Profile() {
   };
 
   return (
-    <div className="bg-[#fafafa] pt-15 pb-70">
-      <h2 className="text-[#00001] text-[40px] font-semibold">Профиль</h2>
+    <div className="bg-[#fafafa] pt-10 md:pt-15 md:pb-70"
+     id="section2">
+      <h2 className="text-[#00001] text-[24px] md:text-[40px] font-semibold">Профиль</h2>
 
-      <div className="bg-[#FFFFFF] shadow-2xl w-full rounded-[30px] p-7.5 mt-10">
-        <div className="flex gap-[33px]">
-          <div>
+      <div className="bg-[#FFFFFF] shadow-2xl  rounded-[30px] p-7.5 mt-10">
+        <div className="flex gap-[33px] flex-col lg:flex-row">
+          <div className="flex justify-center">
             <Image
               width={197}
               height={197}
@@ -80,23 +82,23 @@ export default function Profile() {
             />
           </div>
           <div>
-            <h3 className="text-[32px] font-medium leading-9.5">
+            <h3 className="text-[24px] md:text-[32px] font-medium leading-9.5">
               {user?.email}
             </h3>
             <div className="mt-7.5 mb-10">
-              <p className="text-[18px] font-normal leading-9.5">
+              <p className="text-[16px] md:text-[18px] font-normal leading-9.5">
                 Логин: {user?.email}
               </p>
             </div>
-            <div className="w-[192px] h-[52px]">
+            <div className="w-[283px] md:w-[192px] h-[52px] items-center">
               <ButtonWihte text={"Выйти"} onClick={handleLogout} />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-15 mb-10">
-        <h2 className="text-[#00001] text-[40px] font-semibold">Мои курсы</h2>
+      <div className="mt-6 md:mt-15 mb-10">
+        <h2 className="text-[#00001] text-[24px] md:text-[40px] font-semibold">Мои курсы</h2>
       </div>
 
       {(progressStatus === "loading" || coursesStatus === "loading") && (
@@ -105,7 +107,7 @@ export default function Profile() {
         </div>
       )}
 
-      <div className="grid grid-cols-3 gap-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10">
         {userCourses.length > 0 ? (
           userCourses.map((course) => {
             // Находим прогресс для данного курса
@@ -133,6 +135,13 @@ export default function Profile() {
             </p>
           </div>
         )}
+          <div className="justify-end mt-6 mb-10 flex md:hidden ">
+        <div className=" w-32 h-13">
+          <Link href={"#section2"} className="px-5 py-2  h-[52px] w-full rounded-full text-black font-normal duration-200 bg-[#BCEC30] hover:bg-[#C6FF00]  cursor-pointer active:bg-[#000000] active:text-[#FFFFFF] flex items-center justify-center ">
+            Наверх ↑
+          </Link>
+        </div>
+      </div>
       </div>
     </div>
   );
