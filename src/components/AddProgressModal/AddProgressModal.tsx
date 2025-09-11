@@ -92,7 +92,8 @@ export default function AddProgressModal({
            onSubmit={handleSubmit}
           className="flex flex-col pr-5  w-[346px] h-[432px] gap-[34px]"
         >
-          <div className="flex flex-col gap-5 pb-6 w-[346px] h-[346px] overflow-x-hidden 
+          <div className="flex flex-col gap-5 pb-6 w-[346px] h-[346px] 
+          overflow-x-hidden 
           [&::-webkit-scrollbar]:w-1.5         
           [&::-webkit-scrollbar-track]:rounded-2xl  
           [&::-webkit-scrollbar-thumb]:h-29 

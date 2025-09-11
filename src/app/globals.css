@@ -11,6 +11,14 @@ body {
   padding-left: calc(50% - 580px);
   padding-right: calc(50% - 580px);
   background-color: #fafafa;
+@media (max-width: 767px) {   
+  padding-left: calc(50% - 173px);
+  padding-right: calc(50% - 173px);
+};
+@media (min-width: 768px) and (max-width: 1200px) {  
+   padding-left: calc(50% - 395px); 
+  padding-right: calc(50% - 395px); 
+  }
 }
 
 h1,

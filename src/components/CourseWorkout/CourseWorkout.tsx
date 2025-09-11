@@ -11,8 +11,6 @@ type CourseWorkoutProps = {
   courseId: string;
 };
 
-
-
 const getLessonNumber = (name: string): number | null => {
   const match = name.match(/(Урок\s*)?(\d+)/);
   if (match && match[2]) {
@@ -50,20 +48,33 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
           </h2>
         </div>
         <div className="w-[380px] mb-[34px]">
-          <div className="w-[380px] h-[360px] overflow-y-auto">
+          <div
+            className="w-[380px] h-[360px]  overflow-x-hidden 
+          [&::-webkit-scrollbar]:w-1.5         
+          [&::-webkit-scrollbar-track]:rounded-2xl  
+          [&::-webkit-scrollbar-thumb]:h-29 
+        [&::-webkit-scrollbar-track]:bg-[#F7F7F7]
+          [&::-webkit-scrollbar-thumb]:rounded-2xl
+        [&::-webkit-scrollbar-thumb]:bg-[#000000]"
+          >
             {sortedWorkouts.length === 0 ? (
-              <p className="text-center text-gray-500">Нет доступных тренировок</p>
+              <p className="text-center text-gray-500">
+                Нет доступных тренировок
+              </p>
             ) : (
               <div className="flex flex-col gap-[10px]">
                 {sortedWorkouts.map((workout) => {
                   const formattedName = formatWorkoutName(workout.name);
                   return (
-                    <Link 
+                    <Link
                       href={`/courseWorkout/${courseId}/${workout._id}`}
                       key={workout._id}
                     >
                       <div className="w-[354px] mr-5">
-                        <WorkoutName workout={workout} formattedName={formattedName} />
+                        <WorkoutName
+                          workout={workout}
+                          formattedName={formattedName}
+                        />
                       </div>
                     </Link>
                   );

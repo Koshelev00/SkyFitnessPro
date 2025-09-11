@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 
-
 interface CardProps {
   course: CourseType;
   token?: string;
@@ -18,35 +17,39 @@ interface CardProps {
 
 export default function Card({ course, token }: CardProps) {
   const dispatch = useAppDispatch();
-  const {user } = useSelector((state: RootState) => state.auth);
+  const { user } = useSelector((state: RootState) => state.auth);
   const [isAdding, setIsAdding] = useState(false);
 
-  // Загружаем профиль пользователя при монтировании компонента
+  // Загружаем профиль пользователя только один раз при монтировании
   useEffect(() => {
     if (token) {
       dispatch(getUserProfileThunk(token));
     }
-  }, [dispatch, token]);
+  }, [dispatch, token]); // Добавляем user в зависимости
 
-   const handleAddCourse = async () => {
+  const handleAddCourse = async () => {
+    if (isAdding || !token) return;
+    
     setIsAdding(true);
     try {
       await dispatch(addUserCourseThunk(course._id));
-      // После успешного добавления состояние автоматически обновится через Redux
+      // После успешного добавления обновляем профиль
+      dispatch(getUserProfileThunk(token));
     } catch (error) {
       console.error("Ошибка при добавлении курса:", error);
     } finally {
-      setIsAdding(true);
+      setIsAdding(false); // Исправлено: устанавливаем false
     }
   };
 
   // Проверяем, есть ли текущий курс в выбранных пользователем
   const isCourseSelected = user?.selectedCourses?.includes(course._id);
-  // const showAddButton = !isCourseSelected && !isAdding;
+  const showAddButton = !isCourseSelected && !isAdding && token;
+
   return (
-    <div className="relative w-[360px] h-[501px] bg-[#FFFFFF] rounded-[30px] shadow-2xl">
+    <div className="relative w-[343px] h-[492px] bg-[#FFFFFF] rounded-[30px] shadow-2xl sm:w-[360px] sm:h-[501px]">
       
-      { !isCourseSelected && !isAdding &&  (
+      {showAddButton && (
         <Image
           width={32}
           height={32}
@@ -57,12 +60,18 @@ export default function Card({ course, token }: CardProps) {
         />
       )}
       
+      {isAdding && (
+        <div className="absolute right-5.5 top-5.5">
+          <div className="w-8 h-8 border-2 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>
+        </div>
+      )}
+      
       <div className="mb-8">
         <Link href={`/course/${course._id}`}>
           <Image
-            width={360}
-            height={35}
-            className=""
+            width={343}
+            height={325}
+            className="sm:w-[360px]"
             src={`/image/${course.nameEN}.png`}
             alt={course.nameRU}
           />
@@ -103,4 +112,3 @@ export default function Card({ course, token }: CardProps) {
     </div>
   );
 }
-
