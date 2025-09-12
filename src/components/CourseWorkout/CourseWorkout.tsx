@@ -37,19 +37,19 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
   });
 
   return (
-    <div className="mt-[20%] ml-[30%]">
+    <div className="mt-[10%]   md:mt-[20%] md:ml-[30%]">
       <div
-        className="w-[460px] p-10 bg-[#FFFFFF] rounded-[30px] relative flex flex-col items-center justify-center"
+        className=" w-[343px] p-[30px] md:w-[460px]  md:p-10 bg-[#FFFFFF] rounded-[30px] relative flex flex-col items-center justify-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="mb-12 flex items-center">
-          <h2 className="text-[#000000] text-[32px] font-normal text-center">
+        <div className="mb-12  flex items-center">
+          <h2 className="text-[#000000] text-[32px] font-normal md:text-center">
             Выберите тренировку
           </h2>
         </div>
-        <div className="w-[380px] mb-[34px]">
+        <div className="w-[257px] md:w-[380px] mb-[34px]">
           <div
-            className="w-[380px] h-[360px]  overflow-x-hidden 
+            className="w-[257px] h-[335px] md:w-[380px] md:h-[360px]  overflow-x-hidden 
           [&::-webkit-scrollbar]:w-1.5         
           [&::-webkit-scrollbar-track]:rounded-2xl  
           [&::-webkit-scrollbar-thumb]:h-29 
@@ -72,7 +72,6 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
                     >
                       <div className="w-[354px] mr-5">
                         <WorkoutName
-                          workout={workout}
                           formattedName={formattedName}
                         />
                       </div>
@@ -83,7 +82,7 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
             )}
           </div>
         </div>
-        <div className="w-[380px] h-[52px]">
+        <div className="w-[257px] md:w-[380px] h-[52px]">
           <ButtonGreen text="Начать" />
         </div>
       </div>

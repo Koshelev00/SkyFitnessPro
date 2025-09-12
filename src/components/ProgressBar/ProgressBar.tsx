@@ -6,7 +6,7 @@ type Props = {
 
 export default function ProgressBar({ progress}: Props) {
   return (
-    <div className="w-[320px]">
+    <div className="w-[283px] md:w-[320px]">
       <div
         className="bg-gray-200 h-[6px] rounded-full overflow-hidden"
         

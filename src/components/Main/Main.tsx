@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/Store/store";
 
 export default function Main() {
-  const {user } = useSelector((state: RootState) => state.auth);
+  // const {user } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
   const {
     courses = [],

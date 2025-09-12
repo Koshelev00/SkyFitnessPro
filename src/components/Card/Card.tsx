@@ -12,7 +12,7 @@ import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 
 interface CardProps {
   course: CourseType;
-  token?: string;
+  token: string;
 }
 
 export default function Card({ course, token }: CardProps) {

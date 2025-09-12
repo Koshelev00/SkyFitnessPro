@@ -21,8 +21,9 @@ export interface Workout {
 }
 
 interface CoursesState {
+  
   courses: CourseType[];
-  selectedCourse: Course | null;
+  selectedCourse: CourseType| null;
   workouts: Workout[];
   currentCourse: CourseType | null;
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -52,6 +53,7 @@ const coursesSlice = createSlice({
       .addCase(fetchCoursesThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.courses = action.payload;
+        state.currentCourse = action.payload;
       })
       .addCase(fetchCoursesThunk.rejected, (state, action) => {
         state.status = "failed";
