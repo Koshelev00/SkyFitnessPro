@@ -2,14 +2,13 @@
 
 import ButtonGreen from "../Button/ButtonGreen";
 import ButtonWhite from "../Button/ButtonWhite";
-import { clearUser, setIsAuth } from "@/Store/features/Autch/autchSlice";
+import { clearUser, closeModalUser, setIsAuth } from "@/Store/features/Autch/autchSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/Store/store";
-import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 
 export default function UserModal() {
-  const { isOpened, isAuth, email } = useSelector(
+  const { isOpened, email } = useSelector(
     (state: RootState) => state.auth
   );
   const router = useRouter();
@@ -20,11 +19,13 @@ export default function UserModal() {
       dispatch(clearUser());
       dispatch(setIsAuth(false));
       router.push("/");
+      dispatch(closeModalUser())
     
       
   };
   const handleProfileClick = () => {
     router.push("/profile");
+    dispatch(closeModalUser())
     
   };
 

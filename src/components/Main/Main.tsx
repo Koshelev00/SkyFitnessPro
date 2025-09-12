@@ -2,44 +2,56 @@
 
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
-import { fetchCoursesThunk} from "@/Store/features/Courses/thunk";
+import { fetchCoursesThunk } from "@/Store/features/Courses/thunk";
+import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 import Card from "@/components/Card/Card";
 import Image from "next/image";
 import Link from "next/link";
 import Autch from "../Autch/Autch";
-import { useSelector } from "react-redux";
-import { RootState } from "@/Store/store";
+
+interface Toast {
+  id: number;
+  message: string;
+  visible: boolean;
+}
 
 export default function Main() {
-  // const {user } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
-  const {
-    courses = [],
-    status,
-    error,
-  } = useAppSelector((state) => state.courses);
+  const { courses = [], status, error } = useAppSelector((state) => state.courses);
+  const { user } = useAppSelector((state) => state.auth);
   const [token, setToken] = useState<string | null>(null);
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toastId, setToastId] = useState(0);
 
- 
+  const addToast = (message: string) => {
+    const id = toastId + 1;
+    setToastId(id);
+    setToasts(prev => [...prev, { id, message, visible: true }]);
+    setTimeout(() => {
+      setToasts(prev => prev.map(t => t.id === id ? { ...t, visible: false } : t));
+      setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 800);
+    }, 2000);
+  };
 
   useEffect(() => {
-      setToken(localStorage.getItem("authToken"));
-   
-      dispatch(fetchCoursesThunk());
-    
-  }, []);
+    const authToken = typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+    setToken(authToken);
 
+    // Загружаем курсы
+    dispatch(fetchCoursesThunk());
+
+    // Если есть токен, загружаем профиль пользователя
+    if (authToken) {
+      dispatch(getUserProfileThunk(authToken));
+    }
+  }, [dispatch]);
 
   return (
     <>
-      {/* Верхний блок с текстом и картинкой */}
-      <div
-        className="flex justify-between mt-15 mb-12.5 relative"
-        id="section1"
-      >
+      <div className="flex justify-between mt-15 mb-12.5 relative" id="section1">
         <div>
-          <h2 className="text-[#000001] text-[32px] font-medium  md:text-6xl md:leading-[70px]">
-            Начните заниматься спортом  и улучшите качество жизни
+          <h2 className="text-[#000001] text-[32px] font-medium md:text-6xl md:leading-[70px]">
+            Начните заниматься спортом и улучшите качество жизни
           </h2>
         </div>
         <div className="hidden md:block">
@@ -47,29 +59,47 @@ export default function Main() {
         </div>
       </div>
 
-      {/* Сетка карточек курсов */}
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2  xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
         {status === "loading" && <p>Загрузка...</p>}
         {status === "failed" && <p className="text-red-500">Ошибка: {error}</p>}
         {status === "succeeded" && courses.length > 0 ? (
-      
-          courses.map((c) => <Card key={c._id} course={c} token={token} />)
+          courses.map((c) => (
+            <Card
+              key={c._id}
+              course={c}
+              token={token || undefined}
+              addToast={addToast}
+              userSelectedCourses={user?.selectedCourses || []} // передаём актуальные выбранные курсы
+            />
+          ))
         ) : status === "succeeded" ? (
           <p>Нет доступных курсов</p>
         ) : null}
-      
       </div>
 
-      {/* Кнопка "Наверх" */}
-      <div className="justify-end mt-8.5 mb-20 flex ">
-        <div className=" w-32 h-13">
-          <Link href={"#section1"} className="px-5 py-2  h-[52px] w-full rounded-full text-black font-normal duration-200 bg-[#BCEC30] hover:bg-[#C6FF00]  cursor-pointer active:bg-[#000000] active:text-[#FFFFFF] flex items-center justify-center ">
+      <div className="justify-end md:justify-center mt-8.5 mb-20 flex">
+        <div className="w-32 h-13">
+          <Link
+            href="#section1"
+            className="px-5 py-2 h-[52px] w-full rounded-full text-black font-normal duration-200 bg-[#BCEC30] hover:bg-[#C6FF00] cursor-pointer active:bg-[#000000] active:text-[#FFFFFF] flex items-center justify-center"
+          >
             Наверх ↑
           </Link>
         </div>
       </div>
 
-      {/* Блок авторизации */}
+      <div className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col gap-4 z-50">
+        {toasts.map((toast) => (
+          <div
+            key={toast.id}
+            className={`bg-[#BCEC30] text-[#000000] w-45 px-2 py-4 rounded-xl text-2xl flex items-center justify-center shadow-lg transition-all duration-500
+              ${toast.visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
+          >
+            {toast.message}
+          </div>
+        ))}
+      </div>
+
       <Autch />
     </>
   );

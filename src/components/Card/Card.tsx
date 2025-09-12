@@ -3,63 +3,64 @@
 import Link from "next/link";
 import Image from "next/image";
 import { CourseType } from "@/Types/courseType";
-import { useAppDispatch } from "@/Store/hooks"; 
+import { useAppDispatch, useAppSelector } from "@/Store/hooks"; 
 import { addUserCourseThunk } from "@/Store/features/Courses/thunk"; 
 import { RootState } from "@/Store/store";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
+import { fetchCourseProgressThunk } from "@/Store/features/Progress/thunk";
 
 interface CardProps {
   course: CourseType;
-  token: string;
+  token?: string;
+  addToast: (msg: string) => void;
+  userSelectedCourses: string[];
 }
-
-export default function Card({ course, token }: CardProps) {
+export default function Card({ course, token, addToast, userSelectedCourses }: CardProps) {
   const dispatch = useAppDispatch();
-  const { user } = useSelector((state: RootState) => state.auth);
+  
+  const { user, isAuth } = useAppSelector((state) => state.auth); // добавил isAuth
   const [isAdding, setIsAdding] = useState(false);
 
-  // Загружаем профиль пользователя только один раз при монтировании
-  useEffect(() => {
-    if (token) {
-      dispatch(getUserProfileThunk(token));
-    }
-  }, [dispatch, token]); // Добавляем user в зависимости
-
   const handleAddCourse = async () => {
-    if (isAdding || !token) return;
-    
+    if (isAdding) return;
+
+    if (!isAuth || !token) {
+      // Пользователь не авторизован — показываем toast
+      addToast("Пожалуйста, авторизируйтесь");
+      return;
+    }
+
     setIsAdding(true);
     try {
       await dispatch(addUserCourseThunk(course._id));
-      // После успешного добавления обновляем профиль
       dispatch(getUserProfileThunk(token));
+
+      addToast("Курс добавлен!");
     } catch (error) {
       console.error("Ошибка при добавлении курса:", error);
     } finally {
-      setIsAdding(false); // Исправлено: устанавливаем false
+      setIsAdding(false);
     }
   };
 
-  // Проверяем, есть ли текущий курс в выбранных пользователем
-  const isCourseSelected = user?.selectedCourses?.includes(course._id);
-  const showAddButton = !isCourseSelected && !isAdding && token;
+  const isCourseSelected = userSelectedCourses.includes(course._id);
+  const showAddButton = !isCourseSelected && !isAdding;
 
   return (
     <div className="relative w-[343px] h-[492px] bg-[#FFFFFF] rounded-[30px] shadow-2xl sm:w-[360px] sm:h-[501px]">
-      
       {showAddButton && (
         <Image
           width={32}
           height={32}
           className="absolute right-5.5 top-5.5 cursor-pointer"
           src="/Circle.svg"
-          alt={"Добавить курс"}
+          alt="Добавить курс"
           onClick={handleAddCourse}
         />
       )}
-      
+
       {isAdding && (
         <div className="absolute right-5.5 top-5.5">
           <div className="w-8 h-8 border-2 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>

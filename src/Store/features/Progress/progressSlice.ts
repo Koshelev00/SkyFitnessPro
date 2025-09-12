@@ -8,8 +8,23 @@ import {
   resetCourseProgressThunk,
 } from "./thunk";
 
+// Типы для прогресса
+interface WorkoutProgress {
+  workoutId: string;
+  workoutCompleted: boolean;
+  progressData: number[];
+  _id: string;
+}
+
+export interface CourseProgressResponse {
+  courseId: string;
+  courseCompleted: boolean;
+  workoutsProgress: WorkoutProgress[];
+  _id: string;
+}
+
 interface ProgressState {
-  courseProgress: any | null;
+  courseProgress: Record<string, CourseProgressResponse>; // ✅ ключ - courseId
   workoutProgress: any | null;
   workoutProgressData: any | null;
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -17,7 +32,7 @@ interface ProgressState {
 }
 
 const initialState: ProgressState = {
-  courseProgress: null,
+  courseProgress: {}, // ✅ вместо null
   workoutProgress: null,
   workoutProgressData: null,
   status: "idle",
@@ -36,7 +51,10 @@ const progressSlice = createSlice({
       })
       .addCase(fetchCourseProgressThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.courseProgress = action.payload;
+        const data = action.payload as CourseProgressResponse;
+        if (data?.courseId) {
+          state.courseProgress[data.courseId] = data; // ✅ сохраняем по courseId
+        }
       })
       .addCase(fetchCourseProgressThunk.rejected, (state, action) => {
         state.status = "failed";
@@ -81,16 +99,14 @@ const progressSlice = createSlice({
       });
 
     // 🔹 Reset Workout Progress
-    builder
-      .addCase(resetWorkoutProgressThunk.fulfilled, (state) => {
-        state.workoutProgressData = null;
-      });
+    builder.addCase(resetWorkoutProgressThunk.fulfilled, (state) => {
+      state.workoutProgressData = null;
+    });
 
     // 🔹 Reset Course Progress
-    builder
-      .addCase(resetCourseProgressThunk.fulfilled, (state) => {
-        state.courseProgress = null;
-      });
+    builder.addCase(resetCourseProgressThunk.fulfilled, (state) => {
+      state.courseProgress = {}; // ✅ очищаем объект, а не null
+    });
   },
 });
 
