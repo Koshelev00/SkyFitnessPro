@@ -88,13 +88,13 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
 
   return (
     <div>
-      <div className="mt-15">
-        <h2 className="text-2xl md:text-6xl font-medium leading-17.5">
+      <div className="mt-10 md:mt-15">
+        <h2 className="text-2xl md:text-6xl font-medium md:leading-17.5">
           {currentCourse.selectedCourse?.nameRU}
         </h2>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-6 md:mt-10">
         <iframe
           src={currentWorkout.video}
           className="w-[343px] h-[189px] rounded-[9px] md:w-[790px] lg:w-[1160px] md:h-[435px] lg:h-[639px] md:rounded-[36px]"
@@ -103,7 +103,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
         />
       </div>
 
-      <div className="w-full max-w-[1160px] mt-10 p-10 rounded-[30px] bg-[#FFFFFF] shadow-2xl flex flex-col gap-5">
+      <div className="w-full max-w-[1160px] mt-6 md:mt-10 p-10 rounded-[30px] bg-[#FFFFFF] shadow-2xl flex flex-col gap-5">
         <h2 className="text-[#001] text-[32px] font-normal">
           Упражнения тренировки
         </h2>
@@ -127,7 +127,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
           })}
         </div>
 
-        <div className="pt-10 w-[283px] md:mx-auto">
+        <div className="mt-10 w-[283px] md:mx-auto">
           {isWorkoutCompleted ? 
             <ButtonGreen
               text={'Начать заново'}
