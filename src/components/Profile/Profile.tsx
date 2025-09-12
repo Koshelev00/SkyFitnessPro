@@ -10,6 +10,7 @@ import { clearUser, setIsAuth } from '@/Store/features/Autch/autchSlice';
 import { getUserProfileThunk } from '@/Store/features/Autch/thunk';
 import { fetchCoursesThunk } from '@/Store/features/Courses/thunk';
 import { fetchCourseProgressThunk } from '@/Store/features/Progress/thunk';
+import ButtonWihte from '../Button/ButtonWhite';
 
 // Типы
 interface CourseWorkoutsType {
@@ -166,7 +167,7 @@ export default function Profile() {
               <p className="text-[16px] md:text-[18px] font-normal leading-9.5">Логин: {user?.email}</p>
             </div>
             <div className="w-[283px] md:w-[192px] h-[52px] items-center">
-              <button onClick={handleLogout} className="w-full h-full bg-black text-white rounded-full">Выйти</button>
+              <ButtonWihte text='Выйти' onClick={handleLogout} />
             </div>
           </div>
         </div>

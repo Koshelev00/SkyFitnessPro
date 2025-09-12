@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { SignIn, SignUp, getUserProfile, AuthUserProp, AuthUserReturn } from "@/services/auth";
 
-
-export  const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
+export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
   "auth/signIn",
   async (userData, { rejectWithValue }) => {
     try {
@@ -10,23 +9,24 @@ export  const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
       localStorage.setItem("authToken", res.token);
       return res;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      const message = error.response?.data?.message || error.message || "Ошибка входа";
+      return rejectWithValue(message);
     }
   }
 );
-
 
 export const SignUpThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
   "auth/signUp",
   async (userData, { rejectWithValue }) => {
     try {
-      return await SignUp(userData);
+      const res = await SignUp(userData);
+      return res;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      const message = error.response?.data?.message || error.message || "Ошибка регистрации";
+      return rejectWithValue(message);
     }
   }
 );
-
 
 export const getUserProfileThunk = createAsyncThunk(
   "auth/getUserProfile",
@@ -34,7 +34,8 @@ export const getUserProfileThunk = createAsyncThunk(
     try {
       return await getUserProfile(token);
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      const message = error.response?.data?.message || error.message || "Ошибка получения профиля";
+      return rejectWithValue(message);
     }
   }
 );

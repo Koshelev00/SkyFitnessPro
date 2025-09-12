@@ -17,8 +17,8 @@ interface AuthState {
   email: string;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
-  isOpened: boolean; 
-  isOpen: boolean;   
+  isOpened: boolean;
+  isOpen: boolean;
 }
 
 const initialState: AuthState = {
@@ -38,7 +38,6 @@ const authSlice = createSlice({
   reducers: {
     setIsAuth(state, action: PayloadAction<boolean>) {
       state.isAuth = action.payload;
-     
     },
     clearUser(state) {
       state.isAuth = false;
@@ -65,22 +64,23 @@ const authSlice = createSlice({
     closeModal(state) {
       state.isOpen = false;
     },
-    
-  initializeAuth(state) {
+    initializeAuth(state) {
       const token = localStorage.getItem("authToken");
       const email = localStorage.getItem("user.email");
-      
       if (token) {
         state.token = token;
         state.isAuth = true;
         state.email = email || "";
       }
     },
-  },
+    clearError(state) {
+      state.error = null;
+    },
   
+  },
   extraReducers: (builder) => {
     builder
-      
+      // SignIn
       .addCase(SignInThunk.pending, (state) => {
         state.status = "loading";
         state.error = null;
@@ -88,30 +88,29 @@ const authSlice = createSlice({
       .addCase(SignInThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.token = action.payload.token;
-        localStorage.setItem("authToken", action.payload.token);
         state.isAuth = true;
+        state.error = null;
       })
       .addCase(SignInThunk.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
       })
 
-      
+      // SignUp
       .addCase(SignUpThunk.pending, (state) => {
         state.status = "loading";
         state.error = null;
       })
-      .addCase(SignUpThunk.fulfilled, (state, action) => {
+      .addCase(SignUpThunk.fulfilled, (state) => {
         state.status = "succeeded";
-        state.token = action.payload.token;
-        state.isAuth = true;
+        state.error = null;
       })
       .addCase(SignUpThunk.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
       })
 
-      
+      // getUserProfile
       .addCase(getUserProfileThunk.pending, (state) => {
         state.status = "loading";
       })
@@ -139,6 +138,7 @@ export const {
   openModalUser,
   closeModalUser,
   initializeAuth,
+  clearError, 
 } = authSlice.actions;
 
 export default authSlice.reducer;
