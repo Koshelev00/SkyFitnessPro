@@ -147,7 +147,7 @@ export default function Course({ courseId }: CourseProps) {
           <h3 className="text-[24px] md:text-[40px] font-semibold text-[#00001]">
             Направления
           </h3>
-          <div className="w-full max-w-[1160px] bg-[#BCEC30] rounded-[28px] mt-10 p-[30px] grid grid-cols-1 md:grid-cols-3 gap-y-[34px]">
+          <div className="w-full max-w-[1160px] bg-[#BCEC30] rounded-[28px] mt-10 p-[16px] md:p-[30px] grid grid-cols-1 md:grid-cols-3 gap-y-[34px]">
             {directionItems.map((direction, index) => (
               <div key={index} className="flex gap-2 items-center">
                 <Image
@@ -164,7 +164,7 @@ export default function Course({ courseId }: CourseProps) {
           </div>
         </div>
 
-        <div className="z-[10] absolute top-414 md:static flex flex-col md:flex-row shadow-2xl bg-[#FFFFFF] p-[30px] md:p-10 rounded-[30px] mx-4 md:mx-0 mt-10px">
+        <div className="z-[10] absolute top-414 md:static flex flex-col md:flex-row shadow-2xl bg-[#FFFFFF] p-[30px] md:p-10 rounded-[30px]  md:mx-0 mt-10px">
           <div className="w-full md:w-[437px] md:pb-10">
             <h2 className="text-[32px] md:text-6xl font-medium leading-tight md:leading-17.5 text-[#001]">
               Начните путь к новому телу
@@ -177,7 +177,7 @@ export default function Course({ courseId }: CourseProps) {
               <li>помогают противостоять стрессам</li>
             </ul>
             <div className="w-full md:w-[437px] h-[52px]">
-              <ButtonGreen
+              <ButtonGreen 
                 text={
                   isAuth
                     ? courseAdded
