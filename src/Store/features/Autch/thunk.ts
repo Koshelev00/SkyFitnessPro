@@ -14,6 +14,7 @@ export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
     try {
       const res = await SignIn(userData);
       localStorage.setItem("authToken", res.token);
+      document.cookie = `token_global=${res.token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`;
       return res;
     } catch (err: unknown) {
       let message = "Ошибка входа";

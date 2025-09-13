@@ -62,6 +62,7 @@ export default function Profile() {
     dispatch(clearUser());
     dispatch(setIsAuth(false));
     router.push("/");
+    document.cookie = "token_global=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
   }, [dispatch, router]);
 
   const userCourses = courses.filter((course) =>

@@ -23,6 +23,7 @@ export default function UserModal() {
     dispatch(setIsAuth(false));
     router.push("/");
     dispatch(closeModalUser());
+    document.cookie = "token_global=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"
   };
 
   const handleProfileClick = () => {
