@@ -1,36 +1,131 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+SkyFitnessPro
 
-## Getting Started
+Проект SkyFitnessPro — это веб-приложение для изучения спортивных курсов. Пользователи могут просматривать доступные курсы, добавлять их в свой профиль и отслеживать прогресс.
 
-First, run the development server:
+    Описание проекта
 
-```bash
+Веб-приложение построено на Next.js с поддержкой TypeScript.
+
+Используется Redux Toolkit для управления состоянием (курсы и авторизация).
+
+Возможности:
+
+Регистрация и авторизация пользователя.
+
+Просмотр всех доступных курсов.
+
+Добавление курсов в профиль пользователя.
+
+Отображение информации о длительности и сложности курса.
+
+Система уведомлений (toasts) при действиях пользователя.
+
+    Технологии
+
+Next.js
+
+React
+
+TypeScript
+
+Redux Toolkit
+
+Tailwind CSS
+
+Next/Image
+
+    Установка
+
+Клонируйте репозиторий:
+
+git clone https://github.com/yourusername/SkyFitnessPro.git
+
+
+Перейдите в папку проекта:
+
+cd SkyFitnessPro
+
+
+Установите зависимости:
+
+npm install
+
+
+    Запуск проекта
+В режиме разработки
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Откройте браузер и перейдите по адресу: http://localhost:3000
 
-## Learn More
+Сборка и запуск в продакшн
+npm run build
+npm start
 
-To learn more about Next.js, take a look at the following resources:
+    Структура проекта
+/src
+  /app
+    /(main)
+        /page.tsx           - Главная страница
+    /course
+        /[id]
+            /page.tsx
+    /courseWorkout
+        /[courseId]
+            /page.tsx
+            /[worcoutId]
+                /page.tsx
+    /profile
+        /page.tsx
+    /favicon.ico
+    /globals.css
+    /layout.tsx
+  /components
+    /AddProgressModal
+    /Autch
+    /Button
+    /Card
+    /Course
+    /CourseWorkout
+    /Header
+    /Main
+    /Profile
+    /ProgressBar
+    /UserModal
+    /Workouts
+  /services
+  /Store
+    /features
+        /Autch
+        /Courses
+        /Progress
+        /Workout
+  /Types
+  /Utilite
+    
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    Авторизация
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Авторизация через токен, который хранится в localStorage (authToken).
 
-## Deploy on Vercel
+После выхода токен удаляется, состояние пользователя сбрасывается.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+В midleware настроены приватные и публичные страницы которые работают через токет token_global который хранится в Cookies, который также сбрасывается при выходе.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+    Особенности UI
+
+Кнопки "Добавить курс" исчезают сразу после добавления курса.
+
+Система уведомлений (toasts) информирует пользователя о результатах действий.
+
+В тренировках, которые не имеют упражнений, не показывается модальное окно для заполнения прогресса. Вместо кнопки "Заполнить прогресс" появляется кнопка "Выполнить упражнение".
+
+
+Курс содержит информацию о:
+
+Длительности курса (durationInDays)
+
+Времени занятий в день (dailyDurationInMinutes)
+
+Уровне сложности (difficulty)
