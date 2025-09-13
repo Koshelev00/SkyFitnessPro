@@ -20,7 +20,7 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
   const { isAuth } = useAppSelector((state) => state.auth);
 
   const [isAdding, setIsAdding] = useState(false);
-  const [isAdded, setIsAdded] = useState(false); // 🔥 локальный флаг, чтобы кнопка не появлялась снова
+  const [isAdded, setIsAdded] = useState(false);
 
   const handleAddCourse = async () => {
     if (isAdding || isAdded) return;
@@ -35,16 +35,17 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
       await dispatch(addUserCourseThunk(course._id)).unwrap();
       await dispatch(getUserProfileThunk(token));
 
-      setIsAdded(true); // 🚀 блокируем повторное появление кнопки
-      addToast("Курс добавлен!");
-    } catch (error) {
-      console.error("Ошибка при добавлении курса:", error);
+      setIsAdded(true);
+      addToast("Курс успешно добавлен!");
+    } catch (error: any) {
+    
+      const message = error?.message || "Произошла ошибка при добавлении курса";
+      addToast(message);
     } finally {
       setIsAdding(false);
     }
   };
 
-  // 🔥 считаем курс выбранным, если он уже есть у пользователя или был добавлен локально
   const isCourseSelected = userSelectedCourses.includes(course._id) || isAdded;
   const showAddButton = !isCourseSelected && !isAdding;
 

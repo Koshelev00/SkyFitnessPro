@@ -33,12 +33,12 @@ export default function Course({ courseId }: CourseProps) {
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [toastId, setToastId] = useState(0);
 
-  // Проверяем, добавлен ли курс
+  
   useEffect(() => {
     setCourseAdded(user?.selectedCourses?.includes(courseId) || false);
   }, [user, courseId]);
 
-  // Смена размера экрана
+  
   useEffect(() => {
     const checkScreenSize = () => setIsMdScreen(window.innerWidth >= 768);
     checkScreenSize();
@@ -46,12 +46,12 @@ export default function Course({ courseId }: CourseProps) {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Загрузка курса
+
   useEffect(() => {
     if (courseId) dispatch(fetchCourseByIdThunk(courseId));
   }, [courseId, dispatch]);
 
-  // Добавление toast
+ 
   const addToast = (message: string) => {
     const id = toastId + 1;
     setToastId(id);
@@ -64,7 +64,7 @@ export default function Course({ courseId }: CourseProps) {
 
   const handleCourseToggle = () => {
     if (!isAuth) {
-      dispatch(openModal());                  // открываем модалку
+      dispatch(openModal());  
       return;
     }
 
@@ -91,12 +91,12 @@ export default function Course({ courseId }: CourseProps) {
   return (
     <div className="mb-12.5 overflow-hidden bg-[#FAFAFA]">
       <div className="overflow-hidden relative h-[2150px] md:h-auto">
-        {/* Изображение курса */}
+     
         <div className="mt-15">
           <Image width={1160} height={310} src={imageSkill} alt="SkillCard" className="w-full object-cover" />
         </div>
 
-        {/* Подойдет для вас если */}
+      
         <div className="mt-15">
           <h3 className="text-[24px] font-semibold text-[#00001] md:text-[40px]">
             Подойдет для вас, если:
@@ -132,7 +132,7 @@ export default function Course({ courseId }: CourseProps) {
           </div>
         </div>
 
-        {/* Направления */}
+
         <div className="mt-15 mb-[102px] px-4 md:px-0">
           <h3 className="text-[24px] md:text-[40px] font-semibold text-[#00001]">Направления</h3>
           <div className="w-full max-w-[1160px] bg-[#BCEC30] rounded-[28px] mt-10 p-[30px] grid grid-cols-1 md:grid-cols-3 gap-y-[34px]">
@@ -145,7 +145,7 @@ export default function Course({ courseId }: CourseProps) {
           </div>
         </div>
 
-        {/* Кнопка добавления / удаления курса */}
+
         <div className="z-[10] absolute top-414 md:static flex flex-col md:flex-row shadow-2xl bg-[#FFFFFF] p-[30px] md:p-10 rounded-[30px] mx-4 md:mx-0 mt-10px">
           <div className="w-full md:w-[437px] md:pb-10">
             <h2 className="text-[32px] md:text-6xl font-medium leading-tight md:leading-17.5 text-[#001]">
@@ -167,7 +167,7 @@ export default function Course({ courseId }: CourseProps) {
           </div>
         </div>
 
-        {/* Toast-сообщения */}
+       
         <div className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col gap-4 z-50">
           {toasts.map((toast) => (
             <div
@@ -180,7 +180,7 @@ export default function Course({ courseId }: CourseProps) {
           ))}
         </div>
 
-        {/* Декоративное изображение */}
+
         <div className="absolute 
           xl:w-162 xl:h-162 xl:right-[29px] xl:top-[930px]
           lg:w-162 lg:h-162 lg:right-[29px] lg:top-[940px]

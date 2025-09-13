@@ -64,6 +64,7 @@ export default function AuthModal() {
     try {
       await dispatch(SignInThunk({ email: formData.email, password: formData.password })).unwrap();
       dispatch(setEmail(formData.email));
+      localStorage.setItem("user.email", formData.email);
       handleCloseModal();
     } catch (err: any) {
       // Ошибка отображается через Redux
