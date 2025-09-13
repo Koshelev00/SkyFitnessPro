@@ -23,7 +23,7 @@ interface WorkoutsState {
   currentWorkout: Workout | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
-  isOpen: boolean; 
+  isOpen: boolean;
   Open: boolean;
 }
 
@@ -34,7 +34,6 @@ const initialState: WorkoutsState = {
   error: null,
   isOpen: false,
   Open: false,
-
 };
 
 const workoutSlice = createSlice({
@@ -44,7 +43,7 @@ const workoutSlice = createSlice({
     openModalWorkout(state) {
       state.isOpen = true;
     },
-     closeModalWorkout(state) {
+    closeModalWorkout(state) {
       state.isOpen = false;
     },
     openModalCompleted(state) {
@@ -65,14 +64,14 @@ const workoutSlice = createSlice({
         (state, action: PayloadAction<Workout[]>) => {
           state.status = "succeeded";
           state.workouts = action.payload;
-        }
+        },
       )
       .addCase(
         fetchWorkoutsThunk.rejected,
         (state, action: PayloadAction<any>) => {
           state.status = "failed";
           state.error = action.payload;
-        }
+        },
       )
 
       //fetchWorkoutByIdThunk
@@ -84,14 +83,14 @@ const workoutSlice = createSlice({
         (state, action: PayloadAction<Workout>) => {
           state.status = "succeeded";
           state.currentWorkout = action.payload;
-        }
+        },
       )
       .addCase(
         fetchWorkoutByIdThunk.rejected,
         (state, action: PayloadAction<any>) => {
           state.status = "failed";
           state.error = action.payload;
-        }
+        },
       )
 
       //addUserWorkoutThunk
@@ -106,7 +105,7 @@ const workoutSlice = createSlice({
         (state, action: PayloadAction<any>) => {
           state.status = "failed";
           state.error = action.payload;
-        }
+        },
       )
 
       //deleteUserWorkoutThunk
@@ -121,15 +120,13 @@ const workoutSlice = createSlice({
         (state, action: PayloadAction<any>) => {
           state.status = "failed";
           state.error = action.payload;
-        }
+        },
       );
-      
   },
-      
 });
 
 export const {
-   openModalWorkout,
+  openModalWorkout,
   closeModalWorkout,
   openModalCompleted,
   closeModalCompleted,

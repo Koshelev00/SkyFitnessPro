@@ -76,7 +76,6 @@ const authSlice = createSlice({
     clearError(state) {
       state.error = null;
     },
-  
   },
   extraReducers: (builder) => {
     builder
@@ -138,7 +137,7 @@ export const {
   openModalUser,
   closeModalUser,
   initializeAuth,
-  clearError, 
+  clearError,
 } = authSlice.actions;
 
 export default authSlice.reducer;

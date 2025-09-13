@@ -1,13 +1,20 @@
-'use client'
+"use client";
 
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutByIdThunk } from "@/Store/features/Worcout/thunk";
-import { fetchWorkoutProgressThunk, resetWorkoutProgressThunk, saveWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
+import {
+  fetchWorkoutProgressThunk,
+  resetWorkoutProgressThunk,
+  saveWorkoutProgressThunk,
+} from "@/Store/features/Progress/thunk";
 import AddProgressModal from "../AddProgressModal/AddProgressModal";
 import ButtonGreen from "../Button/ButtonGreen";
 import ProgressBar from "../ProgressBar/ProgressBar";
-import { openModalWorkout, openModalCompleted } from "@/Store/features/Worcout/workoutSlice";
+import {
+  openModalWorkout,
+  openModalCompleted,
+} from "@/Store/features/Worcout/workoutSlice";
 import AddCompleted from "../AddProgressModal/AddСompleted";
 import { fetchCourseByIdThunk } from "@/Store/features/Courses/thunk";
 import formatWorkoutName from "@/Utilite/formatWorkoutName";
@@ -30,9 +37,13 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
 
   const isOpen = useAppSelector((state) => state.workouts.isOpen);
   const Open = useAppSelector((state) => state.workouts.Open);
-  const { currentWorkout, status, error } = useAppSelector((state) => state.workouts);
+  const { currentWorkout, status, error } = useAppSelector(
+    (state) => state.workouts,
+  );
   const currentCourse = useAppSelector((state) => state.courses);
-  const workoutProgress = useAppSelector((state) => state.progress.workoutProgress);
+  const workoutProgress = useAppSelector(
+    (state) => state.progress.workoutProgress,
+  );
 
   useEffect(() => {
     setToken(getAuthToken());
@@ -76,7 +87,8 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
       saveWorkoutProgressThunk({
         courseId,
         workoutId,
-        progressData: [],})
+        progressData: [],
+      }),
     ).unwrap();
 
     dispatch(openModalCompleted());
@@ -85,14 +97,19 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
 
   const isWorkoutCompleted = workoutProgress?.workoutCompleted === true;
 
-  const calculateProgress = (exerciseProgress: number, quantity: number | undefined): number => {
+  const calculateProgress = (
+    exerciseProgress: number,
+    quantity: number | undefined,
+  ): number => {
     if (!quantity || quantity === 0) return 0;
     return Math.min(100, Math.round((exerciseProgress / quantity) * 100));
   };
 
-  if (status === "loading") return <div className="mt-15">Загрузка тренировки...</div>;
+  if (status === "loading")
+    return <div className="mt-15">Загрузка тренировки...</div>;
   if (status === "failed") return <div className="mt-15">Ошибка: {error}</div>;
-  if (!currentWorkout) return <div className="mt-15">Тренировка не найдена</div>;
+  if (!currentWorkout)
+    return <div className="mt-15">Тренировка не найдена</div>;
 
   const formattedName = formatWorkoutName(currentWorkout.name);
   const hasProgress = workoutProgress?.progressData?.some((v: number) => v > 0);
@@ -124,7 +141,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
           {currentWorkout.exercises?.map((ex, i) => {
             const exerciseProgress = workoutProgress?.progressData?.[i] ?? 0;
             const progress = calculateProgress(exerciseProgress, ex.quantity);
-            const exerciseName = ex.name.replace(/\s*\(.*?\)/g, '');
+            const exerciseName = ex.name.replace(/\s*\(.*?\)/g, "");
             return (
               <div key={i} className="w-full flex flex-col gap-2.5">
                 <div className="text-lg font-normal">
@@ -142,18 +159,18 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
               isWorkoutCompleted
                 ? "Начать заново"
                 : hasExercises
-                ? hasProgress
-                  ? "Обновить прогресс"
-                  : "Заполнить прогресс"
-                : "Выполнить упражнение"
+                  ? hasProgress
+                    ? "Обновить прогресс"
+                    : "Заполнить прогресс"
+                  : "Выполнить упражнение"
             }
             className="h-12.5 sm:w-80 text-lg w-full"
             onClick={
               isWorkoutCompleted
                 ? resetProgressWorkout
                 : hasExercises
-                ? openModal
-                : completeWithoutProgress
+                  ? openModal
+                  : completeWithoutProgress
             }
           />
         </div>

@@ -8,7 +8,6 @@ import {
   resetCourseProgressThunk,
 } from "./thunk";
 
-
 interface WorkoutProgress {
   workoutId: string;
   workoutCompleted: boolean;
@@ -24,7 +23,7 @@ export interface CourseProgressResponse {
 }
 
 interface ProgressState {
-  courseProgress: Record<string, CourseProgressResponse>; 
+  courseProgress: Record<string, CourseProgressResponse>;
   workoutProgress: any | null;
   workoutProgressData: any | null;
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -32,7 +31,7 @@ interface ProgressState {
 }
 
 const initialState: ProgressState = {
-  courseProgress: {}, 
+  courseProgress: {},
   workoutProgress: null,
   workoutProgressData: null,
   status: "idle",
@@ -53,7 +52,7 @@ const progressSlice = createSlice({
         state.status = "succeeded";
         const data = action.payload as CourseProgressResponse;
         if (data?.courseId) {
-          state.courseProgress[data.courseId] = data; 
+          state.courseProgress[data.courseId] = data;
         }
       })
       .addCase(fetchCourseProgressThunk.rejected, (state, action) => {
@@ -105,7 +104,7 @@ const progressSlice = createSlice({
 
     //Reset Course Progress
     builder.addCase(resetCourseProgressThunk.fulfilled, (state) => {
-      state.courseProgress = {}; 
+      state.courseProgress = {};
     });
   },
 });

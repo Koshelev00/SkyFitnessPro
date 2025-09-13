@@ -3,8 +3,14 @@ import ButtonGreen from "../Button/ButtonGreen";
 import ProgressExercise from "./ProgressExercise";
 import { useEffect, useState, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
-import { fetchWorkoutProgressThunk, saveWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
-import { closeModalWorkout, openModalCompleted } from "@/Store/features/Worcout/workoutSlice";
+import {
+  fetchWorkoutProgressThunk,
+  saveWorkoutProgressThunk,
+} from "@/Store/features/Progress/thunk";
+import {
+  closeModalWorkout,
+  openModalCompleted,
+} from "@/Store/features/Worcout/workoutSlice";
 
 type AddProgressModalProps = {
   exercises: WorkoutExerciseType[];
@@ -24,13 +30,14 @@ export default function AddProgressModal({
   courseId,
 }: AddProgressModalProps) {
   const dispatch = useAppDispatch();
-  const [progressInputs, setProgressInputs] = useState<(number | undefined)[]>([]);
+  const [progressInputs, setProgressInputs] = useState<(number | undefined)[]>(
+    [],
+  );
   const workout = useAppSelector((state) => state.workouts.currentWorkout);
   const [initialProgress, setInitialProgress] = useState<number[]>([]);
-  const currentProgress = useAppSelector((state) =>
-    state.progress.workoutProgress?.progressData || []
+  const currentProgress = useAppSelector(
+    (state) => state.progress.workoutProgress?.progressData || [],
   );
-
 
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [toastId, setToastId] = useState(0);
@@ -41,9 +48,12 @@ export default function AddProgressModal({
     setToasts((prev) => [...prev, { id, message, visible: true }]);
     setTimeout(() => {
       setToasts((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, visible: false } : t))
+        prev.map((t) => (t.id === id ? { ...t, visible: false } : t)),
       );
-      setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 800);
+      setTimeout(
+        () => setToasts((prev) => prev.filter((t) => t.id !== id)),
+        800,
+      );
     }, 2000);
   };
 
@@ -72,7 +82,9 @@ export default function AddProgressModal({
       const inputValue = progressInputs[i];
       const currentValue = initialProgress[i] || 0;
 
-      return inputValue !== undefined ? currentValue + inputValue : currentValue;
+      return inputValue !== undefined
+        ? currentValue + inputValue
+        : currentValue;
     });
 
     try {
@@ -82,7 +94,7 @@ export default function AddProgressModal({
             courseId,
             workoutId,
             progressData,
-          })
+          }),
         ).unwrap();
 
         const token = localStorage.getItem("authToken");
@@ -104,7 +116,9 @@ export default function AddProgressModal({
       <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[9999]">
         <div className="bg-white rounded-[30px] p-10 w-[343px] h-[585px] md:w-[426px] md:h-[595px] shadow-lg flex flex-col gap-[34px] md:gap-12">
           <div className="h-[35px]">
-            <h2 className="text-[32px] text-[#000000] font-normal">Мой прогресс</h2>
+            <h2 className="text-[32px] text-[#000000] font-normal">
+              Мой прогресс
+            </h2>
           </div>
           <div>
             <form
@@ -143,7 +157,6 @@ export default function AddProgressModal({
           </div>
         </div>
       </div>
-
 
       <div className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col gap-4 z-[10000]">
         {toasts.map((toast) => (

@@ -16,7 +16,7 @@ export const fetchCoursesThunk = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 //Получить курс по ID
@@ -28,7 +28,7 @@ export const fetchCourseByIdThunk = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 //Получить тренировки курса
@@ -40,7 +40,7 @@ export const fetchCourseWorkoutsThunk = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 //Добавить курс пользователю
@@ -52,7 +52,7 @@ export const addUserCourseThunk = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 //Удалить курс у пользователя
@@ -64,5 +64,5 @@ export const deleteUserCourseThunk = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );

@@ -3,8 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { CourseType } from "@/Types/courseType";
-import { useAppDispatch, useAppSelector } from "@/Store/hooks"; 
-import { addUserCourseThunk } from "@/Store/features/Courses/thunk"; 
+import { useAppDispatch, useAppSelector } from "@/Store/hooks";
+import { addUserCourseThunk } from "@/Store/features/Courses/thunk";
 import { useState } from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
 
@@ -15,7 +15,12 @@ interface CardProps {
   userSelectedCourses: string[];
 }
 
-export default function Card({ course, token, addToast, userSelectedCourses }: CardProps) {
+export default function Card({
+  course,
+  token,
+  addToast,
+  userSelectedCourses,
+}: CardProps) {
   const dispatch = useAppDispatch();
   const { isAuth } = useAppSelector((state) => state.auth);
 
@@ -38,7 +43,6 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
       setIsAdded(true);
       addToast("Курс успешно добавлен!");
     } catch (error: any) {
-    
       const message = error?.message || "Произошла ошибка при добавлении курса";
       addToast(message);
     } finally {
@@ -67,7 +71,7 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
           <div className="w-8 h-8 border-2 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>
         </div>
       )}
-      
+
       <div className="mb-6">
         <Link href={`/course/${course._id}`}>
           <Image
@@ -79,12 +83,12 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
           />
         </Link>
       </div>
-      
+
       <div className="mx-7.5">
         <h2 className="text-[#001] text-[32px] font-medium leading-9.5">
           {course.nameRU}
         </h2>
-        
+
         <div className="flex gap-1.5 mt-5">
           <div className="flex bg-[#F7F7F7] w-[103px] h-[38px] rounded-[50px] p-2.5 gap-1.5">
             <Image width={18} height={18} src="/Calendar.svg" alt="calendar" />
@@ -92,16 +96,16 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
               {course.durationInDays ?? 0} дней
             </span>
           </div>
-          
+
           <div className="flex bg-[#F7F7F7] w-[163px] h-[38px] rounded-[50px] p-2.5 gap-1.5">
             <Image width={18} height={18} src="/Time.svg" alt="time" />
             <span className="text-[#202020] text-[16px] font-normal leading-[19px]">
-              {(course.dailyDurationInMinutes?.from ?? 0)}-
-              {(course.dailyDurationInMinutes?.to ?? 0)} мин/день
+              {course.dailyDurationInMinutes?.from ?? 0}-
+              {course.dailyDurationInMinutes?.to ?? 0} мин/день
             </span>
           </div>
         </div>
-        
+
         <div>
           <div className="flex bg-[#F7F7F7] w-[129px] h-[38px] rounded-[50px] p-2.5 gap-1.5 mt-1.5">
             <Image width={18} height={18} src="/signal-fill.svg" alt="signal" />

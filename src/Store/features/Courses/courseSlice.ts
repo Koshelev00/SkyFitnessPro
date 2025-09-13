@@ -21,14 +21,12 @@ export interface Workout {
 }
 
 interface CoursesState {
-  
   courses: CourseType[];
-  selectedCourse: CourseType| null;
+  selectedCourse: CourseType | null;
   workouts: Workout[];
   currentCourse: CourseType | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
-  
 }
 
 const initialState: CoursesState = {
@@ -57,14 +55,14 @@ const coursesSlice = createSlice({
       })
       .addCase(fetchCoursesThunk.rejected, (state, action) => {
         state.status = "failed";
-       state.error = action.error.message || "Ошибка загрузки курсов";
+        state.error = action.error.message || "Ошибка загрузки курсов";
       })
 
       //Курс по ID
       .addCase(fetchCourseByIdThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.selectedCourse = action.payload;
-         state.currentCourse = action.payload;
+        state.currentCourse = action.payload;
       })
 
       //Тренировки курса
@@ -82,7 +80,7 @@ const coursesSlice = createSlice({
       .addCase(deleteUserCourseThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.courses = state.courses.filter(
-          (course) => course._id !== action.meta.arg
+          (course) => course._id !== action.meta.arg,
         );
       });
   },

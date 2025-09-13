@@ -7,7 +7,7 @@ export type WorkoutExerciseType = {
 export type Workout = {
   _id: string;
   name: string;
-  video: string; 
+  video: string;
   exercises: WorkoutExerciseType[];
 };
 
@@ -21,4 +21,4 @@ export type WorkoutShort = {
 export type formattedNameType = {
   title: string;
   subtitle: string;
-}
+};

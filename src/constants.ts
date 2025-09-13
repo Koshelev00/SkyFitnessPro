@@ -1,6 +1,4 @@
-
 export const BASE_URL = "https://wedev-api.sky.pro/api/fitness";
-
 
 export const RoutesApp = {
   login: "/auth/login",
@@ -21,6 +19,6 @@ export const RoutesApp = {
     `/users/me/progress?courseId=${courseId}`,
   getWorkoutProgress: (courseId: string, workoutId: string) =>
     `/users/me/progress?courseId=${courseId}&workoutId=${workoutId}`,
-   getWorkoutProgressData: (courseId: string, workoutId: string) =>
+  getWorkoutProgressData: (courseId: string, workoutId: string) =>
     `/courses/${courseId}/workouts/${workoutId}/progress`,
 };

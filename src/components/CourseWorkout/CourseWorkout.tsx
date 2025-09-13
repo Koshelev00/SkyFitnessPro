@@ -21,9 +21,12 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
   const router = useRouter();
 
   const { workouts } = useAppSelector((state: RootState) => state.workouts);
-  const { courseProgress } = useAppSelector((state: RootState) => state.progress);
+  const { courseProgress } = useAppSelector(
+    (state: RootState) => state.progress,
+  );
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
 
   useEffect(() => {
     if (!token) return;
@@ -43,7 +46,6 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
     return numA - numB;
   });
 
- 
   const isCompleted = (workoutId: string) => {
     const progressData = courseProgress[courseId]?.workoutsProgress;
     if (!progressData) return false;
@@ -51,14 +53,14 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
     return progress?.workoutCompleted === true;
   };
 
-  
   const getNextWorkout = () => {
-    if (!courseProgress[courseId]?.workoutsProgress) return sortedWorkouts[0]?._id || null;
+    if (!courseProgress[courseId]?.workoutsProgress)
+      return sortedWorkouts[0]?._id || null;
 
     for (const workout of sortedWorkouts) {
       if (!isCompleted(workout._id)) return workout._id;
     }
-    return null; 
+    return null;
   };
 
   const nextWorkoutId = getNextWorkout();
@@ -67,11 +69,9 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
     if (!token) return;
 
     if (!nextWorkoutId) {
-    
       await dispatch(resetCourseProgressThunk(courseId));
       dispatch(fetchCourseProgressThunk(courseId));
     } else {
-     
       router.push(`/courseWorkout/${courseId}/${nextWorkoutId}`);
     }
   };
@@ -88,15 +88,19 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
           </h2>
         </div>
 
-        <div className="w-[257px] md:w-[380px] mb-[34px] overflow-x-hidden max-h-[360px] overflow-y-auto
+        <div
+          className="w-[257px] md:w-[380px] mb-[34px] overflow-x-hidden max-h-[360px] overflow-y-auto
           [&::-webkit-scrollbar]:w-1.5
           [&::-webkit-scrollbar-track]:rounded-2xl
           [&::-webkit-scrollbar-thumb]:h-29
           [&::-webkit-scrollbar-track]:bg-[#F7F7F7]
           [&::-webkit-scrollbar-thumb]:rounded-2xl
-          [&::-webkit-scrollbar-thumb]:bg-[#000000]">
+          [&::-webkit-scrollbar-thumb]:bg-[#000000]"
+        >
           {sortedWorkouts.length === 0 ? (
-            <p className="text-center text-gray-500">Нет доступных тренировок</p>
+            <p className="text-center text-gray-500">
+              Нет доступных тренировок
+            </p>
           ) : (
             <div className="flex flex-col gap-[10px]">
               {sortedWorkouts.map((workout) => {
@@ -104,10 +108,14 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
                 const completed = isCompleted(workout._id);
 
                 return (
-                  <div key={workout._id} className="flex items-center justify-between w-full">
-                    <WorkoutName formattedName={formattedName} completed={completed} />
-                    
-                    
+                  <div
+                    key={workout._id}
+                    className="flex items-center justify-between w-full"
+                  >
+                    <WorkoutName
+                      formattedName={formattedName}
+                      completed={completed}
+                    />
                   </div>
                 );
               })}

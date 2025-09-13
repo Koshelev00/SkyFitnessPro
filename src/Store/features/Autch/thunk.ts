@@ -1,5 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { SignIn, SignUp, getUserProfile, AuthUserProp, AuthUserReturn } from "@/services/auth";
+import {
+  SignIn,
+  SignUp,
+  getUserProfile,
+  AuthUserProp,
+  AuthUserReturn,
+} from "@/services/auth";
 
 export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
   "auth/signIn",
@@ -9,10 +15,11 @@ export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
       localStorage.setItem("authToken", res.token);
       return res;
     } catch (error: any) {
-      const message = error.response?.data?.message || error.message || "Ошибка входа";
+      const message =
+        error.response?.data?.message || error.message || "Ошибка входа";
       return rejectWithValue(message);
     }
-  }
+  },
 );
 
 export const SignUpThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
@@ -22,10 +29,11 @@ export const SignUpThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
       const res = await SignUp(userData);
       return res;
     } catch (error: any) {
-      const message = error.response?.data?.message || error.message || "Ошибка регистрации";
+      const message =
+        error.response?.data?.message || error.message || "Ошибка регистрации";
       return rejectWithValue(message);
     }
-  }
+  },
 );
 
 export const getUserProfileThunk = createAsyncThunk(
@@ -34,8 +42,11 @@ export const getUserProfileThunk = createAsyncThunk(
     try {
       return await getUserProfile(token);
     } catch (error: any) {
-      const message = error.response?.data?.message || error.message || "Ошибка получения профиля";
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "Ошибка получения профиля";
       return rejectWithValue(message);
     }
-  }
+  },
 );

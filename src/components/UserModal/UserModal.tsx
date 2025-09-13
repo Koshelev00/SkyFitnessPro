@@ -2,7 +2,11 @@
 
 import ButtonGreen from "../Button/ButtonGreen";
 import ButtonWhite from "../Button/ButtonWhite";
-import { clearUser, closeModalUser, setIsAuth } from "@/Store/features/Autch/autchSlice";
+import {
+  clearUser,
+  closeModalUser,
+  setIsAuth,
+} from "@/Store/features/Autch/autchSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState } from "@/Store/store";
@@ -26,10 +30,12 @@ export default function UserModal() {
     dispatch(closeModalUser());
   };
 
-  
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         dispatch(closeModalUser());
       }
     };

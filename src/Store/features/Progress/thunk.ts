@@ -15,57 +15,89 @@ export const fetchCourseProgressThunk = createAsyncThunk(
     try {
       return await getCourseProgress(courseId);
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Ошибка получения прогресса курса");
+      return rejectWithValue(
+        error.response?.data?.message || "Ошибка получения прогресса курса",
+      );
     }
-  }
+  },
 );
 
 //Получить прогресс тренировки
 export const fetchWorkoutProgressThunk = createAsyncThunk(
   "progress/fetchWorkoutProgress",
-  async ({ courseId, workoutId, token }: { courseId: string; workoutId: string; token: string; }, { rejectWithValue }) => {
+  async (
+    {
+      courseId,
+      workoutId,
+      token,
+    }: { courseId: string; workoutId: string; token: string },
+    { rejectWithValue },
+  ) => {
     try {
       return await getWorkoutProgress(courseId, workoutId, token);
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Ошибка получения прогресса тренировки");
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Ошибка получения прогресса тренировки",
+      );
     }
-  }
+  },
 );
 
 //Получить данные прогресса тренировки
 export const fetchWorkoutProgressDataThunk = createAsyncThunk(
   "progress/fetchWorkoutProgressData",
-  async ({ courseId, workoutId }: { courseId: string; workoutId: string }, { rejectWithValue }) => {
+  async (
+    { courseId, workoutId }: { courseId: string; workoutId: string },
+    { rejectWithValue },
+  ) => {
     try {
       return await getWorkoutProgressData(courseId, workoutId);
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Ошибка получения данных прогресса тренировки");
+      return rejectWithValue(
+        error.response?.data?.message ||
+          "Ошибка получения данных прогресса тренировки",
+      );
     }
-  }
+  },
 );
 
 //Сохранить прогресс тренировки
 export const saveWorkoutProgressThunk = createAsyncThunk(
   "progress/saveWorkoutProgress",
-  async ({ courseId, workoutId, progressData }: { courseId: string; workoutId: string; progressData: number[] }, { rejectWithValue }) => {
+  async (
+    {
+      courseId,
+      workoutId,
+      progressData,
+    }: { courseId: string; workoutId: string; progressData: number[] },
+    { rejectWithValue },
+  ) => {
     try {
       return await saveWorkoutProgress(courseId, workoutId, progressData);
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Ошибка сохранения прогресса");
+      return rejectWithValue(
+        error.response?.data?.message || "Ошибка сохранения прогресса",
+      );
     }
-  }
+  },
 );
 
 //Сбросить прогресс тренировки
 export const resetWorkoutProgressThunk = createAsyncThunk(
   "progress/resetWorkoutProgress",
-  async ({ courseId, workoutId }: { courseId: string; workoutId: string }, { rejectWithValue }) => {
+  async (
+    { courseId, workoutId }: { courseId: string; workoutId: string },
+    { rejectWithValue },
+  ) => {
     try {
       return await resetWorkoutProgress(courseId, workoutId);
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Ошибка сброса прогресса тренировки");
+      return rejectWithValue(
+        error.response?.data?.message || "Ошибка сброса прогресса тренировки",
+      );
     }
-  }
+  },
 );
 
 //Сбросить прогресс курса
@@ -75,7 +107,9 @@ export const resetCourseProgressThunk = createAsyncThunk(
     try {
       return await resetCourseProgress(courseId);
     } catch (error: any) {
-      return rejectWithValue(error.response?.data?.message || "Ошибка сброса прогресса курса");
+      return rejectWithValue(
+        error.response?.data?.message || "Ошибка сброса прогресса курса",
+      );
     }
-  }
+  },
 );

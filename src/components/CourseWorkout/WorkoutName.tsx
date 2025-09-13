@@ -1,17 +1,19 @@
-'use client'
+"use client";
 
 import { formattedNameType } from "@/Types/workoutType";
 import Image from "next/image";
 
 type WorkoutProps = {
   formattedName: formattedNameType;
-  completed?: boolean; 
+  completed?: boolean;
 };
 
-export default function WorkoutName({ formattedName, completed = false }: WorkoutProps) {
+export default function WorkoutName({
+  formattedName,
+  completed = false,
+}: WorkoutProps) {
   return (
     <div className="flex gap-[10px] items-center">
-      
       <div className="w-6 h-6 flex items-center justify-center">
         {completed ? (
           <Image src="/complete.svg" alt="Completed" width={24} height={24} />

@@ -1,5 +1,5 @@
-import clsx from 'clsx';
-import { InputHTMLAttributes, useState, useEffect } from 'react';
+import clsx from "clsx";
+import { InputHTMLAttributes, useState, useEffect } from "react";
 
 interface ProgressExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
   name?: string;
@@ -7,18 +7,23 @@ interface ProgressExerciseProps extends InputHTMLAttributes<HTMLInputElement> {
   value?: number | string;
 }
 
-export default function ProgressExercise({ name, className, type, value, ...props }: ProgressExerciseProps) {
+export default function ProgressExercise({
+  name,
+  className,
+  type,
+  value,
+  ...props
+}: ProgressExerciseProps) {
   const [isFocused, setIsFocused] = useState(false);
-  const [inputValue, setInputValue] = useState(String(value ?? ''));
+  const [inputValue, setInputValue] = useState(String(value ?? ""));
 
-  
   useEffect(() => {
-    setInputValue(String(value ?? ''));
+    setInputValue(String(value ?? ""));
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-  
+
     if (/^\d*$/.test(val)) {
       setInputValue(val);
     }
@@ -26,9 +31,9 @@ export default function ProgressExercise({ name, className, type, value, ...prop
 
   const handleBlur = () => {
     setIsFocused(false);
-  
-    if (inputValue === '') {
-      setInputValue('');
+
+    if (inputValue === "") {
+      setInputValue("");
     }
   };
 
@@ -37,13 +42,13 @@ export default function ProgressExercise({ name, className, type, value, ...prop
       name={name}
       type={type}
       className={clsx(
-        'border border-[#D0CECE] w-[237px] h-[47px] md:h-[52px] md:w-[320px] rounded-[8px] px-4.5 py-4 text-black font-normal transition-colors duration-200 placeholder:text-[#D0CECE]',
-        'bg-[#FFFFFF] disabled:opacity-50 text-lg',
-        type === 'number' && 'appearance-none [MozAppearance:textfield]',
-        className
+        "border border-[#D0CECE] w-[237px] h-[47px] md:h-[52px] md:w-[320px] rounded-[8px] px-4.5 py-4 text-black font-normal transition-colors duration-200 placeholder:text-[#D0CECE]",
+        "bg-[#FFFFFF] disabled:opacity-50 text-lg",
+        type === "number" && "appearance-none [MozAppearance:textfield]",
+        className,
       )}
-      value={isFocused ? inputValue : inputValue || ''}
-      placeholder={isFocused ? '' : inputValue || '0'}
+      value={isFocused ? inputValue : inputValue || ""}
+      placeholder={isFocused ? "" : inputValue || "0"}
       onFocus={() => setIsFocused(true)}
       onBlur={handleBlur}
       onChange={handleChange}

@@ -7,10 +7,13 @@ import { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/Store/store";
 import { SignInThunk, SignUpThunk } from "@/Store/features/Autch/thunk";
-import { setEmail, closeModal, clearError } from "@/Store/features/Autch/autchSlice";
+import {
+  setEmail,
+  closeModal,
+  clearError,
+} from "@/Store/features/Autch/autchSlice";
 
 type AuthMode = "signin" | "signup";
-
 
 function escapeHtml(value: string) {
   return value
@@ -23,7 +26,11 @@ function escapeHtml(value: string) {
 
 export default function AuthModal() {
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
-  const [formData, setFormData] = useState({ email: "", password: "", confirmPassword: "" });
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -61,13 +68,13 @@ export default function AuthModal() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(SignInThunk({ email: formData.email, password: formData.password })).unwrap();
+      await dispatch(
+        SignInThunk({ email: formData.email, password: formData.password }),
+      ).unwrap();
       dispatch(setEmail(formData.email));
       localStorage.setItem("user.email", formData.email);
       handleCloseModal();
-    } catch (err: any) {
-      
-    }
+    } catch (err: any) {}
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -75,15 +82,15 @@ export default function AuthModal() {
     if (formData.password !== formData.confirmPassword) return;
 
     try {
-      await dispatch(SignUpThunk({ email: formData.email, password: formData.password })).unwrap();
+      await dispatch(
+        SignUpThunk({ email: formData.email, password: formData.password }),
+      ).unwrap();
       setSuccessMessage("Регистрация успешна! Теперь войдите в систему.");
       setFormData((prev) => ({ ...prev, password: "", confirmPassword: "" }));
       setShowPassword(false);
       setShowConfirmPassword(false);
       setAuthMode("signin");
-    } catch (err: any) {
-      
-    }
+    } catch (err: any) {}
   };
 
   if (!isOpen) return null;
@@ -99,7 +106,13 @@ export default function AuthModal() {
         </button>
 
         <div className="h-[35px] mb-8 flex justify-center">
-          <Image src="/logo.svg" width={220} height={35} alt="Logo" className="h-6 w-auto" />
+          <Image
+            src="/logo.svg"
+            width={220}
+            height={35}
+            alt="Logo"
+            className="h-6 w-auto"
+          />
         </div>
 
         {authMode === "signin" ? (
@@ -132,9 +145,15 @@ export default function AuthModal() {
               </button>
             </div>
             {error && <div className="text-[#db0030] text-center">{error}</div>}
-            {successMessage && <div className="text-[#00a859] text-center">{successMessage}</div>}
+            {successMessage && (
+              <div className="text-[#00a859] text-center">{successMessage}</div>
+            )}
             <ButtonGreen text="Войти" type="submit" />
-            <ButtonWhite text="Зарегистрироваться" type="button" onClick={() => setAuthMode("signup")} />
+            <ButtonWhite
+              text="Зарегистрироваться"
+              type="button"
+              onClick={() => setAuthMode("signup")}
+            />
           </form>
         ) : (
           <form onSubmit={handleSignUp} className="flex flex-col gap-2.5">
@@ -184,9 +203,15 @@ export default function AuthModal() {
               </button>
             </div>
             {error && <div className="text-[#db0030] text-center">{error}</div>}
-            {successMessage && <div className="text-[#00a859] text-center">{successMessage}</div>}
+            {successMessage && (
+              <div className="text-[#00a859] text-center">{successMessage}</div>
+            )}
             <ButtonGreen text="Зарегистрироваться" type="submit" />
-            <ButtonWhite text="Войти" type="button" onClick={() => setAuthMode("signin")} />
+            <ButtonWhite
+              text="Войти"
+              type="button"
+              onClick={() => setAuthMode("signin")}
+            />
           </form>
         )}
       </div>

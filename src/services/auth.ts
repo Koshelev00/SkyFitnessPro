@@ -1,8 +1,6 @@
 import axios from "axios";
 import { BASE_URL, RoutesApp } from "@/constants";
 
-
-
 export type AuthUserReturn = {
   token: string;
 };
@@ -13,13 +11,9 @@ export type AuthUserProp = {
 };
 
 export async function SignIn(userData: AuthUserProp): Promise<AuthUserReturn> {
-  const { data } = await axios.post(
-    `${BASE_URL}${RoutesApp.login}`,
-    userData,
-    {
-      headers: { "Content-Type": "application/javascript" },
-    }
-  );
+  const { data } = await axios.post(`${BASE_URL}${RoutesApp.login}`, userData, {
+    headers: { "Content-Type": "application/javascript" },
+  });
 
   return data;
 }
@@ -30,7 +24,7 @@ export async function SignUp(userData: AuthUserProp): Promise<AuthUserReturn> {
     userData,
     {
       headers: { "Content-Type": "application/javascript" },
-    }
+    },
   );
 
   return data;

@@ -1,18 +1,17 @@
 @import "tailwindcss";
 
-
 body {
   font-family: var(--font-montserrat, "Roboto");
   padding-left: calc(50% - 580px);
   padding-right: calc(50% - 580px);
   background-color: #fafafa;
-@media (max-width: 767px) {   
-  padding-left: calc(50% - 172px);
-  padding-right: calc(50% - 172px);
-};
-@media (min-width: 768px) and (max-width: 1024px) {  
-   padding-left: calc(50% - 395px); 
-  padding-right: calc(50% - 395px); 
+  @media (max-width: 767px) {
+    padding-left: calc(50% - 172px);
+    padding-right: calc(50% - 172px);
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    padding-left: calc(50% - 395px);
+    padding-right: calc(50% - 395px);
   }
 }
 
@@ -33,6 +32,6 @@ input {
 a {
   text-decoration: none;
 }
-html{
-scroll-behavior: smooth;
+html {
+  scroll-behavior: smooth;
 }

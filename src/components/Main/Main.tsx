@@ -17,7 +17,11 @@ interface Toast {
 
 export default function Main() {
   const dispatch = useAppDispatch();
-  const { courses = [], status, error } = useAppSelector((state) => state.courses);
+  const {
+    courses = [],
+    status,
+    error,
+  } = useAppSelector((state) => state.courses);
   const { user } = useAppSelector((state) => state.auth);
   const [token, setToken] = useState<string | null>(null);
   const [toasts, setToasts] = useState<Toast[]>([]);
@@ -26,15 +30,21 @@ export default function Main() {
   const addToast = (message: string) => {
     const id = toastId + 1;
     setToastId(id);
-    setToasts(prev => [...prev, { id, message, visible: true }]);
+    setToasts((prev) => [...prev, { id, message, visible: true }]);
     setTimeout(() => {
-      setToasts(prev => prev.map(t => t.id === id ? { ...t, visible: false } : t));
-      setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 800);
+      setToasts((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, visible: false } : t)),
+      );
+      setTimeout(
+        () => setToasts((prev) => prev.filter((t) => t.id !== id)),
+        800,
+      );
     }, 2000);
   };
 
   useEffect(() => {
-    const authToken = typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
+    const authToken =
+      typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
     setToken(authToken);
     dispatch(fetchCoursesThunk());
     if (authToken) {
@@ -44,20 +54,27 @@ export default function Main() {
 
   return (
     <>
-      <div className="flex justify-between mt-15 mb-12.5 relative" id="section1">
+      <div
+        className="flex justify-between mt-15 mb-12.5 relative"
+        id="section1"
+      >
         <div>
           <h2 className="text-[#000001] text-[32px] font-medium md:text-6xl md:leading-[70px]">
-            Начните заниматься спортом <span className="hidden md:inline"><br/></span> и улучшите качество жизни
+            Начните заниматься спортом{" "}
+            <span className="hidden md:inline">
+              <br />
+            </span>{" "}
+            и улучшите качество жизни
           </h2>
         </div>
         <div className="relative w-[288px] h-[120px] hidden md:block">
-  <Image
-    src="/message.svg"
-    alt="message"
-    fill
-    className="object-contain"
-  />
-</div>
+          <Image
+            src="/message.svg"
+            alt="message"
+            fill
+            className="object-contain"
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
@@ -70,7 +87,8 @@ export default function Main() {
               course={c}
               token={token || undefined}
               addToast={addToast}
-              userSelectedCourses={user?.selectedCourses || []}/>
+              userSelectedCourses={user?.selectedCourses || []}
+            />
           ))
         ) : status === "succeeded" ? (
           <p>Нет доступных курсов</p>
@@ -93,7 +111,7 @@ export default function Main() {
           <div
             key={toast.id}
             className={`bg-[#BCEC30] text-[#000000] w-60 px-2 py-4 rounded-xl text-2xl flex items-center justify-center shadow-lg transition-all duration-500
-              ${toast.visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
+              ${toast.visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}
           >
             {toast.message}
           </div>

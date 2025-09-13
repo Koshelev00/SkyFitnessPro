@@ -14,7 +14,12 @@ interface CardProfileProps {
   addToast: (message: string, icon?: string) => void;
 }
 
-export default function CardProfile({ course, progress, workoutStats, addToast }: CardProfileProps) {
+export default function CardProfile({
+  course,
+  progress,
+  workoutStats,
+  addToast,
+}: CardProfileProps) {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const courseId = course._id;
@@ -54,39 +59,48 @@ export default function CardProfile({ course, progress, workoutStats, addToast }
           className="object-cover rounded-t-[30px]"
           src={`/image/${course.nameEN}.png`}
           alt={course.nameRU}
-          onError={(e) => { e.currentTarget.src = "/image/default-course.png"; }}
+          onError={(e) => {
+            e.currentTarget.src = "/image/default-course.png";
+          }}
         />
       </div>
 
       <div className="mx-7.5 pb-10 md:pb-[15px]">
-        <h2 className="text-[#001] text-[24px] md:text-[32px] font-medium leading-9.5">{course.nameRU}</h2>
+        <h2 className="text-[#001] text-[24px] md:text-[32px] font-medium leading-9.5">
+          {course.nameRU}
+        </h2>
 
         <div className="flex gap-1.5 mt-5">
           <div className="flex bg-[#F7F7F7] w-[103px] h-[38px] rounded-[50px] p-2.5 gap-1.5">
             <Image width={18} height={18} src="/Calendar.svg" alt="calendar" />
-            <span className="text-[#202020] text-[16px] font-normal leading-[19px]">{course.durationInDays ?? 0} дней</span>
+            <span className="text-[#202020] text-[16px] font-normal leading-[19px]">
+              {course.durationInDays ?? 0} дней
+            </span>
           </div>
           <div className="flex bg-[#F7F7F7] w-[163px] h-[38px] rounded-[50px] p-2.5 gap-1.5">
             <Image width={18} height={18} src="/Time.svg" alt="time" />
             <span className="text-[#202020] text-[16px] font-normal leading-[19px]">
-              {(course.dailyDurationInMinutes?.from ?? 0)}-{(course.dailyDurationInMinutes?.to ?? 0)} мин/день
+              {course.dailyDurationInMinutes?.from ?? 0}-
+              {course.dailyDurationInMinutes?.to ?? 0} мин/день
             </span>
           </div>
         </div>
 
         <div className="flex bg-[#F7F7F7] w-[129px] h-[38px] rounded-[50px] p-2.5 gap-1.5 mt-1.5">
           <Image width={18} height={18} src="/signal-fill.svg" alt="signal" />
-          <span className="text-[#202020] text-[16px] font-normal leading-[19px]">{course.difficulty ?? "—"}</span>
+          <span className="text-[#202020] text-[16px] font-normal leading-[19px]">
+            {course.difficulty ?? "—"}
+          </span>
         </div>
 
         <div className="text-[18px] mt-5 mb-10">
           <p className="text-[18px]">Прогресс {progress}%</p>
           <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2.5">
-            <ProgressBar progress={progress}/>
+            <ProgressBar progress={progress} />
           </div>
         </div>
 
-        <ButtonGreen text={getButtonText()} onClick={handleWorkoutButton}/>
+        <ButtonGreen text={getButtonText()} onClick={handleWorkoutButton} />
       </div>
     </div>
   );

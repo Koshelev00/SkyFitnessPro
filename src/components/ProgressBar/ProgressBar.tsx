@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 type Props = {
-  progress: number; 
+  progress: number;
 };
 
 export default function ProgressBar({ progress }: Props) {
@@ -19,7 +19,7 @@ export default function ProgressBar({ progress }: Props) {
       start += increment;
       setDisplayProgress(start);
       if (start === end) clearInterval(interval);
-    }, 5); 
+    }, 5);
 
     return () => clearInterval(interval);
   }, [progress]);

@@ -1,6 +1,6 @@
 "use client";
 
-import  CourseWorkout from "@/components/CourseWorkout/CourseWorkout";
+import CourseWorkout from "@/components/CourseWorkout/CourseWorkout";
 import { useParams } from "next/navigation";
 
 export default function CourseWorkoutPage() {

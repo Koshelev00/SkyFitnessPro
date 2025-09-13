@@ -1,4 +1,3 @@
-
 export interface CourseWorkoutsType {
   _id: string;
   name: string;
@@ -9,7 +8,6 @@ export interface CourseWorkoutsType {
     quantity: number;
   }[];
 }
-
 
 export interface CourseType {
   _id: string;
@@ -25,6 +23,5 @@ export interface CourseType {
     from: number;
     to: number;
   };
-  workouts: string[] | CourseWorkoutsType[]; 
-  
+  workouts: string[] | CourseWorkoutsType[];
 }
