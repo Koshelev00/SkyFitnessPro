@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get("token_global")?.value;
+  const token = req.cookies.get("token_global")?.value || req.cookies.get("_vercel_jwt")?.value;
   const url = req.nextUrl.clone();
 
   const publicPaths = ["/", "/course/:id"];
