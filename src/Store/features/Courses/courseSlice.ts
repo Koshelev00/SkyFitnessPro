@@ -87,3 +87,4 @@ const coursesSlice = createSlice({
 });
 
 export default coursesSlice.reducer;
+export type { CoursesState };

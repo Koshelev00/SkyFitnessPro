@@ -119,3 +119,4 @@ const progressSlice = createSlice({
 });
 
 export default progressSlice.reducer;
+export type { ProgressState};

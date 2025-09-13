@@ -98,3 +98,4 @@ const workoutSlice = createSlice({
 
 export const { openModalWorkout, closeModalWorkout, openModalCompleted, closeModalCompleted } = workoutSlice.actions;
 export default workoutSlice.reducer;
+export type { WorkoutsState};

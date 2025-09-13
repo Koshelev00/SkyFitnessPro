@@ -1,6 +1,7 @@
+// src/components/Main/Main.tsx
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"; // Добавьте импорт React
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchCoursesThunk } from "@/Store/features/Courses/thunk";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
