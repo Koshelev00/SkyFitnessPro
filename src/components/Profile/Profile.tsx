@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
@@ -48,12 +48,21 @@ export default function Profile() {
     icon?: string;
     visible: boolean;
   } | null>(null);
+
   const addToast = (message: string, icon?: string) => {
     setToast({ message, icon, visible: true });
     setTimeout(() => {
       setToast((prev) => (prev ? { ...prev, visible: false } : null));
     }, 2000);
   };
+
+  const handleLogout = useCallback(() => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user.email");
+    dispatch(clearUser());
+    dispatch(setIsAuth(false));
+    router.push("/");
+  }, [dispatch, router]);
 
   const userCourses = courses.filter((course) =>
     user?.selectedCourses?.includes(course._id),
@@ -88,24 +97,17 @@ export default function Profile() {
             );
           }
         }
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Failed to load data:", error);
-        if ((error as any)?.status === 401) handleLogout();
+        const err = error as { status?: number };
+        if (err?.status === 401) handleLogout();
       } finally {
         setIsLoading(false);
       }
     };
 
     checkAuthAndLoadData();
-  }, [dispatch, router]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("user.email");
-    dispatch(clearUser());
-    dispatch(setIsAuth(false));
-    router.push("/");
-  };
+  }, [dispatch, router, handleLogout]);
 
   const getCourseProgress = (courseId: string): number => {
     const data: CourseProgressResponse | undefined = courseProgress?.[courseId];
@@ -127,25 +129,6 @@ export default function Profile() {
     return allWorkouts.length > 0
       ? Math.round((completed / allWorkouts.length) * 100)
       : 0;
-  };
-
-  const getWorkoutStats = (courseId: string): string => {
-    const data: CourseProgressResponse | undefined = courseProgress?.[courseId];
-    if (!data) return "";
-    const course = courses.find((c) => c._id === courseId);
-    if (!course || !Array.isArray(course.workouts)) return "";
-    const allWorkouts: (string | CourseWorkoutsType)[] = course.workouts;
-    const completed = allWorkouts.filter((workout) => {
-      const workoutId = typeof workout === "string" ? workout : workout._id;
-      const workoutProgress = data.workoutsProgress?.find(
-        (w) => w.workoutId === workoutId,
-      );
-      return workoutProgress?.workoutCompleted === true;
-    }).length;
-
-    return allWorkouts.length > 0
-      ? `Завершено: ${completed} / ${allWorkouts.length} тренировок`
-      : "";
   };
 
   if (!isAuthorized && !isLoading) {
@@ -211,14 +194,12 @@ export default function Profile() {
         {userCourses.length > 0 ? (
           userCourses.map((course) => {
             const progress = getCourseProgress(course._id);
-            const workoutStats = getWorkoutStats(course._id);
 
             return (
               <CardProfile
                 key={course._id}
                 course={course}
                 progress={progress}
-                workoutStats={workoutStats}
                 addToast={addToast}
               />
             );

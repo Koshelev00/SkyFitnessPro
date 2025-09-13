@@ -7,13 +7,21 @@ import { useState, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/Store/store";
 import { SignInThunk, SignUpThunk } from "@/Store/features/Autch/thunk";
-import {
-  setEmail,
-  closeModal,
-  clearError,
-} from "@/Store/features/Autch/autchSlice";
+import { setEmail, closeModal, clearError } from "@/Store/features/Autch/autchSlice";
 
 type AuthMode = "signin" | "signup";
+
+interface FormData {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface Toast {
+  id: number;
+  message: string;
+  visible: boolean;
+}
 
 function escapeHtml(value: string) {
   return value
@@ -26,7 +34,7 @@ function escapeHtml(value: string) {
 
 export default function AuthModal() {
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
     confirmPassword: "",
@@ -34,10 +42,13 @@ export default function AuthModal() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toastId, setToastId] = useState(0);
 
   const dispatch = useDispatch<AppDispatch>();
   const { isOpen, error } = useSelector((state: RootState) => state.auth);
 
+  // Сброс формы при открытии модалки
   useEffect(() => {
     if (isOpen) {
       setAuthMode("signin");
@@ -48,13 +59,26 @@ export default function AuthModal() {
     }
   }, [isOpen]);
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const addToast = useCallback((message: string) => {
+    const id = toastId + 1;
+    setToastId(id);
+    setToasts((prev) => [...prev, { id, message, visible: true }]);
+    setTimeout(() => {
+      setToasts((prev) =>
+        prev.map((t) => (t.id === id ? { ...t, visible: false } : t))
+      );
+      setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 800);
+    }, 2000);
+  }, [toastId]);
 
-    const safeValue = escapeHtml(value);
-
-    setFormData((prev) => ({ ...prev, [name]: safeValue }));
-  }, []);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      const safeValue = escapeHtml(value);
+      setFormData((prev) => ({ ...prev, [name]: safeValue }));
+    },
+    []
+  );
 
   const handleCloseModal = useCallback(() => {
     dispatch(closeModal());
@@ -69,28 +93,35 @@ export default function AuthModal() {
     e.preventDefault();
     try {
       await dispatch(
-        SignInThunk({ email: formData.email, password: formData.password }),
+        SignInThunk({ email: formData.email, password: formData.password })
       ).unwrap();
       dispatch(setEmail(formData.email));
       localStorage.setItem("user.email", formData.email);
       handleCloseModal();
-    } catch (err: any) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) addToast(err.message);
+    }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) return;
+    if (formData.password !== formData.confirmPassword) {
+      addToast("Пароли не совпадают");
+      return;
+    }
 
     try {
       await dispatch(
-        SignUpThunk({ email: formData.email, password: formData.password }),
+        SignUpThunk({ email: formData.email, password: formData.password })
       ).unwrap();
       setSuccessMessage("Регистрация успешна! Теперь войдите в систему.");
       setFormData((prev) => ({ ...prev, password: "", confirmPassword: "" }));
       setShowPassword(false);
       setShowConfirmPassword(false);
       setAuthMode("signin");
-    } catch (err: any) {}
+    } catch (err: unknown) {
+      if (err instanceof Error) addToast(err.message);
+    }
   };
 
   if (!isOpen) return null;
@@ -214,6 +245,19 @@ export default function AuthModal() {
             />
           </form>
         )}
+
+        {/* Всплывающие тоасты */}
+        <div className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col gap-4 z-50">
+          {toasts.map((toast) => (
+            <div
+              key={toast.id}
+              className={`bg-[#BCEC30] text-[#000] w-[250px] px-4 py-3 rounded-xl shadow-lg text-center font-semibold transition-all duration-500
+                ${toast.visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}
+            >
+              {toast.message}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

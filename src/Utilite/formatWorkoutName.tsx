@@ -1,4 +1,4 @@
-export default function formatWorkoutName(name: any) {
+export default function formatWorkoutName(name: string | unknown) {
   if (typeof name !== "string") return { title: "", subtitle: "" };
 
   if (name.includes(" / ")) {

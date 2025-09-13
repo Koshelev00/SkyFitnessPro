@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 type Props = {
   progress: number;
@@ -7,18 +7,20 @@ type Props = {
 
 export default function ProgressBar({ progress }: Props) {
   const [displayProgress, setDisplayProgress] = useState(0);
+  const progressRef = useRef(displayProgress);
 
   useEffect(() => {
-    let start = displayProgress;
+    let current = progressRef.current;
     const end = progress;
-    const increment = end > start ? 1 : -1;
+    const increment = end > current ? 1 : -1;
 
-    if (start === end) return;
+    if (current === end) return;
 
     const interval = setInterval(() => {
-      start += increment;
-      setDisplayProgress(start);
-      if (start === end) clearInterval(interval);
+      current += increment;
+      progressRef.current = current;
+      setDisplayProgress(current);
+      if (current === end) clearInterval(interval);
     }, 5);
 
     return () => clearInterval(interval);

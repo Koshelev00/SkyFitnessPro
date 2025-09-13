@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutByIdThunk } from "@/Store/features/Worcout/thunk";
 import {
@@ -38,39 +38,44 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
   const isOpen = useAppSelector((state) => state.workouts.isOpen);
   const Open = useAppSelector((state) => state.workouts.Open);
   const { currentWorkout, status, error } = useAppSelector(
-    (state) => state.workouts,
+    (state) => state.workouts
   );
   const currentCourse = useAppSelector((state) => state.courses);
   const workoutProgress = useAppSelector(
-    (state) => state.progress.workoutProgress,
+    (state) => state.progress.workoutProgress
   );
 
+  // Устанавливаем токен при монтировании
   useEffect(() => {
     setToken(getAuthToken());
   }, []);
 
+  // Загружаем тренировку и курс
   useEffect(() => {
     if (token && workoutId) {
       dispatch(fetchWorkoutByIdThunk({ workoutId, token }));
       dispatch(fetchCourseByIdThunk(courseId));
     }
-  }, [dispatch, workoutId, token]);
+  }, [dispatch, workoutId, token, courseId]);
 
-  const loadProgress = () => {
+  // Стабилизированная функция загрузки прогресса
+  const loadProgress = useCallback(() => {
     if (token) {
       dispatch(fetchWorkoutProgressThunk({ courseId, workoutId, token }));
     }
-  };
-
-  useEffect(() => {
-    loadProgress();
   }, [dispatch, courseId, workoutId, token]);
 
+  // Вызываем загрузку прогресса
+  useEffect(() => {
+    loadProgress();
+  }, [loadProgress]);
+
+  // Перезагрузка прогресса при закрытии модалей
   useEffect(() => {
     if (!isOpen && !Open) {
       loadProgress();
     }
-  }, [isOpen, Open]);
+  }, [isOpen, Open, loadProgress]);
 
   const openModal = () => dispatch(openModalWorkout());
 
@@ -82,15 +87,13 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
 
   const completeWithoutProgress = async () => {
     if (!token) return;
-
     await dispatch(
       saveWorkoutProgressThunk({
         courseId,
         workoutId,
         progressData: [],
-      }),
+      })
     ).unwrap();
-
     dispatch(openModalCompleted());
     dispatch(fetchWorkoutProgressThunk({ courseId, workoutId, token }));
   };
@@ -99,7 +102,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
 
   const calculateProgress = (
     exerciseProgress: number,
-    quantity: number | undefined,
+    quantity: number | undefined
   ): number => {
     if (!quantity || quantity === 0) return 0;
     return Math.min(100, Math.round((exerciseProgress / quantity) * 100));
@@ -112,7 +115,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
     return <div className="mt-15">Тренировка не найдена</div>;
 
   const formattedName = formatWorkoutName(currentWorkout.name);
-  const hasProgress = workoutProgress?.progressData?.some((v: number) => v > 0);
+  const hasProgress = workoutProgress?.progressData?.some((v) => v > 0);
   const hasExercises = currentWorkout.exercises?.length > 0;
 
   return (
@@ -159,18 +162,18 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
               isWorkoutCompleted
                 ? "Начать заново"
                 : hasExercises
-                  ? hasProgress
-                    ? "Обновить прогресс"
-                    : "Заполнить прогресс"
-                  : "Выполнить упражнение"
+                ? hasProgress
+                  ? "Обновить прогресс"
+                  : "Заполнить прогресс"
+                : "Выполнить упражнение"
             }
             className="h-12.5 sm:w-80 text-lg w-full"
             onClick={
               isWorkoutCompleted
                 ? resetProgressWorkout
                 : hasExercises
-                  ? openModal
-                  : completeWithoutProgress
+                ? openModal
+                : completeWithoutProgress
             }
           />
         </div>

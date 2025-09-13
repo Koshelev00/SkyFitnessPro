@@ -10,14 +10,12 @@ import ButtonGreen from "../Button/ButtonGreen";
 interface CardProfileProps {
   course: CourseType;
   progress: number;
-  workoutStats?: string;
   addToast: (message: string, icon?: string) => void;
 }
 
 export default function CardProfile({
   course,
   progress,
-  workoutStats,
   addToast,
 }: CardProfileProps) {
   const dispatch = useAppDispatch();
@@ -57,11 +55,9 @@ export default function CardProfile({
           width={360}
           height={180}
           className="object-cover rounded-t-[30px]"
-          src={`/image/${course.nameEN}.png`}
+          src={`/image/${course.nameEN ?? "placeholder"}.png`}
           alt={course.nameRU}
-          onError={(e) => {
-            e.currentTarget.src = "/image/default-course.png";
-          }}
+         
         />
       </div>
 

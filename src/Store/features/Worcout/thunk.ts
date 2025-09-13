@@ -1,75 +1,83 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import {
-  getWorkouts,
-  getWorkoutById,
-  addUserWorkout,
-  deleteUserWorkout,
-} from "@/services/workouts";
+import { getWorkouts, getWorkoutById, addUserWorkout, deleteUserWorkout } from "@/services/workouts";
 
-//Получить все тренировки
-export const fetchWorkoutsThunk = createAsyncThunk(
+// Тип тренировки
+export interface WorkoutType {
+  _id: string;
+  name: string;
+  description: string;
+  video: string;
+  exercises: Array<{
+    _id: string;
+    name: string;
+    quantity: number;
+  }>;
+}
+
+// 🔹 Получить все тренировки
+export const fetchWorkoutsThunk = createAsyncThunk<
+  WorkoutType[], // return type
+  { courseId: string; token: string }, // argument
+  { rejectValue: string } // reject type
+>(
   "workouts/fetchAll",
-  async (
-    { courseId, token }: { courseId: string; token: string },
-    { rejectWithValue },
-  ) => {
+  async ({ courseId, token }, { rejectWithValue }) => {
     try {
       return await getWorkouts(courseId, token);
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Ошибка загрузки тренировок",
-      );
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Ошибка загрузки тренировок";
+      return rejectWithValue(message);
     }
-  },
+  }
 );
 
-//Получить тренировку по ID
-export const fetchWorkoutByIdThunk = createAsyncThunk(
+// 🔹 Получить тренировку по ID
+export const fetchWorkoutByIdThunk = createAsyncThunk<
+  WorkoutType,
+  { workoutId: string; token: string },
+  { rejectValue: string }
+>(
   "workouts/fetchById",
-  async (
-    { workoutId, token }: { workoutId: string; token: string },
-    { rejectWithValue },
-  ) => {
+  async ({ workoutId, token }, { rejectWithValue }) => {
     try {
       return await getWorkoutById(workoutId, token);
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Ошибка загрузки тренировки",
-      );
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Ошибка загрузки тренировки";
+      return rejectWithValue(message);
     }
-  },
+  }
 );
 
-//Добавить тренировку пользователю
-export const addUserWorkoutThunk = createAsyncThunk(
+// 🔹 Добавить тренировку пользователю
+export const addUserWorkoutThunk = createAsyncThunk<
+  void,
+  { workoutId: string; token: string },
+  { rejectValue: string }
+>(
   "workouts/addUserWorkout",
-  async (
-    { workoutId, token }: { workoutId: string; token: string },
-    { rejectWithValue },
-  ) => {
+  async ({ workoutId, token }, { rejectWithValue }) => {
     try {
-      return await addUserWorkout(workoutId, token);
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Ошибка добавления тренировки",
-      );
+      await addUserWorkout(workoutId, token);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Ошибка добавления тренировки";
+      return rejectWithValue(message);
     }
-  },
+  }
 );
 
-//Удалить тренировку пользователя
-export const deleteUserWorkoutThunk = createAsyncThunk(
+// 🔹 Удалить тренировку пользователя
+export const deleteUserWorkoutThunk = createAsyncThunk<
+  void,
+  { workoutId: string; token: string },
+  { rejectValue: string }
+>(
   "workouts/deleteUserWorkout",
-  async (
-    { workoutId, token }: { workoutId: string; token: string },
-    { rejectWithValue },
-  ) => {
+  async ({ workoutId, token }, { rejectWithValue }) => {
     try {
-      return await deleteUserWorkout(workoutId, token);
-    } catch (error: any) {
-      return rejectWithValue(
-        error.response?.data || "Ошибка удаления тренировки",
-      );
+      await deleteUserWorkout(workoutId, token);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "Ошибка удаления тренировки";
+      return rejectWithValue(message);
     }
-  },
+  }
 );

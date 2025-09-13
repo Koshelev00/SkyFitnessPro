@@ -4,13 +4,12 @@ interface ButtonProps {
   onClick?: () => void;
   type?: "button" | "submit";
 
-  disabled?: boolean;
+
 }
 
 export default function ButtonWihte({
   text,
   type = "button",
-  disabled: boolean,
   onClick,
 }: ButtonProps) {
   return (

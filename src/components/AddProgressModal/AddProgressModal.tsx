@@ -1,3 +1,5 @@
+"use client";
+
 import { WorkoutExerciseType } from "@/Types/workoutType";
 import ButtonGreen from "../Button/ButtonGreen";
 import ProgressExercise from "./ProgressExercise";
@@ -106,8 +108,12 @@ export default function AddProgressModal({
           dispatch(fetchWorkoutProgressThunk({ courseId, workoutId, token }));
         }
       }
-    } catch (error: any) {
-      addToast("Ошибка сохранения прогресса");
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Ошибка сохранения прогресса";
+      addToast(message);
     }
   };
 

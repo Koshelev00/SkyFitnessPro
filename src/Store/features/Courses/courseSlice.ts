@@ -72,7 +72,7 @@ const coursesSlice = createSlice({
       })
 
       //Добавить курс пользователю
-      .addCase(addUserCourseThunk.fulfilled, (state, action) => {
+      .addCase(addUserCourseThunk.fulfilled, (state) => {
         state.status = "succeeded";
       })
 

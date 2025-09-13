@@ -42,8 +42,11 @@ export default function Card({
 
       setIsAdded(true);
       addToast("Курс успешно добавлен!");
-    } catch (error: any) {
-      const message = error?.message || "Произошла ошибка при добавлении курса";
+    } catch (err: unknown) {
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Произошла ошибка при добавлении курса";
       addToast(message);
     } finally {
       setIsAdding(false);
@@ -78,7 +81,7 @@ export default function Card({
             width={343}
             height={325}
             className="sm:w-[360px]"
-            src={`/image/${course.nameEN}.png`}
+            src={`/image/${course.nameEN ?? "placeholder"}.png`}
             alt={course.nameRU}
           />
         </Link>

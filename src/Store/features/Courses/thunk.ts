@@ -7,62 +7,67 @@ import {
   deleteUserCourse,
 } from "@/services/courses";
 
-//Получить все курсы
+// Получить все курсы
 export const fetchCoursesThunk = createAsyncThunk(
   "courses/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
       return await getCourses();
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ошибка получения курсов";
+      return rejectWithValue(message);
     }
   },
 );
 
-//Получить курс по ID
+// Получить курс по ID
 export const fetchCourseByIdThunk = createAsyncThunk(
   "courses/fetchById",
   async (courseId: string, { rejectWithValue }) => {
     try {
       return await getCourseById(courseId);
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ошибка получения курса";
+      return rejectWithValue(message);
     }
   },
 );
 
-//Получить тренировки курса
+// Получить тренировки курса
 export const fetchCourseWorkoutsThunk = createAsyncThunk(
   "courses/fetchWorkouts",
   async (courseId: string, { rejectWithValue }) => {
     try {
       return await getCourseWorkouts(courseId);
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ошибка получения тренировок";
+      return rejectWithValue(message);
     }
   },
 );
 
-//Добавить курс пользователю
+// Добавить курс пользователю
 export const addUserCourseThunk = createAsyncThunk(
   "courses/addUserCourse",
   async (courseId: string, { rejectWithValue }) => {
     try {
       return await addUserCourse(courseId);
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ошибка добавления курса";
+      return rejectWithValue(message);
     }
   },
 );
 
-//Удалить курс у пользователя
+// Удалить курс у пользователя
 export const deleteUserCourseThunk = createAsyncThunk(
   "courses/deleteUserCourse",
   async (courseId: string, { rejectWithValue }) => {
     try {
       return await deleteUserCourse(courseId);
-    } catch (error: any) {
-      return rejectWithValue(error.message);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Ошибка удаления курса";
+      return rejectWithValue(message);
     }
   },
 );

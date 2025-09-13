@@ -7,6 +7,7 @@ import {
   AuthUserReturn,
 } from "@/services/auth";
 
+// SignInThunk
 export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
   "auth/signIn",
   async (userData, { rejectWithValue }) => {
@@ -14,38 +15,38 @@ export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
       const res = await SignIn(userData);
       localStorage.setItem("authToken", res.token);
       return res;
-    } catch (error: any) {
-      const message =
-        error.response?.data?.message || error.message || "Ошибка входа";
+    } catch (err: unknown) {
+      let message = "Ошибка входа";
+      if (err instanceof Error) message = err.message;
       return rejectWithValue(message);
     }
   },
 );
 
+// SignUpThunk
 export const SignUpThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
   "auth/signUp",
   async (userData, { rejectWithValue }) => {
     try {
       const res = await SignUp(userData);
       return res;
-    } catch (error: any) {
-      const message =
-        error.response?.data?.message || error.message || "Ошибка регистрации";
+    } catch (err: unknown) {
+      let message = "Ошибка регистрации";
+      if (err instanceof Error) message = err.message;
       return rejectWithValue(message);
     }
   },
 );
 
+// getUserProfileThunk
 export const getUserProfileThunk = createAsyncThunk(
   "auth/getUserProfile",
   async (token: string, { rejectWithValue }) => {
     try {
       return await getUserProfile(token);
-    } catch (error: any) {
-      const message =
-        error.response?.data?.message ||
-        error.message ||
-        "Ошибка получения профиля";
+    } catch (err: unknown) {
+      let message = "Ошибка получения профиля";
+      if (err instanceof Error) message = err.message;
       return rejectWithValue(message);
     }
   },
