@@ -67,7 +67,7 @@ export default function AuthModal() {
       localStorage.setItem("user.email", formData.email);
       handleCloseModal();
     } catch (err: any) {
-      // Ошибка отображается через Redux
+      
     }
   };
 
