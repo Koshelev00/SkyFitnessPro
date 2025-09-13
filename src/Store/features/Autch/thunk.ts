@@ -6,6 +6,7 @@ import {
   AuthUserProp,
   AuthUserReturn,
 } from "@/services/auth";
+import { ApiError } from "@/Types/userType";
 
 // SignInThunk
 export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
@@ -14,14 +15,13 @@ export const SignInThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
     try {
       const res = await SignIn(userData);
       localStorage.setItem("authToken", res.token);
-      document.cookie = `token_global=${res.token}; path=/; max-age=${7 * 24 * 60 * 60}; secure; samesite=strict`;
       return res;
-    } catch (err: unknown) {
-      let message = "Ошибка входа";
-      if (err instanceof Error) message = err.message;
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      const message = err.response?.data?.message || err.message || "Ошибка входа";
       return rejectWithValue(message);
     }
-  },
+  }
 );
 
 // SignUpThunk
@@ -31,12 +31,12 @@ export const SignUpThunk = createAsyncThunk<AuthUserReturn, AuthUserProp>(
     try {
       const res = await SignUp(userData);
       return res;
-    } catch (err: unknown) {
-      let message = "Ошибка регистрации";
-      if (err instanceof Error) message = err.message;
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      const message = err.response?.data?.message || err.message || "Ошибка регистрации";
       return rejectWithValue(message);
     }
-  },
+  }
 );
 
 // getUserProfileThunk
@@ -45,9 +45,9 @@ export const getUserProfileThunk = createAsyncThunk(
   async (token: string, { rejectWithValue }) => {
     try {
       return await getUserProfile(token);
-    } catch (err: unknown) {
-      let message = "Ошибка получения профиля";
-      if (err instanceof Error) message = err.message;
+    } catch (error: unknown) {
+      const err = error as ApiError;
+      const message = err.response?.data?.message || err.message || "Ошибка получения профиля";
       return rejectWithValue(message);
     }
   },

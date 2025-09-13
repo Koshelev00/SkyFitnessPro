@@ -17,12 +17,6 @@ interface FormData {
   confirmPassword: string;
 }
 
-interface Toast {
-  id: number;
-  message: string;
-  visible: boolean;
-}
-
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -42,11 +36,10 @@ export default function AuthModal() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [toasts, setToasts] = useState<Toast[]>([]);
-  const [toastId, setToastId] = useState(0);
+  const [passwordError, setPasswordError] = useState("");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { isOpen, error } = useSelector((state: RootState) => state.auth);
+  const { isOpen, error, status } = useSelector((state: RootState) => state.auth);
 
   // Сброс формы при открытии модалки
   useEffect(() => {
@@ -56,28 +49,25 @@ export default function AuthModal() {
       setShowPassword(false);
       setShowConfirmPassword(false);
       setSuccessMessage("");
+      setPasswordError("");
+      dispatch(clearError());
     }
-  }, [isOpen]);
-
-  const addToast = useCallback((message: string) => {
-    const id = toastId + 1;
-    setToastId(id);
-    setToasts((prev) => [...prev, { id, message, visible: true }]);
-    setTimeout(() => {
-      setToasts((prev) =>
-        prev.map((t) => (t.id === id ? { ...t, visible: false } : t))
-      );
-      setTimeout(() => setToasts((prev) => prev.filter((t) => t.id !== id)), 800);
-    }, 2000);
-  }, [toastId]);
+  }, [isOpen, dispatch]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       const safeValue = escapeHtml(value);
       setFormData((prev) => ({ ...prev, [name]: safeValue }));
+      // Очищаем ошибки при изменении поля
+      if (name === "confirmPassword" && passwordError) {
+        setPasswordError("");
+      }
+      if (error) {
+        dispatch(clearError());
+      }
     },
-    []
+    [passwordError, error, dispatch]
   );
 
   const handleCloseModal = useCallback(() => {
@@ -87,10 +77,14 @@ export default function AuthModal() {
     setShowPassword(false);
     setShowConfirmPassword(false);
     setSuccessMessage("");
+    setPasswordError("");
   }, [dispatch]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch(clearError());
+    setPasswordError("");
+    
     try {
       await dispatch(
         SignInThunk({ email: formData.email, password: formData.password })
@@ -99,16 +93,21 @@ export default function AuthModal() {
       localStorage.setItem("user.email", formData.email);
       handleCloseModal();
     } catch (err: unknown) {
-      if (err instanceof Error) addToast(err.message);
+      // Ошибка уже обработана в extraReducers и сохранена в state.auth.error
+      console.error("Sign in error:", err);
     }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch(clearError());
+    
     if (formData.password !== formData.confirmPassword) {
-      addToast("Пароли не совпадают");
+      setPasswordError("Пароли не совпадают");
       return;
     }
+    
+    setPasswordError("");
 
     try {
       await dispatch(
@@ -120,7 +119,8 @@ export default function AuthModal() {
       setShowConfirmPassword(false);
       setAuthMode("signin");
     } catch (err: unknown) {
-      if (err instanceof Error) addToast(err.message);
+      // Ошибка уже обработана в extraReducers и сохранена в state.auth.error
+      console.error("Sign up error:", err);
     }
   };
 
@@ -175,17 +175,25 @@ export default function AuthModal() {
                 {showPassword ? "Скрыть" : "Показать"}
               </button>
             </div>
-            {error && <div className="text-[#db0030] text-center">{error}</div>}
+            {error && <div className="text-[#db0030] text-center text-sm mt-2">{error}</div>}
             {successMessage && (
-              <div className="text-[#00a859] text-center">{successMessage}</div>
+              <div className="text-[#00a859] text-center text-sm mt-2">{successMessage}</div>
             )}
             <div className="mt-6 flex flex-col gap-2.5">
-            <ButtonGreen text="Войти" type="submit" />
-            <ButtonWhite
-              text="Зарегистрироваться"
-              type="button"
-              onClick={() => setAuthMode("signup")}
-            />
+              <ButtonGreen 
+                text="Войти" 
+                type="submit" 
+                disabled={status === "loading"} 
+              />
+              <ButtonWhite
+                text="Зарегистрироваться"
+                type="button"
+                onClick={() => {
+                  setAuthMode("signup");
+                  dispatch(clearError());
+                }}
+                
+              />
             </div>
           </form>
         ) : (
@@ -235,33 +243,30 @@ export default function AuthModal() {
                 {showConfirmPassword ? "Скрыть" : "Показать"}
               </button>
             </div>
-            {error && <div className="text-[#db0030] text-center">{error}</div>}
+            {passwordError && <div className="text-[#db0030] text-center text-sm mt-2">{passwordError}</div>}
+            {error && <div className="text-[#db0030] text-center text-sm mt-2">{error}</div>}
             {successMessage && (
-              <div className="text-[#00a859] text-center">{successMessage}</div>
+              <div className="text-[#00a859] text-center text-sm mt-2">{successMessage}</div>
             )}
             <div className="mt-6 flex flex-col gap-2.5">
-            <ButtonGreen text="Зарегистрироваться" type="submit" />
-            <ButtonWhite
-              text="Войти"
-              type="button"
-              onClick={() => setAuthMode("signin")}
-            />
+              <ButtonGreen 
+                text="Зарегистрироваться" 
+                type="submit" 
+                 
+              />
+              <ButtonWhite
+                text="Войти"
+                type="button"
+                onClick={() => {
+                  setAuthMode("signin");
+                  dispatch(clearError());
+                  setPasswordError("");
+                }}
+               
+              />
             </div>
           </form>
         )}
-
-        {/* Всплывающие тоасты */}
-        <div className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col gap-4 z-50">
-          {toasts.map((toast) => (
-            <div
-              key={toast.id}
-              className={`bg-[#BCEC30] text-[#000] w-[250px] px-4 py-3 rounded-xl shadow-lg text-center font-semibold transition-all duration-500
-                ${toast.visible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}
-            >
-              {toast.message}
-            </div>
-          ))}
-        </div>
       </div>
     </div>
   );
