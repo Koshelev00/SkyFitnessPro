@@ -81,7 +81,7 @@ export default function Card({
             width={343}
             height={325}
             className="sm:w-[360px]"
-            src={`/image/${course.nameEN ?? "placeholder"}.png`}
+            src={`/image/${course.nameEN}.png`}
             alt={course.nameRU}
           />
         </Link>

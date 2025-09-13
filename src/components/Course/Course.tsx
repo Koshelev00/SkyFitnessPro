@@ -88,8 +88,8 @@ export default function Course({ courseId }: CourseProps) {
   const fittingItems = currentCourse.fitting || [];
   const directionItems = currentCourse.directions || [];
   const imageSkill = isMdScreen
-    ? `/image/skillCard/${currentCourse.nameEN ?? "placeholder"}.jpg`
-    : `/image/${currentCourse.nameEN ?? "placeholder"}.png`;
+    ? `/image/skillCard/${currentCourse.nameEN}.jpg`
+    : `/image/${currentCourse.nameEN}.png`;
 
   return (
     <div className="mb-12.5 overflow-hidden bg-[#FAFAFA]">

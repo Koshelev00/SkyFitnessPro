@@ -55,9 +55,11 @@ export default function CardProfile({
           width={360}
           height={180}
           className="object-cover rounded-t-[30px]"
-          src={`/image/${course.nameEN ?? "placeholder"}.png`}
+          src={`/image/${course.nameEN}.png`}
           alt={course.nameRU}
-         
+          onError={(e) => {
+            e.currentTarget.src = "/image/default-course.png";
+          }}
         />
       </div>
 
