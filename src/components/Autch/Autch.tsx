@@ -136,7 +136,7 @@ export default function AuthModal() {
           ×
         </button>
 
-        <div className="h-[35px] mb-8 flex justify-center">
+        <div className="h-[35px] mb-12 flex justify-center">
           <Image
             src="/logo.svg"
             width={220}
@@ -179,12 +179,14 @@ export default function AuthModal() {
             {successMessage && (
               <div className="text-[#00a859] text-center">{successMessage}</div>
             )}
+            <div className="mt-6 flex flex-col gap-2.5">
             <ButtonGreen text="Войти" type="submit" />
             <ButtonWhite
               text="Зарегистрироваться"
               type="button"
               onClick={() => setAuthMode("signup")}
             />
+            </div>
           </form>
         ) : (
           <form onSubmit={handleSignUp} className="flex flex-col gap-2.5">
@@ -237,12 +239,14 @@ export default function AuthModal() {
             {successMessage && (
               <div className="text-[#00a859] text-center">{successMessage}</div>
             )}
+            <div className="mt-6 flex flex-col gap-2.5">
             <ButtonGreen text="Зарегистрироваться" type="submit" />
             <ButtonWhite
               text="Войти"
               type="button"
               onClick={() => setAuthMode("signin")}
             />
+            </div>
           </form>
         )}
 
