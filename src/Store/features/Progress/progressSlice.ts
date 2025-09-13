@@ -8,7 +8,7 @@ import {
   resetCourseProgressThunk,
 } from "./thunk";
 
-// Типы для прогресса
+
 interface WorkoutProgress {
   workoutId: string;
   workoutCompleted: boolean;
@@ -24,7 +24,7 @@ export interface CourseProgressResponse {
 }
 
 interface ProgressState {
-  courseProgress: Record<string, CourseProgressResponse>; // ✅ ключ - courseId
+  courseProgress: Record<string, CourseProgressResponse>; 
   workoutProgress: any | null;
   workoutProgressData: any | null;
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -32,7 +32,7 @@ interface ProgressState {
 }
 
 const initialState: ProgressState = {
-  courseProgress: {}, // ✅ вместо null
+  courseProgress: {}, 
   workoutProgress: null,
   workoutProgressData: null,
   status: "idle",
@@ -44,7 +44,7 @@ const progressSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // 🔹 Course Progress
+    //Course Progress
     builder
       .addCase(fetchCourseProgressThunk.pending, (state) => {
         state.status = "loading";
@@ -53,7 +53,7 @@ const progressSlice = createSlice({
         state.status = "succeeded";
         const data = action.payload as CourseProgressResponse;
         if (data?.courseId) {
-          state.courseProgress[data.courseId] = data; // ✅ сохраняем по courseId
+          state.courseProgress[data.courseId] = data; 
         }
       })
       .addCase(fetchCourseProgressThunk.rejected, (state, action) => {
@@ -61,7 +61,7 @@ const progressSlice = createSlice({
         state.error = action.payload as string;
       });
 
-    // 🔹 Workout Progress
+    //Workout Progress
     builder
       .addCase(fetchWorkoutProgressThunk.pending, (state) => {
         state.status = "loading";
@@ -75,7 +75,7 @@ const progressSlice = createSlice({
         state.error = action.payload as string;
       });
 
-    // 🔹 Workout Progress Data
+    //Workout Progress Data
     builder
       .addCase(fetchWorkoutProgressDataThunk.pending, (state) => {
         state.status = "loading";
@@ -89,7 +89,7 @@ const progressSlice = createSlice({
         state.error = action.payload as string;
       });
 
-    // 🔹 Save Workout Progress
+    //Save Workout Progress
     builder
       .addCase(saveWorkoutProgressThunk.fulfilled, (state, action) => {
         state.workoutProgressData = action.payload;
@@ -98,14 +98,14 @@ const progressSlice = createSlice({
         state.error = action.payload as string;
       });
 
-    // 🔹 Reset Workout Progress
+    //Reset Workout Progress
     builder.addCase(resetWorkoutProgressThunk.fulfilled, (state) => {
       state.workoutProgressData = null;
     });
 
-    // 🔹 Reset Course Progress
+    //Reset Course Progress
     builder.addCase(resetCourseProgressThunk.fulfilled, (state) => {
-      state.courseProgress = {}; // ✅ очищаем объект, а не null
+      state.courseProgress = {}; 
     });
   },
 });

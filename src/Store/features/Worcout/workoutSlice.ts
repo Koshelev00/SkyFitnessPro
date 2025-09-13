@@ -56,7 +56,7 @@ const workoutSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // 🔹 fetchWorkoutsThunk
+      //fetchWorkoutsThunk
       .addCase(fetchWorkoutsThunk.pending, (state) => {
         state.status = "loading";
       })
@@ -75,7 +75,7 @@ const workoutSlice = createSlice({
         }
       )
 
-      // 🔹 fetchWorkoutByIdThunk
+      //fetchWorkoutByIdThunk
       .addCase(fetchWorkoutByIdThunk.pending, (state) => {
         state.status = "loading";
       })
@@ -94,7 +94,7 @@ const workoutSlice = createSlice({
         }
       )
 
-      // 🔹 addUserWorkoutThunk
+      //addUserWorkoutThunk
       .addCase(addUserWorkoutThunk.pending, (state) => {
         state.status = "loading";
       })
@@ -109,7 +109,7 @@ const workoutSlice = createSlice({
         }
       )
 
-      // 🔹 deleteUserWorkoutThunk
+      //deleteUserWorkoutThunk
       .addCase(deleteUserWorkoutThunk.pending, (state) => {
         state.status = "loading";
       })

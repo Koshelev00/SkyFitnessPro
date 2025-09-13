@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getWorkouts, getWorkoutById, addUserWorkout, deleteUserWorkout } from "@/services/workouts";
 
-// 🔹 Получить все тренировки
+//Получить все тренировки
 export const fetchWorkoutsThunk = createAsyncThunk(
   "workouts/fetchAll",
   async ({courseId, token}:{courseId:string, token:string}, { rejectWithValue }) => {
@@ -13,7 +13,7 @@ export const fetchWorkoutsThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Получить тренировку по ID
+//Получить тренировку по ID
 export const fetchWorkoutByIdThunk = createAsyncThunk(
   "workouts/fetchById",
   async ({workoutId, token}: {workoutId: string, token: string}, { rejectWithValue }) => {
@@ -25,7 +25,7 @@ export const fetchWorkoutByIdThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Добавить тренировку пользователю
+//Добавить тренировку пользователю
 export const addUserWorkoutThunk = createAsyncThunk(
   "workouts/addUserWorkout",
   async ({ workoutId, token }: { workoutId: string; token: string }, { rejectWithValue }) => {
@@ -37,7 +37,7 @@ export const addUserWorkoutThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Удалить тренировку пользователя
+//Удалить тренировку пользователя
 export const deleteUserWorkoutThunk = createAsyncThunk(
   "workouts/deleteUserWorkout",
   async ({ workoutId, token }: { workoutId: string; token: string }, { rejectWithValue }) => {

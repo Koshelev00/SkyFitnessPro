@@ -46,7 +46,7 @@ const coursesSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // 🔹 Все курсы
+      //Все курсы
       .addCase(fetchCoursesThunk.pending, (state) => {
         state.status = "loading";
       })
@@ -60,26 +60,25 @@ const coursesSlice = createSlice({
        state.error = action.error.message || "Ошибка загрузки курсов";
       })
 
-      // 🔹 Курс по ID
+      //Курс по ID
       .addCase(fetchCourseByIdThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.selectedCourse = action.payload;
          state.currentCourse = action.payload;
       })
 
-      // 🔹 Тренировки курса
+      //Тренировки курса
       .addCase(fetchCourseWorkoutsThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.workouts = action.payload;
       })
 
-      // 🔹 Добавить курс пользователю
+      //Добавить курс пользователю
       .addCase(addUserCourseThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
-        // при добавлении можно пушить в courses[] или хранить отдельно
       })
 
-      // 🔹 Удалить курс
+      //Удалить курс
       .addCase(deleteUserCourseThunk.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.courses = state.courses.filter(

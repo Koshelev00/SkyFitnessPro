@@ -76,8 +76,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
       saveWorkoutProgressThunk({
         courseId,
         workoutId,
-        progressData: [], // нет упражнений → сохраняем пустой массив
-      })
+        progressData: [],})
     ).unwrap();
 
     dispatch(openModalCompleted());

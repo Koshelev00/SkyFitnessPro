@@ -11,7 +11,7 @@ import { setEmail, closeModal, clearError } from "@/Store/features/Autch/autchSl
 
 type AuthMode = "signin" | "signup";
 
-// Функция для безопасного экранирования символов
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -44,7 +44,6 @@ export default function AuthModal() {
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    // Экранируем потенциально опасные символы
     const safeValue = escapeHtml(value);
 
     setFormData((prev) => ({ ...prev, [name]: safeValue }));
@@ -83,7 +82,7 @@ export default function AuthModal() {
       setShowConfirmPassword(false);
       setAuthMode("signin");
     } catch (err: any) {
-      // Ошибка хранится в Redux
+      
     }
   };
 

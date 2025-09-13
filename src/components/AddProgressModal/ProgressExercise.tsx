@@ -11,14 +11,14 @@ export default function ProgressExercise({ name, className, type, value, ...prop
   const [isFocused, setIsFocused] = useState(false);
   const [inputValue, setInputValue] = useState(String(value ?? ''));
 
-  // Синхронизируем value извне
+  
   useEffect(() => {
     setInputValue(String(value ?? ''));
   }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    // Разрешаем только цифры
+  
     if (/^\d*$/.test(val)) {
       setInputValue(val);
     }
@@ -26,7 +26,7 @@ export default function ProgressExercise({ name, className, type, value, ...prop
 
   const handleBlur = () => {
     setIsFocused(false);
-    // Если поле пустое, можно оставить пустым или поставить 0
+  
     if (inputValue === '') {
       setInputValue('');
     }

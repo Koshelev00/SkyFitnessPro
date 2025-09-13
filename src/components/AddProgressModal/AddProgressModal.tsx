@@ -31,7 +31,7 @@ export default function AddProgressModal({
     state.progress.workoutProgress?.progressData || []
   );
 
-  // 🔥 state для тостов
+
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [toastId, setToastId] = useState(0);
 
@@ -144,7 +144,7 @@ export default function AddProgressModal({
         </div>
       </div>
 
-      {/* 🔥 Тосты — стиль и классы как в Main */}
+
       <div className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col gap-4 z-[10000]">
         {toasts.map((toast) => (
           <div

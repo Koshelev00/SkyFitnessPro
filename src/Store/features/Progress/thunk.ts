@@ -8,7 +8,7 @@ import {
   resetCourseProgress,
 } from "@/services/progress";
 
-// 🔹 Получить прогресс курса
+//Получить прогресс курса
 export const fetchCourseProgressThunk = createAsyncThunk(
   "progress/fetchCourseProgress",
   async (courseId: string, { rejectWithValue }) => {
@@ -20,7 +20,7 @@ export const fetchCourseProgressThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Получить прогресс тренировки
+//Получить прогресс тренировки
 export const fetchWorkoutProgressThunk = createAsyncThunk(
   "progress/fetchWorkoutProgress",
   async ({ courseId, workoutId, token }: { courseId: string; workoutId: string; token: string; }, { rejectWithValue }) => {
@@ -32,7 +32,7 @@ export const fetchWorkoutProgressThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Получить данные прогресса тренировки
+//Получить данные прогресса тренировки
 export const fetchWorkoutProgressDataThunk = createAsyncThunk(
   "progress/fetchWorkoutProgressData",
   async ({ courseId, workoutId }: { courseId: string; workoutId: string }, { rejectWithValue }) => {
@@ -44,7 +44,7 @@ export const fetchWorkoutProgressDataThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Сохранить прогресс тренировки
+//Сохранить прогресс тренировки
 export const saveWorkoutProgressThunk = createAsyncThunk(
   "progress/saveWorkoutProgress",
   async ({ courseId, workoutId, progressData }: { courseId: string; workoutId: string; progressData: number[] }, { rejectWithValue }) => {
@@ -56,7 +56,7 @@ export const saveWorkoutProgressThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Сбросить прогресс тренировки
+//Сбросить прогресс тренировки
 export const resetWorkoutProgressThunk = createAsyncThunk(
   "progress/resetWorkoutProgress",
   async ({ courseId, workoutId }: { courseId: string; workoutId: string }, { rejectWithValue }) => {
@@ -68,7 +68,7 @@ export const resetWorkoutProgressThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Сбросить прогресс курса
+//Сбросить прогресс курса
 export const resetCourseProgressThunk = createAsyncThunk(
   "progress/resetCourseProgress",
   async (courseId: string, { rejectWithValue }) => {

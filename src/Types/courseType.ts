@@ -1,4 +1,4 @@
-// Тип тренировки (workout)
+
 export interface CourseWorkoutsType {
   _id: string;
   name: string;
@@ -10,7 +10,7 @@ export interface CourseWorkoutsType {
   }[];
 }
 
-// Тип курса (course)
+
 export interface CourseType {
   _id: string;
   nameRU: string;

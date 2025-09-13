@@ -43,7 +43,7 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
     return numA - numB;
   });
 
-  // Проверяем, завершена ли тренировка
+ 
   const isCompleted = (workoutId: string) => {
     const progressData = courseProgress[courseId]?.workoutsProgress;
     if (!progressData) return false;
@@ -51,7 +51,7 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
     return progress?.workoutCompleted === true;
   };
 
-  // Находим первую незавершённую тренировку
+  
   const getNextWorkout = () => {
     if (!courseProgress[courseId]?.workoutsProgress) return sortedWorkouts[0]?._id || null;
 
@@ -67,11 +67,11 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
     if (!token) return;
 
     if (!nextWorkoutId) {
-      // Все тренировки завершены — сброс прогресса
+    
       await dispatch(resetCourseProgressThunk(courseId));
       dispatch(fetchCourseProgressThunk(courseId));
     } else {
-      // Переходим к первой незавершённой тренировке
+     
       router.push(`/courseWorkout/${courseId}/${nextWorkoutId}`);
     }
   };

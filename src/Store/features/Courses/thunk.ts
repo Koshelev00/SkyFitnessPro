@@ -7,7 +7,7 @@ import {
   deleteUserCourse,
 } from "@/services/courses";
 
-// 🔹 Получить все курсы
+//Получить все курсы
 export const fetchCoursesThunk = createAsyncThunk(
   "courses/fetchAll",
   async (_, { rejectWithValue }) => {
@@ -19,7 +19,7 @@ export const fetchCoursesThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Получить курс по ID
+//Получить курс по ID
 export const fetchCourseByIdThunk = createAsyncThunk(
   "courses/fetchById",
   async (courseId: string, { rejectWithValue }) => {
@@ -31,7 +31,7 @@ export const fetchCourseByIdThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Получить тренировки курса
+//Получить тренировки курса
 export const fetchCourseWorkoutsThunk = createAsyncThunk(
   "courses/fetchWorkouts",
   async (courseId: string, { rejectWithValue }) => {
@@ -43,7 +43,7 @@ export const fetchCourseWorkoutsThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Добавить курс пользователю
+//Добавить курс пользователю
 export const addUserCourseThunk = createAsyncThunk(
   "courses/addUserCourse",
   async (courseId: string, { rejectWithValue }) => {
@@ -55,7 +55,7 @@ export const addUserCourseThunk = createAsyncThunk(
   }
 );
 
-// 🔹 Удалить курс у пользователя
+//Удалить курс у пользователя
 export const deleteUserCourseThunk = createAsyncThunk(
   "courses/deleteUserCourse",
   async (courseId: string, { rejectWithValue }) => {

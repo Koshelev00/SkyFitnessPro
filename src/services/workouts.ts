@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BASE_URL, RoutesApp } from "@/constants";
 
-// 🔹 Получить все тренировки
+//Получить все тренировки
 export async function getWorkouts(courseId:string, token:string) {
   const { data } = await axios.get(`${BASE_URL}${RoutesApp.getCourseWorkouts(courseId)}`,{
     headers:  {Authorization : `Bearer ${token}`},
@@ -10,7 +10,7 @@ export async function getWorkouts(courseId:string, token:string) {
   return data;
 }
 
-// 🔹 Получить тренировку по ID
+//Получить тренировку по ID
 export async function getWorkoutById(workoutId: string, token:string) {
   const { data } = await axios.get(`${BASE_URL}${RoutesApp.getWorkoutById(workoutId)}`,{
     headers:  {Authorization : `Bearer ${token}`},
@@ -19,7 +19,7 @@ export async function getWorkoutById(workoutId: string, token:string) {
   return data;
 }
 
-// 🔹 Добавить тренировку пользователю
+//Добавить тренировку пользователю
 export async function addUserWorkout(workoutId: string, token: string) {
   const { data } = await axios.post(
     `${BASE_URL}${RoutesApp.saveWorkoutProgress}`,
@@ -31,7 +31,7 @@ export async function addUserWorkout(workoutId: string, token: string) {
   return data;
 }
 
-// 🔹 Удалить тренировку пользователя
+//Удалить тренировку пользователя
 export async function deleteUserWorkout(workoutId: string, token: string) {
   const { data } = await axios.delete(
     `${BASE_URL}${RoutesApp.resetWorkoutProgress}`,
