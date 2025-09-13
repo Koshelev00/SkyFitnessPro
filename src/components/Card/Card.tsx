@@ -5,11 +5,8 @@ import Image from "next/image";
 import { CourseType } from "@/Types/courseType";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks"; 
 import { addUserCourseThunk } from "@/Store/features/Courses/thunk"; 
-import { RootState } from "@/Store/store";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { getUserProfileThunk } from "@/Store/features/Autch/thunk";
-import { fetchCourseProgressThunk } from "@/Store/features/Progress/thunk";
 
 interface CardProps {
   course: CourseType;
@@ -17,26 +14,28 @@ interface CardProps {
   addToast: (msg: string) => void;
   userSelectedCourses: string[];
 }
+
 export default function Card({ course, token, addToast, userSelectedCourses }: CardProps) {
   const dispatch = useAppDispatch();
-  
-  const { user, isAuth } = useAppSelector((state) => state.auth); // добавил isAuth
+  const { isAuth } = useAppSelector((state) => state.auth);
+
   const [isAdding, setIsAdding] = useState(false);
+  const [isAdded, setIsAdded] = useState(false); // 🔥 локальный флаг, чтобы кнопка не появлялась снова
 
   const handleAddCourse = async () => {
-    if (isAdding) return;
+    if (isAdding || isAdded) return;
 
     if (!isAuth || !token) {
-      // Пользователь не авторизован — показываем toast
       addToast("Пожалуйста, авторизируйтесь");
       return;
     }
 
     setIsAdding(true);
     try {
-      await dispatch(addUserCourseThunk(course._id));
-      dispatch(getUserProfileThunk(token));
+      await dispatch(addUserCourseThunk(course._id)).unwrap();
+      await dispatch(getUserProfileThunk(token));
 
+      setIsAdded(true); // 🚀 блокируем повторное появление кнопки
       addToast("Курс добавлен!");
     } catch (error) {
       console.error("Ошибка при добавлении курса:", error);
@@ -45,7 +44,8 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
     }
   };
 
-  const isCourseSelected = userSelectedCourses.includes(course._id);
+  // 🔥 считаем курс выбранным, если он уже есть у пользователя или был добавлен локально
+  const isCourseSelected = userSelectedCourses.includes(course._id) || isAdded;
   const showAddButton = !isCourseSelected && !isAdding;
 
   return (
@@ -67,7 +67,7 @@ export default function Card({ course, token, addToast, userSelectedCourses }: C
         </div>
       )}
       
-      <div className="mb-8">
+      <div className="mb-6">
         <Link href={`/course/${course._id}`}>
           <Image
             width={343}

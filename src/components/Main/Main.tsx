@@ -36,11 +36,7 @@ export default function Main() {
   useEffect(() => {
     const authToken = typeof window !== "undefined" ? localStorage.getItem("authToken") : null;
     setToken(authToken);
-
-    // Загружаем курсы
     dispatch(fetchCoursesThunk());
-
-    // Если есть токен, загружаем профиль пользователя
     if (authToken) {
       dispatch(getUserProfileThunk(authToken));
     }
@@ -51,12 +47,17 @@ export default function Main() {
       <div className="flex justify-between mt-15 mb-12.5 relative" id="section1">
         <div>
           <h2 className="text-[#000001] text-[32px] font-medium md:text-6xl md:leading-[70px]">
-            Начните заниматься спортом и улучшите качество жизни
+            Начните заниматься спортом <span className="hidden md:inline"><br/></span> и улучшите качество жизни
           </h2>
         </div>
-        <div className="hidden md:block">
-          <Image width={288} height={120} src="/message.svg" alt="message" />
-        </div>
+        <div className="relative w-[288px] h-[120px] hidden md:block">
+  <Image
+    src="/message.svg"
+    alt="message"
+    fill
+    className="object-contain"
+  />
+</div>
       </div>
 
       <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
@@ -69,8 +70,7 @@ export default function Main() {
               course={c}
               token={token || undefined}
               addToast={addToast}
-              userSelectedCourses={user?.selectedCourses || []} // передаём актуальные выбранные курсы
-            />
+              userSelectedCourses={user?.selectedCourses || []}/>
           ))
         ) : status === "succeeded" ? (
           <p>Нет доступных курсов</p>
@@ -92,7 +92,7 @@ export default function Main() {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`bg-[#BCEC30] text-[#000000] w-45 px-2 py-4 rounded-xl text-2xl flex items-center justify-center shadow-lg transition-all duration-500
+            className={`bg-[#BCEC30] text-[#000000] w-60 px-2 py-4 rounded-xl text-2xl flex items-center justify-center shadow-lg transition-all duration-500
               ${toast.visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
           >
             {toast.message}

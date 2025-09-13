@@ -22,7 +22,7 @@ export default function CardProfile({ course, progress, workoutStats, addToast }
   const handleDeleteCourse = () => {
     dispatch(deleteUserCourseThunk(course._id));
     dispatch(resetCourseProgressThunk(course._id));
-    addToast("Курс удален", "/delete.svg");
+    addToast("Курс удален");
   };
 
   const handleWorkoutButton = () => {

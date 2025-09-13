@@ -25,16 +25,16 @@ export default function Header() {
     
     setUserEmail(email);
     
-    // Устанавливаем isAuth только если токен есть и статус еще не установлен
+    
     if (authToken && !isAuth) {
       dispatch(setIsAuth(true));
     }
     
-    // Сбрасываем isAuth если токена нет но статус установлен
+    
     if (!authToken && isAuth) {
       dispatch(setIsAuth(false));
     }
-  }, [dispatch, isAuth]); // Добавляем isAuth в зависимости
+  }, [dispatch, isAuth]);
 
   const handleOpenModal = () => {
     dispatch(openModal());
@@ -53,7 +53,7 @@ export default function Header() {
             height={35}
             src="/logo.svg"
             alt="logo"
-            priority // Добавляем приоритетную загрузку для логотипа
+            priority 
           />
           <div className="hidden text-gray-500 opacity-[0.5] text-lg font-normal leading-[21px] w-[327px] md:block">
             Онлайн-тренировки для занятий дома

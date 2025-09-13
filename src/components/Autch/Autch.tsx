@@ -9,8 +9,17 @@ import { RootState, AppDispatch } from "@/Store/store";
 import { SignInThunk, SignUpThunk } from "@/Store/features/Autch/thunk";
 import { setEmail, closeModal, clearError } from "@/Store/features/Autch/autchSlice";
 
-
 type AuthMode = "signin" | "signup";
+
+// Функция для безопасного экранирования символов
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 export default function AuthModal() {
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
@@ -22,7 +31,6 @@ export default function AuthModal() {
   const dispatch = useDispatch<AppDispatch>();
   const { isOpen, error } = useSelector((state: RootState) => state.auth);
 
-  // При открытии модалки всегда показываем форму входа
   useEffect(() => {
     if (isOpen) {
       setAuthMode("signin");
@@ -34,7 +42,12 @@ export default function AuthModal() {
   }, [isOpen]);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+
+    // Экранируем потенциально опасные символы
+    const safeValue = escapeHtml(value);
+
+    setFormData((prev) => ({ ...prev, [name]: safeValue }));
   }, []);
 
   const handleCloseModal = useCallback(() => {
@@ -53,7 +66,7 @@ export default function AuthModal() {
       dispatch(setEmail(formData.email));
       handleCloseModal();
     } catch (err: any) {
-      // Ошибка хранится в Redux, отображается через error
+      // Ошибка отображается через Redux
     }
   };
 
@@ -78,7 +91,6 @@ export default function AuthModal() {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/40">
       <div className="bg-white rounded-[30px] p-10 w-[360px] relative">
-        {/* Кнопка закрытия */}
         <button
           onClick={handleCloseModal}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 font-bold text-xl cursor-pointer"

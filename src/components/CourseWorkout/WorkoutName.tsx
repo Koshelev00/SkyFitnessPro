@@ -5,13 +5,13 @@ import Image from "next/image";
 
 type WorkoutProps = {
   formattedName: formattedNameType;
-  completed?: boolean; // добавили свойство completed
+  completed?: boolean; 
 };
 
 export default function WorkoutName({ formattedName, completed = false }: WorkoutProps) {
   return (
     <div className="flex gap-[10px] items-center">
-      {/* Круглый div всегда есть, картинка показываем если completed */}
+      
       <div className="w-6 h-6 flex items-center justify-center">
         {completed ? (
           <Image src="/complete.svg" alt="Completed" width={24} height={24} />

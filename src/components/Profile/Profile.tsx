@@ -12,7 +12,7 @@ import { fetchCoursesThunk } from '@/Store/features/Courses/thunk';
 import { fetchCourseProgressThunk } from '@/Store/features/Progress/thunk';
 import ButtonWihte from '../Button/ButtonWhite';
 
-// Типы
+
 interface CourseWorkoutsType {
   _id: string;
   name: string;
@@ -40,7 +40,7 @@ export default function Profile() {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  // Toast
+  
   const [toast, setToast] = useState<{ message: string; icon?: string; visible: boolean } | null>(null);
   const addToast = (message: string, icon?: string) => {
     setToast({ message, icon, visible: true });
@@ -49,7 +49,7 @@ export default function Profile() {
     }, 2000);
   };
 
-  // Курсы пользователя
+  
   const userCourses = courses.filter((course) => user?.selectedCourses?.includes(course._id));
 
   useEffect(() => {
@@ -195,7 +195,7 @@ export default function Profile() {
                 course={course}
                 progress={progress}
                 workoutStats={workoutStats}
-                addToast={addToast} // передаем функцию
+                addToast={addToast} 
               />
             );
           })
@@ -216,11 +216,9 @@ export default function Profile() {
           </div>
         </div>
       </div>
-
-      {/* Toast уведомление */}
       {toast && (
         <div
-          className={`fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#BCEC30] text-[#000000] w-43 px-2 py-4 rounded-xl text-2xl flex flex-row items-center gap-3 shadow-lg  transition-all duration-500
+          className={`fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-[#BCEC30] text-[#000000] w-50 px-4 py-4 rounded-xl text-2xl flex flex-row justify-center gap-3 shadow-lg  transition-all duration-500
             ${toast.visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-10'}`}
         >
          

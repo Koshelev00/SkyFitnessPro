@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/Store/hooks";
 import { fetchWorkoutByIdThunk } from "@/Store/features/Worcout/thunk";
-import { fetchWorkoutProgressThunk, resetWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
+import { fetchWorkoutProgressThunk, resetWorkoutProgressThunk, saveWorkoutProgressThunk } from "@/Store/features/Progress/thunk";
 import AddProgressModal from "../AddProgressModal/AddProgressModal";
 import ButtonGreen from "../Button/ButtonGreen";
 import ProgressBar from "../ProgressBar/ProgressBar";
-import { openModalWorkout } from "@/Store/features/Worcout/workoutSlice";
+import { openModalWorkout, openModalCompleted } from "@/Store/features/Worcout/workoutSlice";
 import AddCompleted from "../AddProgressModal/AddСompleted";
 import { fetchCourseByIdThunk } from "@/Store/features/Courses/thunk";
 import formatWorkoutName from "@/Utilite/formatWorkoutName";
@@ -38,7 +38,6 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
     setToken(getAuthToken());
   }, []);
 
-  // Загружаем тренировку и курс
   useEffect(() => {
     if (token && workoutId) {
       dispatch(fetchWorkoutByIdThunk({ workoutId, token }));
@@ -52,12 +51,10 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
     }
   };
 
-  // Загружаем прогресс
   useEffect(() => {
     loadProgress();
   }, [dispatch, courseId, workoutId, token]);
 
-  // Автообновление после закрытия модалки
   useEffect(() => {
     if (!isOpen && !Open) {
       loadProgress();
@@ -70,6 +67,21 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
     if (!token) return;
     await dispatch(resetWorkoutProgressThunk({ courseId, workoutId }));
     await dispatch(fetchWorkoutProgressThunk({ courseId, workoutId, token }));
+  };
+
+  const completeWithoutProgress = async () => {
+    if (!token) return;
+
+    await dispatch(
+      saveWorkoutProgressThunk({
+        courseId,
+        workoutId,
+        progressData: [], // нет упражнений → сохраняем пустой массив
+      })
+    ).unwrap();
+
+    dispatch(openModalCompleted());
+    dispatch(fetchWorkoutProgressThunk({ courseId, workoutId, token }));
   };
 
   const isWorkoutCompleted = workoutProgress?.workoutCompleted === true;
@@ -85,6 +97,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
 
   const formattedName = formatWorkoutName(currentWorkout.name);
   const hasProgress = workoutProgress?.progressData?.some((v: number) => v > 0);
+  const hasExercises = currentWorkout.exercises?.length > 0;
 
   return (
     <div>
@@ -103,7 +116,7 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
         />
       </div>
 
-      <div className="w-full max-w-[1160px] mt-6 md:mt-10 p-10 rounded-[30px] bg-[#FFFFFF] shadow-2xl flex flex-col gap-5">
+      <div className="w-full max-w-[1160px] mt-6 md:mt-10 p-10 rounded-[30px] md:mb-[260px] bg-[#FFFFFF] shadow-2xl flex flex-col gap-5">
         <h2 className="text-[#001] text-[32px] font-normal">
           Упражнения тренировки: {formattedName.title}
         </h2>
@@ -128,17 +141,25 @@ export default function Workout({ workoutId, courseId }: WorkoutProps) {
           <ButtonGreen
             text={
               isWorkoutCompleted
-                ? 'Начать заново'
-                : hasProgress
-                  ? 'Обновить прогресс'
-                  : 'Заполнить прогресс'
+                ? "Начать заново"
+                : hasExercises
+                ? hasProgress
+                  ? "Обновить прогресс"
+                  : "Заполнить прогресс"
+                : "Выполнить упражнение"
             }
             className="h-12.5 sm:w-80 text-lg w-full"
-            onClick={isWorkoutCompleted ? resetProgressWorkout : openModal}
+            onClick={
+              isWorkoutCompleted
+                ? resetProgressWorkout
+                : hasExercises
+                ? openModal
+                : completeWithoutProgress
+            }
           />
         </div>
 
-        {isOpen && (
+        {isOpen && hasExercises && (
           <AddProgressModal
             exercises={currentWorkout.exercises}
             workoutId={workoutId}

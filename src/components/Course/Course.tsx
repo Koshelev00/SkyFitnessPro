@@ -8,8 +8,10 @@ import {
   addUserCourseThunk, 
   deleteUserCourseThunk
 } from "@/Store/features/Courses/thunk";
+import { openModal } from "@/Store/features/Autch/autchSlice";
 import Image from "next/image";
 import ButtonGreen from "../Button/ButtonGreen";
+import Autch from "../Autch/Autch";
 
 type CourseProps = {
   courseId: string;
@@ -60,10 +62,9 @@ export default function Course({ courseId }: CourseProps) {
     }, 2000);
   };
 
-  // Обработка кнопки добавления/удаления курса
   const handleCourseToggle = () => {
     if (!isAuth) {
-      addToast("Пожалуйста, авторизируйтесь");
+      dispatch(openModal());                  // открываем модалку
       return;
     }
 
@@ -90,12 +91,12 @@ export default function Course({ courseId }: CourseProps) {
   return (
     <div className="mb-12.5 overflow-hidden bg-[#FAFAFA]">
       <div className="overflow-hidden relative h-[2150px] md:h-auto">
-        {/* Обложка */}
+        {/* Изображение курса */}
         <div className="mt-15">
           <Image width={1160} height={310} src={imageSkill} alt="SkillCard" className="w-full object-cover" />
         </div>
 
-        {/* Подойдет для вас, если */}
+        {/* Подойдет для вас если */}
         <div className="mt-15">
           <h3 className="text-[24px] font-semibold text-[#00001] md:text-[40px]">
             Подойдет для вас, если:
@@ -144,7 +145,7 @@ export default function Course({ courseId }: CourseProps) {
           </div>
         </div>
 
-        {/* CTA блок */}
+        {/* Кнопка добавления / удаления курса */}
         <div className="z-[10] absolute top-414 md:static flex flex-col md:flex-row shadow-2xl bg-[#FFFFFF] p-[30px] md:p-10 rounded-[30px] mx-4 md:mx-0 mt-10px">
           <div className="w-full md:w-[437px] md:pb-10">
             <h2 className="text-[32px] md:text-6xl font-medium leading-tight md:leading-17.5 text-[#001]">
@@ -166,7 +167,7 @@ export default function Course({ courseId }: CourseProps) {
           </div>
         </div>
 
-        {/* Toast уведомления */}
+        {/* Toast-сообщения */}
         <div className="fixed top-5 left-1/2 -translate-x-1/2 flex flex-col gap-4 z-50">
           {toasts.map((toast) => (
             <div
@@ -179,7 +180,7 @@ export default function Course({ courseId }: CourseProps) {
           ))}
         </div>
 
-        {/* Спортсмен */}
+        {/* Декоративное изображение */}
         <div className="absolute 
           xl:w-162 xl:h-162 xl:right-[29px] xl:top-[930px]
           lg:w-162 lg:h-162 lg:right-[29px] lg:top-[940px]
@@ -188,6 +189,7 @@ export default function Course({ courseId }: CourseProps) {
           <Image src="/sportsmen.svg" alt="sportsmen" width={162} height={162} className="w-full h-auto" />
         </div>
       </div>
+      <Autch />
     </div>
   );
 }

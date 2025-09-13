@@ -58,7 +58,7 @@ export default function CourseWorkout({ courseId }: CourseWorkoutProps) {
     for (const workout of sortedWorkouts) {
       if (!isCompleted(workout._id)) return workout._id;
     }
-    return null; // Все завершены
+    return null; 
   };
 
   const nextWorkoutId = getNextWorkout();
