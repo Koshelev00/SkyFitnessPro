@@ -208,7 +208,7 @@ export default function Course({ courseId }: CourseProps) {
           xl:w-162 xl:h-162 xl:right-[29px] xl:top-[930px]
           lg:w-162 lg:h-162 lg:right-[29px] lg:top-[940px]
           md:w-162 md:h-162 md:right-[-295px] md:top-[1226px]
-          w-103 h-103 right-[0px] top-[-632px] relative"
+          w-103 h-103 right-[0px] top-[-632px] relative md:absolute" 
         >
           <Image
             src="/sportsmen.svg"
