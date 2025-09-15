@@ -164,7 +164,7 @@ export default function Course({ courseId }: CourseProps) {
           </div>
         </div>
 
-        <div className="z-[10] absolute top-414 md:static flex flex-col md:flex-row shadow-2xl bg-[#FFFFFF] p-[30px] md:p-10 rounded-[30px]  md:mx-0 mt-10px">
+        <div className="z-[10] relative top-[70px] md:static flex flex-col md:flex-row shadow-2xl bg-[#FFFFFF] p-[30px] md:p-10 rounded-[30px]  md:mx-0 mt-10px">
           <div className="w-full md:w-[437px] md:pb-10">
             <h2 className="text-[32px] md:text-6xl font-medium leading-tight md:leading-17.5 text-[#001]">
               Начните путь к новому телу
@@ -204,11 +204,11 @@ export default function Course({ courseId }: CourseProps) {
         </div>
 
         <div
-          className="absolute 
+          className="
           xl:w-162 xl:h-162 xl:right-[29px] xl:top-[930px]
           lg:w-162 lg:h-162 lg:right-[29px] lg:top-[940px]
           md:w-162 md:h-162 md:right-[-295px] md:top-[1226px]
-          w-103 h-103 right-[-57px] top-[1390px]"
+          w-103 h-103 right-[0px] top-[-632px] relative"
         >
           <Image
             src="/sportsmen.svg"

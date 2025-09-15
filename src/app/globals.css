@@ -6,10 +6,6 @@ body {
   padding-right: 16px;
 
 
-/* @media (min-width: 640px) and (max-width: 767px) {
-  padding-left: calc(50% - 172px);
-  padding-right: calc(50% - 172px);
-} */
 
 @media (min-width: 768px) and (max-width: 1024px) {
   padding-left: calc(50% - 395px);
