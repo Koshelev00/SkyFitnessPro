@@ -2,23 +2,24 @@
 
 body {
   font-family: var(--font-montserrat, "Roboto");
-  @media(min-width:640px){
+ padding-left: 16px;
+  padding-right: 16px;
+
+
+/* @media (min-width: 640px) and (max-width: 767px) {
+  padding-left: calc(50% - 172px);
+  padding-right: calc(50% - 172px);
+} */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  padding-left: calc(50% - 395px);
+  padding-right: calc(50% - 395px);
+}
+
+@media (min-width: 1025px) {
   padding-left: calc(50% - 580px);
   padding-right: calc(50% - 580px);
-  }
-  @media(max-width:639px){
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-  background-color: #fafafa;
-  @media (max-width: 767px) {
-    padding-left: calc(50% - 172px);
-    padding-right: calc(50% - 172px);
-  }
-  @media (min-width: 768px) and (max-width: 1024px) {
-    padding-left: calc(50% - 395px);
-    padding-right: calc(50% - 395px);
-  }
+}
 }
 
 h1,
