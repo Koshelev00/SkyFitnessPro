@@ -2,8 +2,14 @@
 
 body {
   font-family: var(--font-montserrat, "Roboto");
+  @media(min-width:640px){
   padding-left: calc(50% - 580px);
   padding-right: calc(50% - 580px);
+  }
+  @media(max-width:639px){
+    padding-left: 16px;
+    padding-right: 16px;
+  }
   background-color: #fafafa;
   @media (max-width: 767px) {
     padding-left: calc(50% - 172px);
