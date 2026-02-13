@@ -1,11 +1,21 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@import "tailwindcss";
 
 body {
-  font-family: var(--font-montserrat, 'Arial');
+  font-family: var(--font-montserrat, "Roboto");
+ padding-left: 16px;
+  padding-right: 16px;
+
+
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  padding-left: calc(50% - 395px);
+  padding-right: calc(50% - 395px);
+}
+
+@media (min-width: 1025px) {
+  padding-left: calc(50% - 580px);
+  padding-right: calc(50% - 580px);
+}
 }
 
 h1,
@@ -18,11 +28,13 @@ p {
   margin: 0;
 }
 a,
-input,
-button {
-  font-family: var(--font-montserrat, 'Arial');
+input {
+  font-family: var(--font-montserrat, "Roboto");
 }
 
 a {
   text-decoration: none;
+}
+html {
+  scroll-behavior: smooth;
 }

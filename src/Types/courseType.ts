@@ -1,0 +1,27 @@
+export interface CourseWorkoutsType {
+  _id: string;
+  name: string;
+  video: string;
+  exercises: {
+    _id: string;
+    name: string;
+    quantity: number;
+  }[];
+}
+
+export interface CourseType {
+  _id: string;
+  nameRU: string;
+  nameEN: string;
+  description: string;
+  directions: string[];
+  fitting: string[];
+  token: string;
+  difficulty?: string;
+  durationInDays?: number;
+  dailyDurationInMinutes?: {
+    from: number;
+    to: number;
+  };
+  workouts: string[] | CourseWorkoutsType[];
+}
